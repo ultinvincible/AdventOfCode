@@ -7,7 +7,7 @@ namespace Advent_of_Code
     {
         public static void Run()
         {
-            var input = File.ReadAllLines("2.txt");
+            var input = File.ReadAllLines("02.txt");
 
             int move = 0, depth = 0;
             foreach (string line in input)

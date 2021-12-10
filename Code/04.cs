@@ -21,7 +21,7 @@ namespace Advent_of_Code
         }
         public static void Run()
         {
-            string[] input = System.IO.File.ReadAllText("4.txt").Split("\n\n");
+            string[] input = System.IO.File.ReadAllText("04.txt").Split("\n\n");
             int[] draws = Array.ConvertAll(input[0].Split(','), s => int.Parse(s));
             string[] strBoards = input[1..];
             Cell[][,] boards = new Cell[strBoards.Length][,];

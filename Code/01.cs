@@ -16,7 +16,7 @@ namespace Advent_of_Code
         public static void Run()
         {
             var input = Array.ConvertAll(File.ReadAllLines
-                ("1.txt"), line => int.Parse(line));
+                ("01.txt"), line => int.Parse(line));
 
             Console.WriteLine(CountIncreases(input, 1) + "\n" + CountIncreases(input, 3));
         }

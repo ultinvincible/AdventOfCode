@@ -8,7 +8,7 @@ namespace Advent_of_Code
     {
         public static void Run()
         {
-            string[] input = System.IO.File.ReadAllLines("9.txt");
+            string[] input = System.IO.File.ReadAllLines("09.txt");
             int lengthY = input.Length, lengthX = input[0].Length;
             int[][] map = new int[lengthY][];
             for (int y = 0; y < lengthY; y++)

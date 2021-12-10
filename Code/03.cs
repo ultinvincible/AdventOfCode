@@ -6,7 +6,7 @@ namespace Advent_of_Code
     {
         public static void Run()
         {
-            var input = System.IO.File.ReadAllLines("3.txt");
+            var input = System.IO.File.ReadAllLines("03.txt");
             string gamma = "", epsilon = "";
             for (int i = 0; i < input[0].Length; i++)
             {

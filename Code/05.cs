@@ -20,7 +20,7 @@ namespace Advent_of_Code
         }
         public static void Run()
         {
-            string[] input = System.IO.File.ReadAllLines("5.txt");
+            string[] input = System.IO.File.ReadAllLines("05.txt");
             Line[] lines = new Line[input.Length];
             int max = 0;
             for (int i = 0; i < input.Length; i++)

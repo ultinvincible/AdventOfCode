@@ -8,19 +8,21 @@ namespace Advent_of_Code
     {
         static void Main(string[] args)
         {
-            Type[] days = Assembly.GetExecutingAssembly().GetTypes();
+            Type[] assembly = Assembly.GetExecutingAssembly().GetTypes();
             Dictionary<int, Type> AoC2021 = new();
-            for (int i = 0; days[i].Name != "Program"; i++)
-                AoC2021.Add(i + 1, days[i]);
+            for (int i = 0; assembly[i].Name != "Program"; i++)
+                AoC2021.Add(i + 1, assembly[i]);
 
             while (true)
             {
                 Console.Write("Run day: ");
-                if (!int.TryParse(Console.ReadLine(), out int day)
-                    || day < 1 || day > AoC2021.Count)
-                    break;
-                AoC2021[day].GetMethod("Run").Invoke(AoC2021[day], null);
-                Console.WriteLine();
+                if (int.TryParse(Console.ReadLine(), out int day) &&
+                    AoC2021.ContainsKey(day))
+                {
+                    AoC2021[day].GetMethod("Run").Invoke(AoC2021[day], null);
+                    Console.WriteLine();
+                }
+                else break;
             }
         }
     }

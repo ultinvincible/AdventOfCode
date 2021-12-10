@@ -8,7 +8,7 @@ namespace Advent_of_Code
     {
         public static void Run()
         {
-            string[] input = System.IO.File.ReadAllLines("8.txt");
+            string[] input = System.IO.File.ReadAllLines("08.txt");
             int length = input.Length;
             string[][] signals = new string[length][],
             outputs = new string[length][];

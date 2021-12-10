@@ -9,7 +9,7 @@ namespace Advent_of_Code
         public static void Run()
         {
             int[] input = Array.ConvertAll(System.IO.File.ReadAllText
-                ("6.txt")[..^1].Split(','), s => int.Parse(s));
+                ("06.txt")[..^1].Split(','), s => int.Parse(s));
 
             int Spawns_Part1(int days) // O ~ exponential
             {
