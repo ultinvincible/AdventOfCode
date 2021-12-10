@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Advent of Code": {
+      "commandName": "Project",
+      "workingDirectory": "$(SolutionDir)/Inputs"
+    }
+  }
+}
