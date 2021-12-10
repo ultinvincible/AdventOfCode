@@ -18,13 +18,13 @@ namespace Advent_of_Code
             int[] syntaxScores = new int[] { 3, 57, 1197, 25137 };
             foreach (string chunk in input)
             {
-                string openStack = "";
                 bool corrupt = false;
+                Stack<char> openStack = new();
                 foreach (char c in chunk)
                 {
-                    if (open.Contains(c)) openStack += c;
-                    else if (openStack[^1] == open[close.IndexOf(c)])
-                        openStack = openStack[..^1];
+                    if (open.Contains(c)) openStack.Push(c);
+                    else if (openStack.Peek() == open[close.IndexOf(c)])
+                        openStack.Pop();
                     else
                     {
                         result += syntaxScores[close.IndexOf(c)];
@@ -40,15 +40,15 @@ namespace Advent_of_Code
             List<long> autoScores = new();
             foreach (string chunk in uncorrupted)
             {
-                string openStack = "";
+                Stack<char> openStack = new();
                 foreach (char c in chunk)
                 {
-                    if (open.Contains(c)) openStack += c;
-                    else if (openStack[^1] == open[close.IndexOf(c)])
-                        openStack = openStack[..^1];
+                    if (open.Contains(c)) openStack.Push(c);
+                    else if (openStack.Peek() == open[close.IndexOf(c)])
+                        openStack.Pop();
                 }
                 long score = 0;
-                foreach (char c in openStack.Reverse())
+                foreach (char c in openStack)
                 {
                     score *= 5;
                     score += open.IndexOf(c) + 1;
