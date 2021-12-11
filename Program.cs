@@ -13,6 +13,8 @@ namespace Advent_of_Code
             for (int i = 0; assembly[i].Name != "Program"; i++)
                 AoC2021.Add(i + 1, assembly[i]);
 
+            AoC2021[AoC2021.Count].GetMethod("Run").Invoke(AoC2021[AoC2021.Count], null);
+            Console.WriteLine();
             while (true)
             {
                 Console.Write("Run day: ");
