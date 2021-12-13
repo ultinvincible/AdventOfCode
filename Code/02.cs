@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 namespace Advent_of_Code
 {
@@ -7,7 +6,7 @@ namespace Advent_of_Code
     {
         public static void Run()
         {
-            var input = File.ReadAllLines("02.txt");
+            var input = System.IO.File.ReadAllLines("02.txt");
 
             int move = 0, depth = 0;
             foreach (string line in input)
