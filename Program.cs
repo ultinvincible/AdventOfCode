@@ -9,11 +9,11 @@ namespace Advent_of_Code
         static void Main(string[] args)
         {
             Type[] assembly = Assembly.GetExecutingAssembly().GetTypes();
-            Dictionary<int, Type> AoC = new();
+            Dictionary<int, MethodInfo> AoC = new();
             for (int i = 0; assembly[i].Name != "Program"; i++)
-                AoC.Add(i + 1, assembly[i]);
+                AoC.Add(i + 1, assembly[i].GetMethod("Run"));
 
-            AoC[AoC.Count].GetMethod("Run").Invoke(AoC[AoC.Count], null);
+            AoC[AoC.Count].Invoke(AoC[AoC.Count], null);
             Console.WriteLine();
             while (true)
             {
@@ -21,7 +21,7 @@ namespace Advent_of_Code
                 if (int.TryParse(Console.ReadLine(), out int day) &&
                     AoC.ContainsKey(day))
                 {
-                    AoC[day].GetMethod("Run").Invoke(AoC[day], null);
+                    AoC[day].Invoke(AoC[day], null);
                     Console.WriteLine();
                 }
                 else break;
