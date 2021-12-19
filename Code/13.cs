@@ -38,8 +38,8 @@ namespace Advent_of_Code
                 for (int x = 0; x < dots.GetLength(1); x++)
                 {
                     if (dots[y, x])
-                        Console.Write("#");
-                    else Console.Write(".");
+                        Console.Write('\u2588');
+                    else Console.Write(' ');
                 }
                 Console.WriteLine();
             }
