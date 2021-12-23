@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Advent_of_Code
 {
-    static class Origami
+    class Origami:AoCDay
     {
-        static string[] input = System.IO.File.ReadAllLines("13.txt");
-        static bool[,] dots;
-        static void Fold(char dir, int axis)
+        public Origami() : base(13) { }
+        bool[,] dot;
+        void Fold(char dir, int axis)
         {
             bool[,] newDots = new bool[0, 0];
             if (dir == 'y')
-                newDots = new bool[axis + 1, dots.GetLength(1)];
+                newDots = new bool[axis + 1, dot.GetLength(1)];
             else if (dir == 'x')
-                newDots = new bool[dots.GetLength(0), axis + 1];
-            for (int x = 0; x < dots.GetLength(0); x++)
-                for (int y = 0; y < dots.GetLength(1); y++)
-                    if (dots[x, y])
+                newDots = new bool[dot.GetLength(0), axis + 1];
+            for (int x = 0; x < dot.GetLength(0); x++)
+                for (int y = 0; y < dot.GetLength(1); y++)
+                    if (dot[x, y])
                     {
                         if (x > axis && dir == 'y')
                             newDots[2 * axis - x, y] = true;
@@ -28,16 +25,16 @@ namespace Advent_of_Code
                         else
                             newDots[x, y] = true;
                     }
-            dots = newDots;
+            dot = newDots;
             //PrintDots();
         }
-        static void PrintDots()
+        void PrintDots()
         {
-            for (int y = 0; y < dots.GetLength(0); y++)
+            for (int y = 0; y < dot.GetLength(0); y++)
             {
-                for (int x = 0; x < dots.GetLength(1); x++)
+                for (int x = 0; x < dot.GetLength(1); x++)
                 {
-                    if (dots[y, x])
+                    if (dot[y, x])
                         Console.Write('\u2588');
                     else Console.Write(' ');
                 }
@@ -46,7 +43,7 @@ namespace Advent_of_Code
             Console.WriteLine();
         }
 
-        public static void Run()
+        public override void Run()
         {
             int lengthX = 0, lengthY = 0;
             List<(int, int)> d = new();
@@ -58,16 +55,16 @@ namespace Advent_of_Code
                 lengthY = Math.Max(lengthY, y);
                 d.Add((x, y));
             }
-            dots = new bool[++lengthY, ++lengthX];
+            dot = new bool[++lengthY, ++lengthX];
             foreach (var (x, y) in d)
-                dots[y, x] = true;
+                dot[y, x] = true;
             //PrintDots();
 
             Fold('x', 655);
             int result = 0;
-            for (int y = 0; y < dots.GetLength(0); y++)
-                for (int x = 0; x < dots.GetLength(1); x++)
-                    if (dots[y, x])
+            for (int y = 0; y < dot.GetLength(0); y++)
+                for (int x = 0; x < dot.GetLength(1); x++)
+                    if (dot[y, x])
                         result++;
             Console.WriteLine(result);
 

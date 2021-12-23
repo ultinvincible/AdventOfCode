@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace Advent_of_Code
 {
-    static class Caves
+    class Caves:AoCDay
     {
-        static string[] input = System.IO.File.ReadAllLines("12.txt");
-        static Dictionary<string, List<string>> connections = new();
-        static List<List<string>> DFSearch(bool oneSmallTwice = false) // Depth First
+        public Caves() : base(12) { }
+        Dictionary<string, List<string>> connections = new();
+        List<List<string>> DFSearch(bool oneSmallTwice = false) // Depth First
         {
             List<List<string>> result = new();
             DFSearch(new(), "start", ref result, oneSmallTwice);
             return result;
         }
-        static void DFSearch(List<string> p, string cave,
+        void DFSearch(List<string> p, string cave,
             ref List<List<string>> result, bool oneSmallTwice)
         {
             List<string> path = new(p);
@@ -38,7 +38,7 @@ namespace Advent_of_Code
                 DFSearch(path, conn, ref result, oneSmallTwice);
             }
         }
-        public static void Run()
+        public override void Run()
         {
             foreach (string line in input)
             {

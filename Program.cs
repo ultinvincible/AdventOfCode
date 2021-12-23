@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace Advent_of_Code
 {
@@ -8,24 +7,23 @@ namespace Advent_of_Code
     {
         static void Main(string[] args)
         {
-            Type[] assembly = Assembly.GetExecutingAssembly().GetTypes();
-            Dictionary<int, MethodInfo> AoC = new();
-            for (int i = 0; assembly[i].Name != "Program"; i++)
-                AoC.Add(i + 1, assembly[i].GetMethod("Run"));
-
-            AoC[AoC.Count].Invoke(AoC[AoC.Count], null);
-            Console.WriteLine();
-            while (true)
+            Type[] assembly = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
+            Dictionary<int, AoCDay> AoC = new();
+            int day = 1;
+            for (int i = 0; assembly[i].Name != nameof(AoCDay); i++)
             {
-                Console.Write("Run day: ");
-                if (int.TryParse(Console.ReadLine(), out int day) &&
-                    AoC.ContainsKey(day))
-                {
-                    AoC[day].Invoke(AoC[day], null);
-                    Console.WriteLine();
-                }
-                else break;
+                var AoCDay = (AoCDay)Activator.CreateInstance(assembly[i]);
+                AoC.Add(AoCDay.day, AoCDay);
+                day = AoCDay.day;
             }
+
+            Console.WriteLine("Run 2021 Day: " + day/* + " <press Enter>"*/);
+            do
+            {
+                AoC[day].Run();
+                Console.Write(new string('-', 16) + "\nRun 2021 Day: ");
+            } while (int.TryParse(Console.ReadLine(), out day) &&
+                    AoC.ContainsKey(day));
         }
     }
 }

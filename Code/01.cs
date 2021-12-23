@@ -1,24 +1,24 @@
 ﻿using System;
-using System.IO;
 
 namespace Advent_of_Code
 {
-    static class Depths
+    class Depths : AoCDay
     {
-        static int CountIncreases(int[] input, int distance)
+        public Depths() : base(1) { }
+        int[] depths;
+        int CountIncreases(int distance)
         {
             int count = 0;
-            for (int i = 0; i < input.Length - distance; i++)
-                if (input[i] < input[i + distance])
+            for (int i = 0; i < depths.Length - distance; i++)
+                if (depths[i] < depths[i + distance])
                     count++;
             return count;
         }
-        public static void Run()
+        public override void Run()
         {
-            var input = Array.ConvertAll(File.ReadAllLines
-                ("01.txt"), line => int.Parse(line));
-
-            Console.WriteLine(CountIncreases(input, 1) + "\n" + CountIncreases(input, 3));
+            depths = Array.ConvertAll(input, line => int.Parse(line));
+            Console.WriteLine(CountIncreases(1));
+            Console.WriteLine(CountIncreases(3));
         }
     }
 }

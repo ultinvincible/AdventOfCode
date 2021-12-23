@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Advent_of_Code
 {
-    static class OctoFlashes
+    class OctoFlashes:AoCDay
     {
-        public static void Run()
+        public OctoFlashes() : base(11) { }
+        public override void Run()
         {
-            string[] input = System.IO.File.ReadAllLines("11.txt");
             int length = 10;
             int[][] octos = new int[length][];
             for (int y = 0; y < length; y++)

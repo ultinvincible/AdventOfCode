@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Advent_of_Code
 {
-    static class Display7Segments
+    class Display7Segments : AoCDay
     {
-        public static void Run()
+        public Display7Segments() : base(8) { }
+        public override void Run()
         {
-            string[] input = System.IO.File.ReadAllLines("08.txt");
             int length = input.Length;
             string[][] signals = new string[length][],
             outputs = new string[length][];

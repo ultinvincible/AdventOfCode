@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Advent_of_Code
 {
-    static class SmokeLow
+    class SmokeLow : AoCDay
     {
-        public static void Run()
+        public SmokeLow() : base(9) { }
+        public override void Run()
         {
-            string[] input = System.IO.File.ReadAllLines("09.txt");
             int lengthY = input.Length, lengthX = input[0].Length;
             int[][] map = new int[lengthY][];
             for (int y = 0; y < lengthY; y++)
@@ -17,35 +17,23 @@ namespace Advent_of_Code
                 for (int x = 0; x < lengthX; x++)
                     map[y][x] = (int)char.GetNumericValue(input[y][x]);
             }
-            List<(int, int)> Neighbors((int, int) yx)
-            {
-                (int y, int x) = yx;
-                List<(int, int)> neis = new();
-                foreach (var (neiY, neiX) in new List<(int, int)>() {
-                    (y - 1, x), (y, x - 1),
-                    (y, x + 1), (y + 1, x), })
-                    if (neiY >= 0 && neiY < lengthY &&
-                        neiX >= 0 && neiX < lengthX)
-                        neis.Add((neiY, neiX));
-                return neis;
-            }
 
             int result = 0;
             List<(int, int)> lows = new();
-            for (int i = 0; i < lengthY; i++)
-                for (int j = 0; j < lengthX; j++)
+            for (int y = 0; y < lengthY; y++)
+                for (int x = 0; x < lengthX; x++)
                 {
                     bool low = true;
-                    foreach (var (neiI, neiJ) in Neighbors((i, j)))
-                        if (map[neiI][neiJ] <= map[i][j])
+                    foreach (var (neiI, neiJ) in Neighbors(y, x, lengthY, lengthX))
+                        if (map[neiI][neiJ] <= map[y][x])
                         {
                             low = false;
                             break;
                         }
                     if (low)
                     {
-                        lows.Add((i, j));
-                        result += map[i][j] + 1;
+                        lows.Add((y, x));
+                        result += map[y][x] + 1;
                     }
                 }
             Console.WriteLine(result);
@@ -59,7 +47,7 @@ namespace Advent_of_Code
                 {
                     basin.Add(new());
                     foreach (var prev in basin[i - 1])
-                        foreach (var nei in Neighbors(prev))
+                        foreach (var nei in Neighbors(prev, lengthY, lengthX))
                             if (map[nei.Item1][nei.Item2] != 9)
                                 basin[i].Add(nei);
                     if (i > 1)

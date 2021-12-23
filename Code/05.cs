@@ -3,8 +3,9 @@ using System.Linq;
 
 namespace Advent_of_Code
 {
-    static class LineVents
+    class LineVents:AoCDay
     {
+        public LineVents() : base(5) { }
         struct Line
         {
             public int x1, x2, y1, y2;
@@ -18,9 +19,8 @@ namespace Advent_of_Code
             public override string ToString()
                 => x1 + "," + y1 + " -> " + x2 + "," + y2;
         }
-        public static void Run()
+        public override void Run()
         {
-            string[] input = System.IO.File.ReadAllLines("05.txt");
             Line[] lines = new Line[input.Length];
             int max = 0;
             for (int i = 0; i < input.Length; i++)

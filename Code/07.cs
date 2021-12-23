@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace Advent_of_Code
 {
-    static class CrabSubmarines
+    class CrabSubmarines : AoCDay
     {
-        public static void Run()
+        public CrabSubmarines() : base(7, false) { }
+        public override void Run()
         {
-            int[] positions = Array.ConvertAll(System.IO.File.ReadAllText
-                ("07.txt").Split(','), s => int.Parse(s));
+            int[] positions = Array.ConvertAll(inputString.Split(','), s => int.Parse(s));
 
             //int median = input[(input.Length - 1) / 2];
             int min = positions.Min(), max = positions.Max();

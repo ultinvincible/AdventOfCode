@@ -4,13 +4,16 @@ using System.Collections.Generic;
 
 namespace Advent_of_Code
 {
-    static class Polymers
+    class Polymers : AoCDay
     {
-        static string[] input = System.IO.File.ReadAllLines("14.txt");
-        static string start = input[0];
-        static Dictionary<string, ulong> polymers = new();
-        static Dictionary<string, (string, string)> insert = new();
-        static void Step(int times)
+        public Polymers() : base(14)
+        {
+            start = input[0];
+        }
+        string start;
+        Dictionary<string, ulong> polymers = new();
+        Dictionary<string, (string, string)> insert = new();
+        void Step(int times)
         {
             for (int i = 0; i < times; i++)
             {
@@ -26,7 +29,7 @@ namespace Advent_of_Code
                 polymers = newPolymers;
             }
         }
-        static Dictionary<char, ulong> CharCount()
+        Dictionary<char, ulong> CharCount()
         {
             Dictionary<char, ulong> result = new();
             foreach (var (plm, count) in polymers)
@@ -44,7 +47,7 @@ namespace Advent_of_Code
                 result[c] /= 2;
             return result;
         }
-        public static void Run()
+        public override void Run()
         {
             foreach (string line in input[2..])
             {

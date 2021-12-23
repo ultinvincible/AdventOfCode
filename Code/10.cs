@@ -3,11 +3,12 @@ using System.Collections.Generic;
 
 namespace Advent_of_Code
 {
-    static class Chunks
+    class Chunks : AoCDay
     {
-        public static void Run()
+        public Chunks() : base(10) { }
+
+        public override void Run()
         {
-            string[] input = System.IO.File.ReadAllLines("10.txt");
             string open = "([{<", close = ")]}>";
             List<string> uncorrupted = new();
 

@@ -2,11 +2,11 @@
 
 namespace Advent_of_Code
 {
-    static class BitCriteria
+    class BitCriteria:AoCDay
     {
-        public static void Run()
+        public BitCriteria() : base(3) { }
+        public override void Run()
         {
-            var input = System.IO.File.ReadAllLines("03.txt");
             string gamma = "", epsilon = "";
             for (int i = 0; i < input[0].Length; i++)
             {
@@ -43,7 +43,7 @@ namespace Advent_of_Code
                 return result;
             }
             string oxy = BitCriteria(true), co2 = BitCriteria(false);
-            Console.WriteLine(oxy + "|" + co2);
+            //Console.WriteLine(oxy + "|" + co2);
             Console.WriteLine(Convert.ToInt32(oxy, 2) * Convert.ToInt32(co2, 2));
         }
     }

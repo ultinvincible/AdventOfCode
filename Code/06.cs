@@ -4,16 +4,17 @@ using System.Linq;
 
 namespace Advent_of_Code
 {
-    static class ExponentialFish
+    class ExponentialFish:AoCDay
     {
-        public static void Run()
+        public ExponentialFish() : base(6,false) { }
+        public override void Run()
         {
-            int[] input = Array.ConvertAll(System.IO.File.ReadAllText
-                ("06.txt").Trim().Split(','), s => int.Parse(s));
+            int[] inputFishes = Array.ConvertAll(inputString
+                .Trim().Split(','), s => int.Parse(s));
 
             int Spawns_Part1(int days) // O ~ exponential
             {
-                List<int> fishes = new(input);
+                List<int> fishes = new(inputFishes);
                 for (int d = 0; d < days; d++)
                 {
                     int add = 0;
@@ -34,7 +35,7 @@ namespace Advent_of_Code
             long Spawns_Part2(int days) // O ~ quadratic
             {
                 long[] fishes = new long[9];
-                foreach (int age in input)
+                foreach (int age in inputFishes)
                 {
                     fishes[age]++;
                 }

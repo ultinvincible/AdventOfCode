@@ -2,8 +2,9 @@
 
 namespace Advent_of_Code
 {
-    static class SquidBingo
+    class SquidBingo:AoCDay
     {
+        public SquidBingo() : base(4) { }
         class Cell
         {
             public int number;
@@ -19,7 +20,7 @@ namespace Advent_of_Code
                 return number.ToString("00 ");
             }
         }
-        public static void Run()
+        public override void Run()
         {
             string[] input = System.IO.File.ReadAllText("04.txt").Split("\n\n");
             int[] draws = Array.ConvertAll(input[0].Split(','), s => int.Parse(s));
@@ -102,6 +103,7 @@ namespace Advent_of_Code
                 foreach (Cell c in board)
                     c.marked = false;
             bingo = false;
+
             bool[] won = new bool[boards.Length];
             int wonBoards = 0, chooseBoard = -1;
             for (int d = 0; d < draws.Length && boards.Length != wonBoards; d++)
@@ -129,7 +131,7 @@ namespace Advent_of_Code
                     result2 = Result(chooseBoard, draws[d]);
             }
 
-            Console.Write(result1 + "\n" + result2);
+            Console.WriteLine(result1 + "\n" + result2);
         }
     }
 }
