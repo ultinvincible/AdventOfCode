@@ -20,6 +20,14 @@ namespace Advent_of_Code
         public abstract void Run();
 
         // Helper functions
+        protected T[,] GridParse<T>(Func<double, T> converter)
+        {
+            T[,] result = new T[input.Length, input[0].Length];
+            for (int y = 0; y < input.Length; y++)
+                for (int x = 0; x < input[0].Length; x++)
+                    result[y, x] = converter(char.GetNumericValue(input[y][x]));
+            return result;
+        }
         protected static List<(int, int)> Neighbors((int, int) yx, int boundY, int boundX)
         {
             (int y, int x) = yx;

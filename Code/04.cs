@@ -16,7 +16,7 @@ namespace Advent_of_Code
             }
             public override string ToString()
             {
-                if (marked) return number.ToString("00M");
+                if (marked) return number.ToString("00\u2588");
                 return number.ToString("00 ");
             }
         }

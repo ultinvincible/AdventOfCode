@@ -14,10 +14,7 @@ namespace Advent_of_Code
 
         public override void Run()
         {
-            uint[,] cavern = new uint[lengthI, lengthJ];
-            for (int i = 0; i < lengthI; i++)
-                for (int j = 0; j < lengthJ; j++)
-                    cavern[i, j] = (uint)char.GetNumericValue(input[i][j]);
+            uint[,] cavern = GridParse(Convert.ToUInt32);   
             Dijkstras(cavern);
 
             cavern = new uint[lengthI * 5, lengthJ * 5];

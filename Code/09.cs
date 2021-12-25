@@ -10,13 +10,7 @@ namespace Advent_of_Code
         public override void Run()
         {
             int lengthY = input.Length, lengthX = input[0].Length;
-            int[][] map = new int[lengthY][];
-            for (int y = 0; y < lengthY; y++)
-            {
-                map[y] = new int[lengthX];
-                for (int x = 0; x < lengthX; x++)
-                    map[y][x] = (int)char.GetNumericValue(input[y][x]);
-            }
+            int[,] map = GridParse(Convert.ToInt32);
 
             int result = 0;
             List<(int, int)> lows = new();
@@ -24,8 +18,8 @@ namespace Advent_of_Code
                 for (int x = 0; x < lengthX; x++)
                 {
                     bool low = true;
-                    foreach (var (neiI, neiJ) in Neighbors(y, x, lengthY, lengthX))
-                        if (map[neiI][neiJ] <= map[y][x])
+                    foreach (var (neiY, neiX) in Neighbors(y, x, lengthY, lengthX))
+                        if (map[neiY,neiX] <= map[y,x])
                         {
                             low = false;
                             break;
@@ -33,7 +27,7 @@ namespace Advent_of_Code
                     if (low)
                     {
                         lows.Add((y, x));
-                        result += map[y][x] + 1;
+                        result += map[y,x] + 1;
                     }
                 }
             Console.WriteLine(result);
@@ -47,9 +41,9 @@ namespace Advent_of_Code
                 {
                     basin.Add(new());
                     foreach (var prev in basin[i - 1])
-                        foreach (var nei in Neighbors(prev, lengthY, lengthX))
-                            if (map[nei.Item1][nei.Item2] != 9)
-                                basin[i].Add(nei);
+                        foreach (var (y,x) in Neighbors(prev, lengthY, lengthX))
+                            if (map[y,x] != 9)
+                                basin[i].Add((y,x));
                     if (i > 1)
                         basin[i] = basin[i].Distinct().Except(basin[i - 2]).ToList();
                     result.AddRange(basin[i]);
