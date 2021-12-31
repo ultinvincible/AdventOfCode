@@ -7,8 +7,8 @@ namespace Advent_of_Code
     abstract class AoCDay
     {
         public int day;
-        public string inputString;
-        public string[] input;
+        readonly public string inputString;
+        readonly public string[] input;
         public AoCDay(int d, bool lines = true)
         {
             day = d;
@@ -46,25 +46,25 @@ namespace Advent_of_Code
                 neighbors.Add((y, x + 1));
             return neighbors;
         }
-        protected static (uint[] distance, uint[] prev) Dijkstras(int count,
-            Func<uint, uint, uint> PathWeight, Func<uint, List<uint>> Neighbors)
+        protected static (int[] distance, int[] prev) Dijkstras(int count,
+            Func<int, int, int> PathWeight, Func<int, List<int>> Neighbors)
         {
             bool[] visited = new bool[count];
-            uint[] distance = new uint[count];
-            uint[] prev = new uint[count];
+            int[] distance = new int[count];
+            int[] prev = new int[count];
             for (int i = 0; i < count; i++)
             {
                 //visited[i, j] = false;
-                distance[i] = uint.MaxValue;
-                prev[i] = uint.MaxValue;
+                distance[i] = int.MaxValue;
+                prev[i] = int.MaxValue;
             }
-            HashSet<uint> unvisited = new();
-            uint current = 0;
+            HashSet<int> unvisited = new();
+            int current = 0;
             distance[0] = 0;
 
             do
             {
-                foreach (uint nei in Neighbors(current))
+                foreach (int nei in Neighbors(current))
                     if (!visited[nei])
                     {
                         unvisited.Add(nei);
@@ -77,7 +77,7 @@ namespace Advent_of_Code
                 visited[current] = true;
                 unvisited.Remove(current);
 
-                uint min = uint.MaxValue;
+                int min = int.MaxValue;
                 foreach (var unv in unvisited)
                     if (min > distance[unv])
                     {

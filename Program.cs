@@ -21,7 +21,7 @@ namespace Advent_of_Code
             do
             {
                 AoC[day].Run();
-                Console.Write(new string('\u2582', 16) + "\nRun 2021 Day: ");
+                Console.Write(new string('-', 16) + "\nRun 2021 Day: ");
             } while (int.TryParse(Console.ReadLine(), out day) &&
                     AoC.ContainsKey(day));
         }

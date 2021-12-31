@@ -14,17 +14,17 @@ namespace Advent_of_Code
 
         public override void Run()
         {
-            uint[,] cavern = GridParse(Convert.ToUInt32);   
+            int[,] cavern = GridParse(Convert.ToInt32);   
             Dijkstras(cavern);
 
-            cavern = new uint[lengthI * 5, lengthJ * 5];
+            cavern = new int[lengthI * 5, lengthJ * 5];
             for (int i = 0; i < lengthI; i++)
                 for (int j = 0; j < lengthJ; j++)
-                    cavern[i, j] = (uint)char.GetNumericValue(input[i][j]);
+                    cavern[i, j] = (int)char.GetNumericValue(input[i][j]);
             for (int i = 0; i < lengthI; i++)
                 for (int j = 0; j < lengthJ; j++)
                 {
-                    for (uint down = 0; down < 5; down++)
+                    for (int down = 0; down < 5; down++)
                     {
                         int repI = (int)(i + lengthI * down);
                         if (down != 0)
@@ -33,7 +33,7 @@ namespace Advent_of_Code
                             if (cavern[repI, j] > 9)
                                 cavern[repI, j] -= 9;
                         }
-                        for (uint right = 1; right < 5; right++)
+                        for (int right = 1; right < 5; right++)
                         {
                             int repJ = (int)(j + lengthJ * right);
                             cavern[repI, repJ] = cavern[i, j] + down + right;
@@ -44,18 +44,18 @@ namespace Advent_of_Code
                 }
             Dijkstras(cavern);
         }
-        void Dijkstras(uint[,] cavern)
+        void Dijkstras(int[,] cavern)
         {
             int lengthI = cavern.GetLength(0),
                 lengthJ = cavern.GetLength(1);
             var result = Dijkstras(cavern.Length, (_, nei) =>
-                cavern[Math.DivRem((int)nei, lengthJ, out int j), j], cur =>
+                cavern[Math.DivRem(nei, lengthJ, out int j), j], cur =>
                 {
-                    var neis = Neighbors(Math.DivRem((int)cur, lengthJ, out int j),
+                    var neis = Neighbors(Math.DivRem(cur, lengthJ, out int j),
                         j, lengthI, lengthJ);
-                    List<uint> result = new();
+                    List<int> result = new();
                     foreach (var (y, x) in neis)
-                        result.Add((uint)(y * lengthJ + x));
+                        result.Add(y * lengthJ + x);
                     return result;
                 });
             Console.WriteLine(result.distance[^1]);
