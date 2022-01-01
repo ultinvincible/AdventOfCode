@@ -9,12 +9,11 @@ namespace Advent_of_Code
         {
             Type[] assembly = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
             Dictionary<int, AoCDay> AoC = new();
-            int day = 1;
-            for (int i = 0; assembly[i].Name != nameof(AoCDay); i++)
+            int day = 0;
+            for (; assembly[day].Name != nameof(AoCDay); day++)
             {
-                var AoCDay = (AoCDay)Activator.CreateInstance(assembly[i]);
+                var AoCDay = (AoCDay)Activator.CreateInstance(assembly[day]);
                 AoC.Add(AoCDay.day, AoCDay);
-                day = AoCDay.day;
             }
 
             Console.WriteLine("Run 2021 Day: " + day/* + " <press Enter>"*/);

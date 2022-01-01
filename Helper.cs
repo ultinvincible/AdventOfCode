@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Advent_of_Code
 {
@@ -26,6 +26,20 @@ namespace Advent_of_Code
             for (int y = 0; y < input.Length; y++)
                 for (int x = 0; x < input[0].Length; x++)
                     result[y, x] = converter(char.GetNumericValue(input[y][x]));
+            return result;
+        }
+        protected static string CollStr<T>(IEnumerable<T> coll, int padLength = 2)
+            => CollStr(coll, item => item.ToString().PadLeft(padLength));
+        protected static string CollStr<T>(IEnumerable<T> coll, string field, int padLength = 2)
+            => CollStr(coll, item =>
+            typeof(T).GetField(field).GetValue(item).ToString().PadLeft(padLength));
+        static string CollStr<T>(IEnumerable<T> coll, Func<T, string> ToStr)
+        {
+            string result = "";
+            foreach (T item in coll)
+            {
+                result += ToStr(item) + "|";
+            }
             return result;
         }
         protected static List<(int, int)> Neighbors((int, int) yx, int boundY, int boundX)
