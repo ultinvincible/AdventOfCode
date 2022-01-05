@@ -20,46 +20,69 @@ namespace Advent_of_Code
         public abstract void Run();
 
         // Helper functions
-        protected T[,] GridParse<T>(Func<double, T> converter)
+        protected static T[,] GridParse<T>(string[] input, Func<char, T> Converter)
         {
             T[,] result = new T[input.Length, input[0].Length];
             for (int y = 0; y < input.Length; y++)
                 for (int x = 0; x < input[0].Length; x++)
-                    result[y, x] = converter(char.GetNumericValue(input[y][x]));
+                    result[y, x] = Converter(input[y][x]);
             return result;
         }
-        protected static string CollStr<T>(IEnumerable<T> coll, int padLength = 2)
-            => CollStr(coll, item => item.ToString().PadLeft(padLength));
-        protected static string CollStr<T>(IEnumerable<T> coll, string field, int padLength = 2)
-            => CollStr(coll, item =>
-            typeof(T).GetField(field).GetValue(item).ToString().PadLeft(padLength));
-        static string CollStr<T>(IEnumerable<T> coll, Func<T, string> ToStr)
+        protected static bool[,] GridParse(string[] input)
+            => GridParse(input, c => { if (c == '#') return true; return false; });
+        protected bool[,] GridParse()
+            => GridParse(input);
+        protected static int[,] GridParse(string[] input, Func<double, int> Converter)
+            => GridParse(input, c => Converter(char.GetNumericValue(c)));
+        protected int[,] GridParse(Func<double, int> Converter)
+            => GridParse(input, Converter);
+
+        protected string[] GridStr(bool[,] input, char cTrue = '#', char cFalse = '.')
+            => GridStr(input, b => { if (b) return cTrue; return cFalse; });
+        protected string[] GridStr<T>(T[,] input, Func<T, char> Print)
+        {
+            string[] result = new string[input.GetLength(0)];
+            for (int y = 0; y < input.GetLength(0); y++)
+                for (int x = 0; x < input.GetLength(1); x++)
+                    result[y] += Print(input[y, x]);
+            return result;
+        }
+        protected static string CollStr<T>(IEnumerable<T> coll, Func<T, string> ToStr)
         {
             string result = "";
             foreach (T item in coll)
             {
-                result += ToStr(item) + "|";
+                result += ToStr(item);
             }
             return result;
         }
-        protected static List<(int, int)> Neighbors((int, int) yx, int boundY, int boundX)
-        {
-            (int y, int x) = yx;
-            return Neighbors(y, x, boundY, boundX);
-        }
-        protected static List<(int, int)> Neighbors(int y, int x, int boundY, int boundX)
+
+        //protected static List<(int, int)> Neighbors((int, int) yx, int boundY, int boundX)
+        //{
+        //    (int y, int x) = yx;
+        //    return Neighbors(y, x, boundY, boundX);
+        //}
+        protected static List<(int y, int x)> Neighbors
+            (int y, int x, bool self = false, bool diagonal = false)
         {
             List<(int, int)> neighbors = new();
-            if (y > 0)
-                neighbors.Add((y - 1, x));
-            if (y < boundY - 1)
-                neighbors.Add((y + 1, x));
-            if (x > 0)
-                neighbors.Add((y, x - 1));
-            if (x < boundX - 1)
-                neighbors.Add((y, x + 1));
+            for (int neiY = y - 1; neiY <= y + 1; neiY++)
+                for (int neiX = x - 1; neiX <= x + 1; neiX++)
+                    if ((diagonal || neiY == y || neiX == x) &&
+                        (self || (neiY, neiX) != (y, x)))
+                        neighbors.Add((neiY, neiX));
             return neighbors;
         }
+        protected static List<(int, int)> Neighbors
+            (int y, int x, int boundY, int boundX, bool self = false, bool diagonal = false)
+        {
+            List<(int y, int x)> neighbors = Neighbors(y, x, self, diagonal);
+            neighbors.RemoveAll(nei => OutOfBounds(nei.y, nei.x, boundY, boundX));
+            return neighbors;
+        }
+        protected static bool OutOfBounds(int y, int x, int boundY, int boundX)
+            => y < 0 || y >= boundY || x < 0 || x >= boundX;
+
         protected static (int[] distance, int[] prev) Dijkstras(int count,
             Func<int, int, int> PathWeight, Func<int, List<int>> Neighbors)
         {
