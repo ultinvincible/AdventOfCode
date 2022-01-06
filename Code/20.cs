@@ -28,9 +28,7 @@ namespace Advent_of_Code
                                 bin += Convert.ToByte(infiniteLight);
                             else bin += Convert.ToByte(image[areaY, areaX]);
                         if (enhance[Convert.ToInt32(bin, 2)])
-                        {
                             newImage[y + 1, x + 1] = true;
-                        }
                     }
                 image = newImage;
                 if ((!infiniteLight && enhance[0]) || (infiniteLight && !enhance[^1]))
