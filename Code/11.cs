@@ -9,7 +9,7 @@ namespace Advent_of_Code
         public override void Run()
         {
             int length = 10;
-            int[,] octos = GridParse(Convert.ToInt32);
+            int[,] octos = GridParse();
             ref int Octo(int[,] octos, (int, int) yx) => ref octos[yx.Item1, yx.Item2];
             List<(int, int)> Neighbors(int y, int x)
             {

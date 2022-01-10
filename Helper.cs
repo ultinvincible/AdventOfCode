@@ -20,6 +20,7 @@ namespace Advent_of_Code
         public abstract void Run();
 
         // Helper functions
+        protected static bool debug = false;
         protected static T[,] GridParse<T>(string[] input, Func<char, T> Converter)
         {
             T[,] result = new T[input.Length, input[0].Length];
@@ -28,23 +29,19 @@ namespace Advent_of_Code
                     result[y, x] = Converter(input[y][x]);
             return result;
         }
-        protected static bool[,] GridParse(string[] input)
-            => GridParse(input, c => { if (c == '#') return true; return false; });
-        protected bool[,] GridParse()
-            => GridParse(input);
-        protected static int[,] GridParse(string[] input, Func<double, int> Converter)
-            => GridParse(input, c => Converter(char.GetNumericValue(c)));
-        protected int[,] GridParse(Func<double, int> Converter)
-            => GridParse(input, Converter);
+        protected bool[,] GridParse(char cTrue, int fromLine = 0)
+            => GridParse(input[fromLine..], c => { if (c == cTrue) return true; return false; });
+        protected int[,] GridParse(int fromLine = 0)
+            => GridParse(input[fromLine..], c => (int)char.GetNumericValue(c));
 
-        protected string[] GridStr(bool[,] input, char cTrue = '#', char cFalse = '.')
+        protected static string[] GridStr(bool[,] input, char cTrue = '#', char cFalse = '.')
             => GridStr(input, b => { if (b) return cTrue; return cFalse; });
-        protected string[] GridStr<T>(T[,] input, Func<T, char> Print)
+        protected static string[] GridStr<T>(T[,] input, Func<T, char> ToStr)
         {
             string[] result = new string[input.GetLength(0)];
             for (int y = 0; y < input.GetLength(0); y++)
                 for (int x = 0; x < input.GetLength(1); x++)
-                    result[y] += Print(input[y, x]);
+                    result[y] += ToStr(input[y, x]);
             return result;
         }
         protected static string CollStr<T>(IEnumerable<T> coll, Func<T, string> ToStr)
@@ -57,11 +54,6 @@ namespace Advent_of_Code
             return result;
         }
 
-        //protected static List<(int, int)> Neighbors((int, int) yx, int boundY, int boundX)
-        //{
-        //    (int y, int x) = yx;
-        //    return Neighbors(y, x, boundY, boundX);
-        //}
         protected static List<(int y, int x)> Neighbors
             (int y, int x, bool self = false, bool diagonal = false)
         {
@@ -84,7 +76,7 @@ namespace Advent_of_Code
             => y < 0 || y >= boundY || x < 0 || x >= boundX;
 
         protected static (int[] distance, int[] prev) Dijkstras(int count,
-            Func<int, int, int> PathWeight, Func<int, List<int>> Neighbors)
+            Func<int, int, int> PathWeight, Func<int, List<int>> Neighbors) // indices
         {
             bool[] visited = new bool[count];
             int[] distance = new int[count];

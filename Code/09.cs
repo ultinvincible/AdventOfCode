@@ -10,7 +10,7 @@ namespace Advent_of_Code
         public override void Run()
         {
             int lengthY = input.Length, lengthX = input[0].Length;
-            int[,] map = GridParse(Convert.ToInt32);
+            int[,] map = GridParse();
 
             int result = 0;
             List<(int, int)> lows = new();

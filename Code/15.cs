@@ -14,7 +14,7 @@ namespace Advent_of_Code
 
         public override void Run()
         {
-            int[,] cavern = GridParse(Convert.ToInt32);   
+            int[,] cavern = GridParse();   
             Dijkstras(cavern);
 
             cavern = new int[lengthI * 5, lengthJ * 5];

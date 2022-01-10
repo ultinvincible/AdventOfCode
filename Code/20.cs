@@ -13,7 +13,7 @@ namespace Advent_of_Code
         {
             enhance = Array.ConvertAll(input[0].ToCharArray(), c =>
                 { if (c == '#') return true; return false; });
-            image = GridParse(input[2..]);
+            image = GridParse('#', 2);
             bool infiniteLight = false;
 
             for (int i = 0; i < 50; i++)
