@@ -95,9 +95,15 @@ namespace Advent_of_Code
             foreach (Vector3 s1 in position_scanner)
                 foreach (Vector3 s2 in position_scanner)
                     if (s1 != s2)
-                        max = Math.Max(max, Math.Abs(s1.X - s2.X) +
-                            Math.Abs(s1.Y - s2.Y) + Math.Abs(s1.Z - s2.Z));
+                        max = Manhattan_Distance(max, s1, s2);
             Console.WriteLine(max);
+        }
+
+        private static float Manhattan_Distance(float max, Vector3 s1, Vector3 s2)
+        {
+            max = Math.Max(max, Math.Abs(s1.X - s2.X) +
+                Math.Abs(s1.Y - s2.Y) + Math.Abs(s1.Z - s2.Z));
+            return max;
         }
     }
 }

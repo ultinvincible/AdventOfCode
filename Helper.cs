@@ -44,6 +44,8 @@ namespace Advent_of_Code
                     result[y] += ToStr(input[y, x]);
             return result;
         }
+        protected static string CollStr<T>(IEnumerable<T> coll, string pad = "")
+            => CollStr(coll, t => t.ToString() + pad);
         protected static string CollStr<T>(IEnumerable<T> coll, Func<T, string> ToStr)
         {
             string result = "";
@@ -75,46 +77,70 @@ namespace Advent_of_Code
         protected static bool OutOfBounds(int y, int x, int boundY, int boundX)
             => y < 0 || y >= boundY || x < 0 || x >= boundX;
 
-        protected static (int[] distance, int[] prev) Dijkstras(int count,
-            Func<int, int, int> PathWeight, Func<int, List<int>> Neighbors) // indices
+        /// <summary>
+        /// Generic Dijkstra's algorithm, finds path from start to destination
+        /// </summary>
+        /// <typeparam name="Key">Unique indentifier for a vertex</typeparam>
+        /// <param name="start"></param>
+        /// <param name="dest"></param>
+        /// <param name="PathWeight"></param>
+        /// <param name="Nei_key_dist"></param>
+        /// <param name="Heuristic"></param>
+        /// <returns></returns>
+        protected static List<(Key key, int distance, int prev)> A_Star<Key>(
+            Key start, Key dest,
+            Func<Key, List<(Key, int)>> Nei_key_dist,
+            Func<Key, Key, bool> Equal,
+            Func<Key, int> Heuristic = null)
         {
-            bool[] visited = new bool[count];
-            int[] distance = new int[count];
-            int[] prev = new int[count];
-            for (int i = 0; i < count; i++)
-            {
-                //visited[i, j] = false;
-                distance[i] = int.MaxValue;
-                prev[i] = int.MaxValue;
-            }
-            HashSet<int> unvisited = new();
-            int current = 0;
-            distance[0] = 0;
+            (Key key, int distance, int) current = (start, 0, -1);
+            int curIndex = 0;
+            List<(Key key, int distance, int)>
+                visited = new(), unvisited = new() { current };
 
             do
             {
-                foreach (int nei in Neighbors(current))
-                    if (!visited[nei])
-                    {
-                        unvisited.Add(nei);
-                        if (distance[current] + PathWeight(current, nei) < distance[nei])
-                        {
-                            distance[nei] = distance[current] + PathWeight(current, nei);
-                            prev[nei] = current;
-                        }
-                    }
-                visited[current] = true;
-                unvisited.Remove(current);
-
                 int min = int.MaxValue;
-                foreach (var unv in unvisited)
-                    if (min > distance[unv])
+                for (int i = 0; i < unvisited.Count; i++)
+                {
+                    var (key, distance, prev) = unvisited[i];
+                    int unvDistHeur = distance;
+                    if (Heuristic != null)
+                        unvDistHeur += Heuristic(key);
+                    if (min > unvDistHeur)
                     {
-                        current = unv;
-                        min = distance[unv];
+                        current = (key, distance, prev);
+                        curIndex = i;
+                        min = unvDistHeur;
                     }
-            } while (unvisited.Count != 0); // !visited[dest]
-            return (distance, prev);
+                }
+
+                List<(Key, int)> neis = Nei_key_dist(current.key);
+                foreach (var (nei, pathWeight) in neis)
+                {
+                    if (visited.FindIndex(v => Equal(v.key, nei)) != -1) // too costly
+                        continue;
+                    int newDist = current.distance + pathWeight;
+                    int find = unvisited.FindIndex(u => Equal(u.key, nei));
+                    if (find == -1)
+                        unvisited.Add((nei, newDist, visited.Count));
+                    else if (newDist < unvisited[find].distance)
+                        unvisited[find] = (nei, newDist, visited.Count);
+                }
+
+                visited.Add(current);
+                unvisited.RemoveAt(curIndex);
+                //if (debug)
+                //{
+                //Console.WriteLine(current.key.ToString()+ "Energy: " + current.distance);
+                //Console.WriteLine(new string('-', 16));
+                //Console.WriteLine(CollStr(unvisited,
+                //    p => p.key.ToString() + "Energy: " + p.distance + "\n"));
+                //Console.WriteLine(new string('\u2588', 16));
+                //}
+            } while (!Equal(current.key, dest));
+            //} while (unvisited.Count != 0);
+            return visited;
         }
     }
 }

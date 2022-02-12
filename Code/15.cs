@@ -14,8 +14,8 @@ namespace Advent_of_Code
 
         public override void Run()
         {
-            int[,] cavern = GridParse();   
-            Dijkstras(cavern);
+            int[,] cavern = GridParse();
+            A_Star(cavern);
 
             cavern = new int[lengthI * 5, lengthJ * 5];
             for (int i = 0; i < lengthI; i++)
@@ -26,7 +26,7 @@ namespace Advent_of_Code
                 {
                     for (int down = 0; down < 5; down++)
                     {
-                        int repI = (int)(i + lengthI * down);
+                        int repI = i + lengthI * down;
                         if (down != 0)
                         {
                             cavern[repI, j] = cavern[i, j] + down;
@@ -35,30 +35,31 @@ namespace Advent_of_Code
                         }
                         for (int right = 1; right < 5; right++)
                         {
-                            int repJ = (int)(j + lengthJ * right);
+                            int repJ = j + lengthJ * right;
                             cavern[repI, repJ] = cavern[i, j] + down + right;
                             if (cavern[repI, repJ] > 9)
                                 cavern[repI, repJ] -= 9;
                         }
                     }
                 }
-            Dijkstras(cavern);
+            A_Star(cavern);
         }
-        void Dijkstras(int[,] cavern)
+        void A_Star(int[,] cavern)
         {
-            int lengthI = cavern.GetLength(0),
-                lengthJ = cavern.GetLength(1);
-            var result = Dijkstras(cavern.Length, (_, nei) =>
-                cavern[Math.DivRem(nei, lengthJ, out int j), j], cur =>
+            int lengthI = cavern.GetLength(0), lengthJ = cavern.GetLength(1);
+            (int i, int j) dest = (lengthI - 1, lengthJ - 1);
+            List<((int, int) key, int distance, int prev)> result =
+                A_Star((0, 0), dest,
+                ((int i, int j) coords) =>
                 {
-                    var neis = Neighbors(Math.DivRem(cur, lengthJ, out int j),
-                        j, lengthI, lengthJ);
-                    List<int> result = new();
-                    foreach (var (y, x) in neis)
-                        result.Add(y * lengthJ + x);
+                    List<((int, int), int)> result = new();
+                    foreach ((int i, int j) nei in Neighbors(coords.i, coords.j, lengthI, lengthJ))
+                        result.Add((nei, cavern[nei.i, nei.j]));
                     return result;
-                });
-            Console.WriteLine(result.distance[^1]);
+                },
+                (i, j) => i.Item1 == j.Item1 && i.Item2 == j.Item2,
+                ((int i, int j) coords) => dest.i - coords.i + dest.j - coords.j); ;
+            Console.WriteLine(result[^1].distance);
         }
     }
 }
