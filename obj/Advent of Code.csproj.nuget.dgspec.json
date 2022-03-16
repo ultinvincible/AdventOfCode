@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Code\\Advent of Code 2021\\Advent of Code.csproj": {}
+    "C:\\Code\\Advent of Code\\Advent of Code.csproj": {}
   },
   "projects": {
-    "C:\\Code\\Advent of Code 2021\\Advent of Code.csproj": {
+    "C:\\Code\\Advent of Code\\Advent of Code.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Code\\Advent of Code 2021\\Advent of Code.csproj",
+        "projectUniqueName": "C:\\Code\\Advent of Code\\Advent of Code.csproj",
         "projectName": "Advent of Code",
-        "projectPath": "C:\\Code\\Advent of Code 2021\\Advent of Code.csproj",
+        "projectPath": "C:\\Code\\Advent of Code\\Advent of Code.csproj",
         "packagesPath": "C:\\Users\\trinh\\.nuget\\packages\\",
-        "outputPath": "C:\\Code\\Advent of Code 2021\\obj\\",
+        "outputPath": "C:\\Code\\Advent of Code\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

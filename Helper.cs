@@ -6,18 +6,26 @@ namespace Advent_of_Code
 {
     abstract class AoCDay
     {
-        public int day;
-        readonly public string inputString;
-        readonly public string[] input;
-        public AoCDay(int d, bool lines = true)
+        //static public int day;
+        protected string input;
+        protected string[] inputLines;
+        //public AoCDay(int d)
+        //{
+        //    day = d;
+            //string path = year + "/Inputs/" + day.ToString("00") + ".txt";
+            //inputLines = File.ReadAllLines(path);
+            //inputString = File.ReadAllText(path);
+        //}
+        public (object Part1, object Part2) Solve(string input)
         {
-            day = d;
-            if (lines)
-                input = File.ReadAllLines(day.ToString("00") + ".txt");
-            else
-                inputString = File.ReadAllText(day.ToString("00") + ".txt");
+            this.input = input;
+            inputLines = input.Split("\n")[..^1];
+            Run(out (object Part1, object Part2) result);
+            if (result.Part1 is null) result.Part1 = "Not done.";
+            if (result.Part2 is null) result.Part2 = "Not done.";
+            return result;
         }
-        public abstract void Run();
+        protected abstract void Run(out (object part1, object part2) answer);
 
         // Helper functions
         protected static bool debug = false;
@@ -30,22 +38,23 @@ namespace Advent_of_Code
             return result;
         }
         protected bool[,] GridParse(char cTrue, int fromLine = 0)
-            => GridParse(input[fromLine..], c => { if (c == cTrue) return true; return false; });
+            => GridParse(inputLines[fromLine..], c => { if (c == cTrue) return true; return false; });
         protected int[,] GridParse(int fromLine = 0)
-            => GridParse(input[fromLine..], c => (int)char.GetNumericValue(c));
+            => GridParse(inputLines[fromLine..], c => (int)char.GetNumericValue(c));
 
-        protected static string[] GridStr(bool[,] input, char cTrue = '#', char cFalse = '.')
-            => GridStr(input, b => { if (b) return cTrue; return cFalse; });
-        protected static string[] GridStr<T>(T[,] input, Func<T, char> ToStr)
+        protected static string GridStr<T>(T[,] input, Func<T, string> ToStr)
         {
-            string[] result = new string[input.GetLength(0)];
+            string result = "";
             for (int y = 0; y < input.GetLength(0); y++)
+            {
                 for (int x = 0; x < input.GetLength(1); x++)
-                    result[y] += ToStr(input[y, x]);
+                    result += ToStr(input[y, x]);
+                result += "\n";
+            }
             return result;
         }
-        protected static string CollStr<T>(IEnumerable<T> coll, string pad = "")
-            => CollStr(coll, t => t.ToString() + pad);
+        protected static string GridStr<T>(T[,] input, string pad = "")
+            => GridStr(input, b => b + pad);
         protected static string CollStr<T>(IEnumerable<T> coll, Func<T, string> ToStr)
         {
             string result = "";
@@ -55,9 +64,11 @@ namespace Advent_of_Code
             }
             return result;
         }
+        protected static string CollStr<T>(IEnumerable<T> coll, string pad = "")
+            => CollStr(coll, t => t.ToString() + pad);
 
         protected static List<(int y, int x)> Neighbors
-            (int y, int x, bool self = false, bool diagonal = false)
+            (int y, int x, bool diagonal = false, bool self = false)
         {
             List<(int, int)> neighbors = new();
             for (int neiY = y - 1; neiY <= y + 1; neiY++)
@@ -67,8 +78,8 @@ namespace Advent_of_Code
                         neighbors.Add((neiY, neiX));
             return neighbors;
         }
-        protected static List<(int, int)> Neighbors
-            (int y, int x, int boundY, int boundX, bool self = false, bool diagonal = false)
+        protected static List<(int y, int x)> Neighbors
+            (int y, int x, int boundY, int boundX, bool diagonal = false, bool self = false)
         {
             List<(int y, int x)> neighbors = Neighbors(y, x, self, diagonal);
             neighbors.RemoveAll(nei => OutOfBounds(nei.y, nei.x, boundY, boundX));
