@@ -6,7 +6,7 @@ namespace Advent_of_Code._2021
 {
     class _08_Display7Segments : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             int length = inputLines.Length;
             string[][] signals = new string[length][],

@@ -5,7 +5,7 @@ namespace Advent_of_Code._2021
 {
     class _10_Brackets : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             string open = "([{<", close = ")]}>";
             List<string> uncorrupted = new();

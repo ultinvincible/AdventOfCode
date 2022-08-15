@@ -6,7 +6,7 @@ namespace Advent_of_Code._2021
     class _24_ALU : AoCDay
     {
         const int digitsCount = 14, linesEach = 18;
-        public override void Run()
+        protected override void Run()
         {
             int NumberAt(int digit, int line)
                 => int.Parse(inputLines[digit * linesEach + line].Split(' ')[2]);

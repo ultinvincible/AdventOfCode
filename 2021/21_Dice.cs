@@ -24,7 +24,7 @@ namespace Advent_of_Code._2021
             score += pos;
             return (pos, score);
         }
-        public override void Run()
+        protected override void Run()
         {
             int[] state = new int[]{(int)char.GetNumericValue(inputLines[0][^1]),
                                     (int)char.GetNumericValue(inputLines[1][^1]) , 0 , 0 };

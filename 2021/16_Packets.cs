@@ -21,7 +21,7 @@ namespace Advent_of_Code._2021
             }
         }
         Packet outermost;
-        public override void Run()
+        protected override void Run()
         {
             Packet.Transmission = "";
             foreach (char hex in input[..^2])

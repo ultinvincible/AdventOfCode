@@ -44,7 +44,7 @@ namespace Advent_of_Code._2021
                 result[c] /= 2;
             return result;
         }
-        public override void Run()
+        protected override void Run()
         {
             start = inputLines[0];
             foreach (string line in inputLines[2..])

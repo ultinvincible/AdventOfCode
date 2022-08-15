@@ -36,7 +36,7 @@ namespace Advent_of_Code._2021
         };
         Vector3 Rotate(Vector3 pos, int i)
             => Rotations[i](pos.X, pos.Y, pos.Z);
-        public override void Run()
+        protected override void Run()
         {
             List<List<Vector3>> scanner = new() { new() };
             for (int i = 1; i < inputLines.Length; i++)

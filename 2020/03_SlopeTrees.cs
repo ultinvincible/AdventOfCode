@@ -16,7 +16,7 @@ namespace Advent_of_Code._2020
             //Console.WriteLine("Trees(" + right + "," + down + "): " + trees);
             return trees;
         }
-        public override void Run()
+        protected override void Run()
         {
             columnsCount = inputLines[0].Length;
             long result = CountTrees(3, 1);

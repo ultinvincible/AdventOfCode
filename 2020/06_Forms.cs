@@ -6,7 +6,7 @@ namespace Advent_of_Code._2020
 {
     class _06_Forms : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             string[] groups = input.Split(Environment.NewLine + Environment.NewLine);
             int anyCount = 0, everyCount = 0;

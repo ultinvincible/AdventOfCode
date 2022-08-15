@@ -5,7 +5,7 @@ namespace Advent_of_Code._2020
 {
     class _09_Encoding : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             
             long[] numbers = Array.ConvertAll(inputLines, long.Parse);

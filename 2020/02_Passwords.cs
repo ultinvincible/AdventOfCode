@@ -4,7 +4,7 @@ namespace Advent_of_Code._2020
 {
     class _02_Passwords : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             int valid1 = 0, valid2 = 0;
             foreach (string entry in inputLines)

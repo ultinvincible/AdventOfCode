@@ -18,7 +18,7 @@ namespace Advent_of_Code._2021
             public override string ToString()
                 => x1 + "," + y1 + " -> " + x2 + "," + y2;
         }
-        public override void Run()
+        protected override void Run()
         {
             Line[] lines = new Line[inputLines.Length];
             int max = 0;

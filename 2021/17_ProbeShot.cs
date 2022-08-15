@@ -4,7 +4,7 @@ namespace Advent_of_Code._2021
 {
     class _17_ProbeShot : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             string[] split = input[15..^1].Split(".."),
                 split1 = split[1].Split(", y=");

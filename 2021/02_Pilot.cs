@@ -4,7 +4,7 @@ namespace Advent_of_Code._2021
 {
     class _02_Pilot : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             int move = 0, depth = 0;
             foreach (string line in inputLines)

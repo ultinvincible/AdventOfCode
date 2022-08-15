@@ -70,7 +70,7 @@ namespace Advent_of_Code._2020
                 if (seat == '#') count++;
             return count;
         }
-        public override void Run()
+        protected override void Run()
         {
             seats = new char[inputLines.Length, inputLines[0].Length];
 

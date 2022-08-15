@@ -38,7 +38,7 @@ namespace Advent_of_Code._2020
             }
             return (accumulator, false);
         }
-        public override void Run()
+        protected override void Run()
         {
             (string instruction, int value)[] sequence = Array.ConvertAll(inputLines, line =>
             {

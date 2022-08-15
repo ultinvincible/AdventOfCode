@@ -4,7 +4,7 @@ namespace Advent_of_Code._2019
 {
     class _01_FuelCounter : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             int[] masses = Array.ConvertAll(inputLines, int.Parse);
             foreach (int mass in masses)

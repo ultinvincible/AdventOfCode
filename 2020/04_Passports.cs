@@ -6,7 +6,7 @@ namespace Advent_of_Code._2020
     class _04_Passports : AoCDay
     {
         readonly string[] eyeColors = new string[] { "amb", "blu", "brn", "gry", "grn", "hzl", "oth" };
-        public override void Run()
+        protected override void Run()
         {
             string[] passports = input.Split(Environment.NewLine + Environment.NewLine);
             Dictionary<string, Predicate<string>> valid = new()

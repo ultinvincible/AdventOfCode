@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Diagnostics;
 using System.IO;
 
 namespace Advent_of_Code
@@ -10,7 +9,7 @@ namespace Advent_of_Code
         static void Main(string[] args)
         {
             const int yearMax = 2021;
-            int year = 2019, day = 1;
+            int year = 2019, day = 2;
             Directory.SetCurrentDirectory("../../../");
             Type[] assembly = Assembly.GetExecutingAssembly().GetTypes();
             Type[,] Solutions = new Type[yearMax - 2014, 26];
@@ -54,29 +53,15 @@ namespace Advent_of_Code
 
             void RunSolution(int year, int day)
             {
-                string msg = "{0} day {1} is not done.";
                 Type type = Solutions[year - 2015, day];
                 if (type is null)
-                    Console.WriteLine(msg, year, day);
+                    Console.WriteLine("{0} day {1} is not done.", year, day);
                 else
                 {
                     AoCDay solution = (AoCDay)Activator.CreateInstance(type);
-                    solution.input = File.ReadAllText(year + "/Inputs/" + day.ToString("00") + ".txt");
-                    solution.inputLines = File.ReadAllLines(year + "/Inputs/" + day.ToString("00") + ".txt");
-                    Stopwatch watch = Stopwatch.StartNew();
-                    solution.Run();
-                    watch.Stop();
-
-                    if (solution.part1 != 0) Console.WriteLine(solution.part1);
-                    else Console.WriteLine(solution.part1_str);
-                    if (day != 25)
-                    {
-                        if (solution.part2 != 0) Console.WriteLine(solution.part2);
-                        else Console.WriteLine(solution.part2_str);
-                    }
-                    Console.WriteLine("Time: {0} ms", (decimal)watch.ElapsedMilliseconds);
+                    solution.Run(year + "/Inputs/" + day.ToString("00") + ".txt");
                 }
-                Console.WriteLine(new string('-', msg.Length));
+                Console.WriteLine(new string('-', 25));
             }
         }
     }

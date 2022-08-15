@@ -5,7 +5,7 @@ namespace Advent_of_Code._2021
 {
     class _11_OctopusFlash : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             int length = 10;
             int[,] octos = GridParse();

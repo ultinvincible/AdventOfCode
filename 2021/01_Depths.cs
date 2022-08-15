@@ -13,7 +13,7 @@ namespace Advent_of_Code._2021
                     count++;
             return count;
         }
-        public override void Run()
+        protected override void Run()
         {
             depths = Array.ConvertAll(inputLines, int.Parse);
             (part1,part2) = (CountIncreases(1), CountIncreases(3));

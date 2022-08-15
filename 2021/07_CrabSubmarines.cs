@@ -5,7 +5,7 @@ namespace Advent_of_Code._2021
 {
     class _07_CrabSubmarines : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             int[] positions = Array.ConvertAll(input.Split(','),int.Parse);
 

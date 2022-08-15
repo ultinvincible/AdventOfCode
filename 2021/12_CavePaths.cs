@@ -37,7 +37,7 @@ namespace Advent_of_Code._2021
                 DFSearch(path, conn, ref result, oneSmallTwice);
             }
         }
-        public override void Run()
+        protected override void Run()
         {
             foreach (string line in inputLines)
             {

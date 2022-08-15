@@ -43,7 +43,7 @@ namespace Advent_of_Code._2021
             return result + Environment.NewLine;
         }
 
-        public override void Run()
+        protected override void Run()
         {
             int lengthX = 0, lengthY = 0;
             List<(int, int)> d = new();

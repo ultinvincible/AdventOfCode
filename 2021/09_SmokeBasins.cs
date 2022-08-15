@@ -6,7 +6,7 @@ namespace Advent_of_Code._2021
 {
     class _09_SmokeBasins : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             int lengthY = inputLines.Length, lengthX = inputLines[0].Length;
             int[,] map = GridParse();

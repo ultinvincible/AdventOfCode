@@ -6,7 +6,7 @@ namespace Advent_of_Code._2021
     class _15_Chiton : AoCDay
     {
         int lengthI, lengthJ;
-        public override void Run()
+        protected override void Run()
         {
             lengthI = inputLines.Length;
             lengthJ = inputLines[0].Length;

@@ -34,7 +34,7 @@ namespace Advent_of_Code._2021
                     }
             return result;
         }
-        public override void Run()
+        protected override void Run()
         {
             //debug = true;
             HashSet<(int x, int y, int z)> initial = new();

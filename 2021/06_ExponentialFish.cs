@@ -6,7 +6,7 @@ namespace Advent_of_Code._2021
 {
     class _06_ExponentialFish : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             int[] inputFishes = Array.ConvertAll(input
                 .Trim().Split(','), int.Parse);

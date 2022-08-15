@@ -19,7 +19,7 @@ namespace Advent_of_Code._2021
                 return number.ToString("00 ");
             }
         }
-        public override void Run()
+        protected override void Run()
         {
             string[] split = input.Split(Environment.NewLine + Environment.NewLine);
             int[] draws = Array.ConvertAll(split[0].Split(','), int.Parse);

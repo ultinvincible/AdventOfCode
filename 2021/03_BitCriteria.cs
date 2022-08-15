@@ -4,7 +4,7 @@ namespace Advent_of_Code._2021
 {
     class _03_BitCriteria : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             string gamma = "", epsilon = "";
             for (int i = 0; i < inputLines[0].Length; i++)

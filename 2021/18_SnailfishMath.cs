@@ -78,7 +78,7 @@ namespace Advent_of_Code._2021
             return false;
         }
 
-        public override void Run()
+        protected override void Run()
         {
             List<Regular> sum = Interpret(inputLines[0]);
             foreach (string line in inputLines[1..])

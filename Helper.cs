@@ -1,16 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace Advent_of_Code
 {
     abstract class AoCDay
     {
-        public string input;
-        public string[] inputLines;
-        public long part1, part2;
-        public string part1_str = "Not done.", part2_str = "Not done.";
-        public abstract void Run();
+        protected string input;
+        protected string[] inputLines;
+        protected long part1, part2;
+        protected string part1_str = "Not done.", part2_str = "Not done.";
+        public void Run(string inputPath)
+        {
+            input = File.ReadAllText(inputPath);
+            inputLines = File.ReadAllLines(inputPath);
+            Stopwatch watch = Stopwatch.StartNew();
+            Run();
+            watch.Stop();
+
+            if (part1 != default) Console.WriteLine(part1);
+            else Console.WriteLine(part1_str);
+            if (part2 != default) Console.WriteLine(part2);
+            else Console.WriteLine(part2_str);
+            Console.WriteLine("Time: {0} ms", (decimal)watch.ElapsedMilliseconds);
+        }
+        protected abstract void Run();
 
         // Helper functions
         protected static bool debug = false;

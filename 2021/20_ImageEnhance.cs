@@ -34,7 +34,7 @@ namespace Advent_of_Code._2021
                 if (pixel) lit++;
             return lit;
         }
-        public override void Run()
+        protected override void Run()
         {
             algorithm = Array.ConvertAll(inputLines[0].ToCharArray(), c => c == '#');
             image = GridParse('#', 2);

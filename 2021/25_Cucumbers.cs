@@ -4,7 +4,7 @@ namespace Advent_of_Code._2021
 {
     class _25_Cucumbers : AoCDay
     {
-        public override void Run()
+        protected override void Run()
         {
             char[,] cucumbers = GridParse(inputLines, _ => _);
             //Console.WriteLine(GridStr(cucumbers));
