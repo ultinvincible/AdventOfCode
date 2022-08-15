@@ -4,7 +4,7 @@ namespace Advent_of_Code._2021
 {
     class _17_ProbeShot : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             string[] split = input[15..^1].Split(".."),
                 split1 = split[1].Split(", y=");
@@ -54,7 +54,7 @@ namespace Advent_of_Code._2021
                         }
                     }
             }
-            answer = (maxY, hitTargetStartVelos);
+            (part1,part2) = (maxY, hitTargetStartVelos);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Advent_of_Code._2021
     class _24_ALU : AoCDay
     {
         const int digitsCount = 14, linesEach = 18;
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             int NumberAt(int digit, int line)
                 => int.Parse(inputLines[digit * linesEach + line].Split(' ')[2]);
@@ -35,7 +35,7 @@ namespace Advent_of_Code._2021
                 }
                 else digits.Push(i);
             }
-            answer = (CollStr(max), CollStr(min));
+            (part1_str,part2_str) = (CollStr(max), CollStr(min));
 
             //// raw brute force 14^9 numbers
             //Console.WriteLine();

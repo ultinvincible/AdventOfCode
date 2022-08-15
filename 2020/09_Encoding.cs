@@ -5,9 +5,9 @@ namespace Advent_of_Code._2020
 {
     class _09_Encoding : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
-            answer = default;
+            
             long[] numbers = Array.ConvertAll(inputLines, long.Parse);
 
             long result = 0;
@@ -24,7 +24,7 @@ namespace Advent_of_Code._2020
                 if (!valid)
                 {
                     result = numbers[check];
-                    answer.part1 = result;
+                    part1 = result;
                     break;
                 }
             }
@@ -39,7 +39,7 @@ namespace Advent_of_Code._2020
                     if (sum == result && length != 0)
                     {
                         long[] x = numbers[start..(start + length)];
-                        answer.part2 = x.Max() + x.Min();
+                        part2 = x.Max() + x.Min();
                     }
                 }
             }

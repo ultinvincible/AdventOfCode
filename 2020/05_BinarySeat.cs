@@ -5,7 +5,7 @@ namespace Advent_of_Code._2020
 {
     class _05_BinarySeat : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             int max = 0; List<int> IDs = new();
             foreach (string line in inputLines)
@@ -26,11 +26,11 @@ namespace Advent_of_Code._2020
                 max = Math.Max(max, id);
                 IDs.Add(id);
             }
-            answer = (max, default);
+            (part1,part2) = (max, default);
             IDs.Sort();
             for (int i = 1; i < IDs.Count; i++)
                 if (IDs[i] == IDs[i - 1] + 2)
-                    answer.part2 = IDs[i] - 1;
+                    part2 = IDs[i] - 1;
         }
     }
 }

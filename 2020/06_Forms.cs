@@ -6,19 +6,19 @@ namespace Advent_of_Code._2020
 {
     class _06_Forms : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
-            string[] groups = input.Split("\n\n");
+            string[] groups = input.Split(Environment.NewLine + Environment.NewLine);
             int anyCount = 0, everyCount = 0;
             foreach (var group in groups)
             {
-                List<char> anyone = group.Replace("\n", "")
+                List<char> anyone = group.Replace(Environment.NewLine, "")
                     .Distinct().ToList();
                 anyCount += anyone.Count;
 
                 List<char> everyone = anyone.ConvertAll(_ => _);
                 foreach (char yes in anyone)
-                    foreach (string person in group.Split('\n',
+                    foreach (string person in group.Split(Environment.NewLine,
                         StringSplitOptions.RemoveEmptyEntries))
                         if (!person.Contains(yes))
                         {
@@ -27,7 +27,7 @@ namespace Advent_of_Code._2020
                         }
                 everyCount += everyone.Count;
             }
-            answer = (anyCount, everyCount);
+            (part1,part2) = (anyCount, everyCount);
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Advent_of_Code._2021
 {
     class _25_Cucumbers : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             char[,] cucumbers = GridParse(inputLines, _ => _);
             //Console.WriteLine(GridStr(cucumbers));
@@ -42,8 +42,8 @@ namespace Advent_of_Code._2021
                     cucumbers = newCcb;
                 }
             } while (move);
-            answer.part1 = step;
-            answer.part2 = default;
+            part1 = step;
+            part2 = default;
             //Console.WriteLine(GridStr(cucumbers));
         }
     }

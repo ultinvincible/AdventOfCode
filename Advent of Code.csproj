@@ -11,4 +11,8 @@
     <Compile Remove="Code\23_AmphipodRooms.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="2019\Inputs\" />
+  </ItemGroup>
+
 </Project>

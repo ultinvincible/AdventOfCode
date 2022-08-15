@@ -6,7 +6,7 @@ namespace Advent_of_Code._2021
 {
     class _09_SmokeBasins : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             int lengthY = inputLines.Length, lengthX = inputLines[0].Length;
             int[,] map = GridParse();
@@ -29,7 +29,7 @@ namespace Advent_of_Code._2021
                         result += map[y, x] + 1;
                     }
                 }
-            answer.part1 = result;
+            part1 = result;
 
             result = 1;
             List<(int, int)> Basin((int, int) low)
@@ -55,7 +55,7 @@ namespace Advent_of_Code._2021
             Array.Sort(sizes);
             foreach (int s in sizes[^3..])
                 result *= s;
-            answer.part2 = result;
+            part2 = result;
         }
     }
 }

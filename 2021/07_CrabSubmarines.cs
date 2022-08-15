@@ -5,7 +5,7 @@ namespace Advent_of_Code._2021
 {
     class _07_CrabSubmarines : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             int[] positions = Array.ConvertAll(input.Split(','),int.Parse);
 
@@ -21,7 +21,7 @@ namespace Advent_of_Code._2021
                 if (minFuel > fuel)
                     minFuel = fuel;
             }
-            answer.part1 = minFuel;
+            part1 = minFuel;
 
             minFuel = int.MaxValue;
             for (int position = min; position < max; position++)
@@ -33,7 +33,7 @@ namespace Advent_of_Code._2021
                 if (minFuel > fuel)
                     minFuel = fuel;
             }
-            answer.part2 = minFuel;
+            part2 = minFuel;
         }
     }
 }

@@ -21,16 +21,16 @@ namespace Advent_of_Code._2021
             }
         }
         Packet outermost;
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             Packet.Transmission = "";
-            foreach (char hex in input[..^1])
+            foreach (char hex in input[..^2])
                 Packet.Transmission += Convert.ToString(Convert.ToInt32(hex.ToString(), 16), 2).PadLeft(4, '0');
             //for (int i = 0; i < Packet.Transmission.Length; i++)
             //    Console.WriteLine(i.ToString("0 \u2588 ").PadLeft(7) + char.GetNumericValue(Packet.Transmission[i]));
 
             outermost = Decode(0);
-            answer = (VersionSum(outermost), outermost.value);
+            (part1,part2) = (VersionSum(outermost), outermost.value);
         }
         Packet Decode(int start)
         {

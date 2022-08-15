@@ -4,7 +4,7 @@ namespace Advent_of_Code._2021
 {
     class _02_Pilot : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             int move = 0, depth = 0;
             foreach (string line in inputLines)
@@ -16,7 +16,7 @@ namespace Advent_of_Code._2021
                 else if (dir == "down") depth += dist;
                 else depth -= dist;
             }
-            answer.part1 = move * depth;
+            part1 = move * depth;
 
             move = 0; depth = 0; int aim = 0;
             foreach (string line in inputLines)
@@ -31,7 +31,7 @@ namespace Advent_of_Code._2021
                 else if (dir == "down") aim += dist;
                 else aim -= dist;
             }
-            answer.part2 = move * depth;
+            part2 = move * depth;
         }
     }
 }

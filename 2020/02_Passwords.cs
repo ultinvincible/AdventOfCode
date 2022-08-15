@@ -4,7 +4,7 @@ namespace Advent_of_Code._2020
 {
     class _02_Passwords : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             int valid1 = 0, valid2 = 0;
             foreach (string entry in inputLines)
@@ -29,7 +29,7 @@ namespace Advent_of_Code._2020
                 //Console.WriteLine(details);
                 //Console.WriteLine(password);
             }
-            answer = (valid1, valid2);
+            (part1,part2) = (valid1, valid2);
         }
     }
 }

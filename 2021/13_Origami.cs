@@ -38,12 +38,12 @@ namespace Advent_of_Code._2021
                         result += '\u2588';
                     else result += ' ';
                 }
-                result += "\n";
+                result += Environment.NewLine;
             }
-            return result + "\n";
+            return result + Environment.NewLine;
         }
 
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             int lengthX = 0, lengthY = 0;
             List<(int, int)> d = new();
@@ -66,14 +66,14 @@ namespace Advent_of_Code._2021
                 for (int x = 0; x < dot.GetLength(1); x++)
                     if (dot[y, x])
                         result++;
-            answer.part1 = result;
+            part1 = result;
 
             foreach (string line in inputLines[^11..])
             {
                 string[] split = line.Split('=');
                 Fold(split[0][^1], int.Parse(split[1]));
             }
-            answer.part2 = PrintDots();
+            part2_str = PrintDots();
         }
     }
 }

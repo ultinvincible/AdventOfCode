@@ -34,7 +34,7 @@ namespace Advent_of_Code._2021
                     }
             return result;
         }
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             //debug = true;
             HashSet<(int x, int y, int z)> initial = new();
@@ -69,8 +69,8 @@ namespace Advent_of_Code._2021
                     {
                         if (divide.Any(div => Volume(div) < 1))
                             throw new Exception("Negative volume.");
-                        Console.WriteLine("Except:\n" + PrintCuboid(coords) + state);
-                        Console.WriteLine("Old:\n" + PrintCuboid(cub));
+                        Console.WriteLine("Except:" + Environment.NewLine + PrintCuboid(coords) + state);
+                        Console.WriteLine("Old:" + Environment.NewLine + PrintCuboid(cub));
                         if (divide.Count != 0)
                         {
                             Console.WriteLine("New:");
@@ -98,7 +98,7 @@ namespace Advent_of_Code._2021
                     Console.WriteLine(new string('~', 40));
                 }
             }
-            answer = (initial.Count, cuboids.Sum(c => Volume(c)));
+            (part1, part2) = (initial.Count, cuboids.Sum(c => Volume(c)));
         }
 
         static void Every_Points(ref HashSet<(int x, int y, int z)> points,
@@ -127,9 +127,9 @@ namespace Advent_of_Code._2021
                 result += "  |" + min.ToString().PadLeft(3)
                     + "|.(" + (max - min + 1).ToString().PadLeft(2)
                     + ").|" + max.ToString().PadLeft(3)
-                    + "|\n";
+                    + "|" + Environment.NewLine;
             }
-            result += "Volume: " + Volume(cuboid) + "\n";
+            result += "Volume: " + Volume(cuboid) + Environment.NewLine;
             return result;
         }
     }

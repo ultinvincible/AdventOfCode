@@ -18,7 +18,7 @@ namespace Advent_of_Code._2021
             public override string ToString()
                 => x1 + "," + y1 + " -> " + x2 + "," + y2;
         }
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             Line[] lines = new Line[inputLines.Length];
             int max = 0;
@@ -53,7 +53,7 @@ namespace Advent_of_Code._2021
                     if (i >= 2) result++;
                 return result;
             }
-            answer.part1 = Result();
+            part1 = Result();
 
             foreach (Line l in lines)
             {
@@ -69,7 +69,7 @@ namespace Advent_of_Code._2021
                             grid[x++, y--]++;
                 }
             }
-            answer.part2 = Result();
+            part2 = Result();
         }
     }
 }

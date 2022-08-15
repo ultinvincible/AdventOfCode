@@ -70,7 +70,7 @@ namespace Advent_of_Code._2020
                 if (seat == '#') count++;
             return count;
         }
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             seats = new char[inputLines.Length, inputLines[0].Length];
 
@@ -80,7 +80,7 @@ namespace Advent_of_Code._2020
                 return seats[row, col] == 'L' && !adj.Contains('#') ||
                 (seats[row, col] == '#' && adj.Where(c => c == '#').Count() >= 4);
             });
-            answer.part1 = OccupiedCount();
+            part1 = OccupiedCount();
 
             ApplyRules((row, col) =>
             {
@@ -88,7 +88,7 @@ namespace Advent_of_Code._2020
                 return seats[row, col] == 'L' && !see.Contains('#') ||
                 (seats[row, col] == '#' && see.Where(c => c == '#').Count() >= 5);
             });
-            answer.part2 = OccupiedCount();
+            part2 = OccupiedCount();
         }
     }
 }

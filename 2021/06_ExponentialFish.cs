@@ -6,7 +6,7 @@ namespace Advent_of_Code._2021
 {
     class _06_ExponentialFish : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             int[] inputFishes = Array.ConvertAll(input
                 .Trim().Split(','), int.Parse);
@@ -49,7 +49,7 @@ namespace Advent_of_Code._2021
                 return fishes.Sum();
             }
 
-            answer = (Spawns_Part1(80), Spawns_Part2(256));
+            (part1,part2) = (Spawns_Part1(80), Spawns_Part2(256));
         }
     }
 }

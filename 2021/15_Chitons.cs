@@ -6,12 +6,12 @@ namespace Advent_of_Code._2021
     class _15_Chiton : AoCDay
     {
         int lengthI, lengthJ;
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             lengthI = inputLines.Length;
             lengthJ = inputLines[0].Length;
             int[,] cavern = GridParse();
-            answer.part1 = A_Star(cavern);
+            part1 = A_Star(cavern);
 
             cavern = new int[lengthI * 5, lengthJ * 5];
             for (int i = 0; i < lengthI; i++)
@@ -38,7 +38,7 @@ namespace Advent_of_Code._2021
                         }
                     }
                 }
-            answer.part2 = A_Star(cavern);
+            part2 = A_Star(cavern);
         }
 
         static int A_Star(int[,] cavern)

@@ -24,7 +24,7 @@ namespace Advent_of_Code._2021
             score += pos;
             return (pos, score);
         }
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             int[] state = new int[]{(int)char.GetNumericValue(inputLines[0][^1]),
                                     (int)char.GetNumericValue(inputLines[1][^1]) , 0 , 0 };
@@ -42,7 +42,7 @@ namespace Advent_of_Code._2021
                 plrTurn = 1 - plrTurn;
                 timesRolled += 3;
             }
-            answer.part1 = Math.Min(state[2], state[3]) * timesRolled;
+            part1 = Math.Min(state[2], state[3]) * timesRolled;
 
             Dictionary<int, int> moves = new();
             int[] sides = new int[] { 1, 2, 3 };
@@ -77,7 +77,7 @@ namespace Advent_of_Code._2021
                 players[plrTurn] = newPlayers;
                 plrTurn = 1 - plrTurn;
             } while (newPlayers.Count != 0);
-            answer.part2 = Math.Max(wins[0], wins[1]);
+            part2 = Math.Max(wins[0], wins[1]);
         }
     }
 }

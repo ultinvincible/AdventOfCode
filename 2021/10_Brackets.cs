@@ -5,7 +5,7 @@ namespace Advent_of_Code._2021
 {
     class _10_Brackets : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             string open = "([{<", close = ")]}>";
             List<string> uncorrupted = new();
@@ -31,7 +31,7 @@ namespace Advent_of_Code._2021
                 if (!corrupt)
                     uncorrupted.Add(chunk);
             }
-            answer.part1 = result;
+            part1 = result;
 
             List<long> autoScores = new();
             foreach (string chunk in uncorrupted)
@@ -52,7 +52,7 @@ namespace Advent_of_Code._2021
                 autoScores.Add(score);
             }
             autoScores.Sort();
-            answer.part2 = autoScores[autoScores.Count / 2];
+            part2 = autoScores[autoScores.Count / 2];
         }
     }
 }

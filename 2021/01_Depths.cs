@@ -13,10 +13,10 @@ namespace Advent_of_Code._2021
                     count++;
             return count;
         }
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             depths = Array.ConvertAll(inputLines, int.Parse);
-            answer = (CountIncreases(1), CountIncreases(3));
+            (part1,part2) = (CountIncreases(1), CountIncreases(3));
         }
     }
 }

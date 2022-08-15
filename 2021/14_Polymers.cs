@@ -7,14 +7,14 @@ namespace Advent_of_Code._2021
     class _14_Polymers : AoCDay
     {
         string start;
-        Dictionary<string, ulong> polymers = new();
+        Dictionary<string, long> polymers = new();
         Dictionary<string, (string, string)> insert = new();
 
         void Step(int times)
         {
             for (int i = 0; i < times; i++)
             {
-                Dictionary<string, ulong> newPolymers = new(polymers);
+                Dictionary<string, long> newPolymers = new(polymers);
                 foreach (var (plm, count) in polymers)
                     if (count > 0)
                     {
@@ -26,9 +26,9 @@ namespace Advent_of_Code._2021
                 polymers = newPolymers;
             }
         }
-        Dictionary<char, ulong> CharCount()
+        Dictionary<char, long> CharCount()
         {
-            Dictionary<char, ulong> result = new();
+            Dictionary<char, long> result = new();
             foreach (var (plm, count) in polymers)
             {
                 foreach (char c in plm)
@@ -44,7 +44,7 @@ namespace Advent_of_Code._2021
                 result[c] /= 2;
             return result;
         }
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             start = inputLines[0];
             foreach (string line in inputLines[2..])
@@ -59,13 +59,13 @@ namespace Advent_of_Code._2021
             }
 
             Step(10);
-            Dictionary<char, ulong> result = CharCount();
+            Dictionary<char, long> result = CharCount();
             //int length = result.Values.Sum();
-            answer.part1 = result.Values.Max() - result.Values.Min();
+            part1 = result.Values.Max() - result.Values.Min();
 
             Step(30);
             result = CharCount();
-            answer.part2 = result.Values.Max() - result.Values.Min();
+            part2 = result.Values.Max() - result.Values.Min();
         }
 
     }

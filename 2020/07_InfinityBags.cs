@@ -45,9 +45,9 @@ namespace Advent_of_Code._2020
             }
             return result;
         }
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
-            answer = (ContainerCount("shiny gold"), InsideCount("shiny gold"));
+            (part1,part2) = (ContainerCount("shiny gold"), InsideCount("shiny gold"));
         }
     }
 }

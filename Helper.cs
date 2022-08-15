@@ -6,26 +6,11 @@ namespace Advent_of_Code
 {
     abstract class AoCDay
     {
-        //static public int day;
-        protected string input;
-        protected string[] inputLines;
-        //public AoCDay(int d)
-        //{
-        //    day = d;
-            //string path = year + "/Inputs/" + day.ToString("00") + ".txt";
-            //inputLines = File.ReadAllLines(path);
-            //inputString = File.ReadAllText(path);
-        //}
-        public (object Part1, object Part2) Solve(string input)
-        {
-            this.input = input;
-            inputLines = input.Split("\n")[..^1];
-            Run(out (object Part1, object Part2) result);
-            if (result.Part1 is null) result.Part1 = "Not done.";
-            if (result.Part2 is null) result.Part2 = "Not done.";
-            return result;
-        }
-        protected abstract void Run(out (object part1, object part2) answer);
+        public string input;
+        public string[] inputLines;
+        public long part1, part2;
+        public string part1_str = "Not done.", part2_str = "Not done.";
+        public abstract void Run();
 
         // Helper functions
         protected static bool debug = false;
@@ -49,7 +34,7 @@ namespace Advent_of_Code
             {
                 for (int x = 0; x < input.GetLength(1); x++)
                     result += ToStr(input[y, x]);
-                result += "\n";
+                result += Environment.NewLine;
             }
             return result;
         }
@@ -146,7 +131,7 @@ namespace Advent_of_Code
                 //Console.WriteLine(current.key.ToString()+ "Energy: " + current.distance);
                 //Console.WriteLine(new string('-', 16));
                 //Console.WriteLine(CollStr(unvisited,
-                //    p => p.key.ToString() + "Energy: " + p.distance + "\n"));
+                //    p => p.key.ToString() + "Energy: " + p.distance + Environment.NewLine));
                 //Console.WriteLine(new string('\u2588', 16));
                 //}
             } while (!Equal(current.key, dest));

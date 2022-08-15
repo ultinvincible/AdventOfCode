@@ -37,7 +37,7 @@ namespace Advent_of_Code._2021
                 DFSearch(path, conn, ref result, oneSmallTwice);
             }
         }
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             foreach (string line in inputLines)
             {
@@ -62,10 +62,10 @@ namespace Advent_of_Code._2021
 
             List<List<string>> paths;
             paths = DFSearch();
-            answer.part1 = paths.Count;
+            part1 = paths.Count;
 
             paths = DFSearch(true);
-            answer.part2 = paths.Count;
+            part2 = paths.Count;
         }
     }
 }

@@ -19,16 +19,16 @@ namespace Advent_of_Code._2021
                 return number.ToString("00 ");
             }
         }
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
-            string[] split = input.Split("\n\n");
+            string[] split = input.Split(Environment.NewLine + Environment.NewLine);
             int[] draws = Array.ConvertAll(split[0].Split(','), int.Parse);
             string[] strBoards = split[1..];
             Cell[][,] boards = new Cell[strBoards.Length][,];
             for (int i = 0; i < strBoards.Length; i++)
             {
                 boards[i] = new Cell[5, 5];
-                string[] brd = strBoards[i].Split('\n');
+                string[] brd = strBoards[i].Split(Environment.NewLine);
                 for (int ii = 0; ii < brd.Length; ii++)
                 {
                     string[] line = brd[ii].Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -36,12 +36,12 @@ namespace Advent_of_Code._2021
                         boards[i][ii, iii] = new(int.Parse(line[iii]));
                 }
             }
-            answer = (-1, -1);
+            (part1,part2) = (-1, -1);
 
             void MarkAllBoards(int draw)
             {
                 //Console.Clear();
-                //Console.Write("Draw: " + draw + "\n\n");
+                //Console.Write("Draw: " + draw + Environment.NewLine + Environment.NewLine);
                 for (int i = 0; i < boards.Length; i++) //board
                 {
                     for (int ii = 0; ii < 5; ii++) //line
@@ -93,7 +93,7 @@ namespace Advent_of_Code._2021
                     {
                         bingo = CheckBingoBoard(boardNo);
                         if (bingo)
-                            answer.part1 = Result(boardNo, draws[d]);
+                            part1 = Result(boardNo, draws[d]);
                     }
                 }
             }
@@ -124,10 +124,10 @@ namespace Advent_of_Code._2021
                 }
                 //foreach (bool w in won)
                 //    Console.Write(w.ToString() + "|");
-                //Console.Write("\n\n");
+                //Console.Write(Environment.NewLine + Environment.NewLine);
 
                 if (boards.Length == wonBoards)
-                    answer.part2 = Result(chooseBoard, draws[d]);
+                    part2 = Result(chooseBoard, draws[d]);
             }
         }
     }

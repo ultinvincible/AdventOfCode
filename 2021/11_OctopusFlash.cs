@@ -5,7 +5,7 @@ namespace Advent_of_Code._2021
 {
     class _11_OctopusFlash : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             int length = 10;
             int[,] octos = GridParse();
@@ -61,7 +61,7 @@ namespace Advent_of_Code._2021
                 //    {
                 //        print += octo/* + "|"*/;
                 //    }
-                //    print += "\n";
+                //    print += Environment.NewLine;
                 //}
                 //Console.Clear();
                 //Console.WriteLine(print);
@@ -69,17 +69,17 @@ namespace Advent_of_Code._2021
             }
 
             int result = 0;
-            answer = (0, 0);
+            (part1,part2) = (0, 0);
             for (int i = 0; ; i++)
             {
                 int flashes = Flashes_Cycle();
                 if (i < 100)
                     result += flashes;
                 if (i == 99)
-                    answer.part1 = result;
+                    part1 = result;
                 if (flashes == Math.Pow(length, 2))
                 {
-                    answer.part2 = i + 1;
+                    part2 = i + 1;
                     break;
                 }
             }

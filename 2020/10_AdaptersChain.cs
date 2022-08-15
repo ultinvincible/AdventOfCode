@@ -4,7 +4,7 @@ namespace Advent_of_Code._2020
 {
     class _10_AdaptersChain : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             int length = inputLines.Length + 2;
             int[] adapters = new int[length];
@@ -19,7 +19,7 @@ namespace Advent_of_Code._2020
                     diff1++;
                 else if (adapters[i] - adapters[i - 1] == 3)
                     diff3++;
-            answer.part1 = diff1 * diff3;
+            part1 = diff1 * diff3;
 
             long[] pathTo = new long[length];
             pathTo[0] = 1;
@@ -31,7 +31,7 @@ namespace Advent_of_Code._2020
                         pathTo[i] += pathTo[i - j];
                     else break;
                 }
-            answer.part2 = pathTo[^1];
+            part2 = pathTo[^1];
         }
     }
 }

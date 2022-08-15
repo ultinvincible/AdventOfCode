@@ -36,7 +36,7 @@ namespace Advent_of_Code._2021
         };
         Vector3 Rotate(Vector3 pos, int i)
             => Rotations[i](pos.X, pos.Y, pos.Z);
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             List<List<Vector3>> scanner = new() { new() };
             for (int i = 1; i < inputLines.Length; i++)
@@ -88,14 +88,14 @@ namespace Advent_of_Code._2021
                                 beacons.Add(position_scanner[s2] + beacon);
                     }
             }
-            answer.part1 = beacons.Count;
+            part1 = beacons.Count;
 
             float max = 0;
             foreach (Vector3 s1 in position_scanner)
                 foreach (Vector3 s2 in position_scanner)
                     if (s1 != s2)
                         max = Manhattan_Distance(max, s1, s2);
-            answer.part2 = max;
+            part2 = (long)max;
         }
 
         private static float Manhattan_Distance(float max, Vector3 s1, Vector3 s2)

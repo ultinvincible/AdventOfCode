@@ -34,21 +34,21 @@ namespace Advent_of_Code._2021
                 if (pixel) lit++;
             return lit;
         }
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             algorithm = Array.ConvertAll(inputLines[0].ToCharArray(), c => c == '#');
             image = GridParse('#', 2);
 
             Enhance();
             Enhance();
-            answer.part1 = LitCount();
+            part1 = LitCount();
 
             for (int i = 2; i < 50; i++)
             {
                 Enhance();
-                //Console.WriteLine(string.Join("\n", GridStr(image)));
+                //Console.WriteLine(string.Join(Environment.NewLine, GridStr(image)));
             }
-            answer.part2 = LitCount();
+            part2 = LitCount();
         }
     }
 }

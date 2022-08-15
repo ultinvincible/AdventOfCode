@@ -78,19 +78,19 @@ namespace Advent_of_Code._2021
             return false;
         }
 
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             List<Regular> sum = Interpret(inputLines[0]);
             foreach (string line in inputLines[1..])
                 sum = Add_Reduce(sum, line);
-            answer.part1 = Magnitude(sum);
+            part1 = Magnitude(sum);
 
             int max = 0;
             for (int i = 0; i < inputLines.Length; i++)
                 for (int j = 0; j < inputLines.Length; j++)
                     if (i != j)
                         max = Math.Max(max, Magnitude(Add_Reduce(inputLines[i], inputLines[j])));
-            answer.part2 = max;
+            part2 = max;
         }
         int Magnitude(List<Regular> sum)
         {
@@ -119,7 +119,7 @@ namespace Advent_of_Code._2021
         //    Console.WriteLine();
         //    foreach (Regular reg in sum)
         //        Console.Write(reg.nested.ToString().PadLeft(2) + "|");
-        //    Console.WriteLine("\n" + i);
+        //    Console.WriteLine(Environment.NewLine + i);
         //}
     }
 }

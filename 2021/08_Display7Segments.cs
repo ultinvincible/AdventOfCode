@@ -6,7 +6,7 @@ namespace Advent_of_Code._2021
 {
     class _08_Display7Segments : AoCDay
     {
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             int length = inputLines.Length;
             string[][] signals = new string[length][],
@@ -23,7 +23,7 @@ namespace Advent_of_Code._2021
                 foreach (string o in line)
                     if (new int[] { 2, 3, 4, 7 }.Contains(o.Length))
                         result++;
-            answer.part1 = result;
+            part1 = result;
 
             result = 0;
             int[][] display = new int[10][]{
@@ -91,7 +91,7 @@ namespace Advent_of_Code._2021
                 }
                 result += int.Parse(output);
             }
-            answer.part2 = result;
+            part2 = result;
         }
     }
 }

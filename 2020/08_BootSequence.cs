@@ -38,7 +38,7 @@ namespace Advent_of_Code._2020
             }
             return (accumulator, false);
         }
-        protected override void Run(out (object part1, object part2) answer)
+        public override void Run()
         {
             (string instruction, int value)[] sequence = Array.ConvertAll(inputLines, line =>
             {
@@ -47,7 +47,7 @@ namespace Advent_of_Code._2020
             });
 
             var (accumulator, terminate) = RunSequence(sequence);
-            answer = (accumulator, default);
+            (part1,part2) = (accumulator, default);
 
             for (int line = 0; line < inputLines.Length; line++)
             {
@@ -56,7 +56,7 @@ namespace Advent_of_Code._2020
                     (accumulator, terminate) = RunSequence(sequence, line);
                     if (terminate)
                     {
-                        answer.part2 = accumulator;
+                        part2 = accumulator;
                         return;
                     }
                 }

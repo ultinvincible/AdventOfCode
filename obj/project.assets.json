@@ -8,23 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\trinh\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Hello\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Code\\Advent of Code\\Advent of Code.csproj",
+      "projectUniqueName": "C:\\Code\\Advent of Code\\AoC2021\\Advent of Code.csproj",
       "projectName": "Advent of Code",
-      "projectPath": "C:\\Code\\Advent of Code\\Advent of Code.csproj",
-      "packagesPath": "C:\\Users\\trinh\\.nuget\\packages\\",
-      "outputPath": "C:\\Code\\Advent of Code\\obj\\",
+      "projectPath": "C:\\Code\\Advent of Code\\AoC2021\\Advent of Code.csproj",
+      "packagesPath": "C:\\Users\\Hello\\.nuget\\packages\\",
+      "outputPath": "C:\\Code\\Advent of Code\\AoC2021\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\trinh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Hello\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -64,7 +60,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
