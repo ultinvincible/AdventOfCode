@@ -9,7 +9,7 @@ namespace Advent_of_Code
         static void Main(string[] args)
         {
             const int yearMax = 2021;
-            int year = 2019, day = 3;
+            int year = 2019, day = 5;
             Directory.SetCurrentDirectory("../../../");
             Type[] assembly = Assembly.GetExecutingAssembly().GetTypes();
             Type[,] Solutions = new Type[yearMax - 2014, 26];
