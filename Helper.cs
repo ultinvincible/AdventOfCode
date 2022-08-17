@@ -49,7 +49,7 @@ namespace Advent_of_Code
             {
                 for (int x = 0; x < input.GetLength(1); x++)
                     result += ToStr(input[y, x]);
-                result += Environment.NewLine;
+                result += "\n";
             }
             return result;
         }
@@ -146,7 +146,7 @@ namespace Advent_of_Code
                 //Console.WriteLine(current.key.ToString()+ "Energy: " + current.distance);
                 //Console.WriteLine(new string('-', 16));
                 //Console.WriteLine(CollStr(unvisited,
-                //    p => p.key.ToString() + "Energy: " + p.distance + Environment.NewLine));
+                //    p => p.key.ToString() + "Energy: " + p.distance + "\n"));
                 //Console.WriteLine(new string('\u2588', 16));
                 //}
             } while (!Equal(current.key, dest));

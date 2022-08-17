@@ -21,14 +21,14 @@ namespace Advent_of_Code._2021
         }
         protected override void Run()
         {
-            string[] split = input.Split(Environment.NewLine + Environment.NewLine);
+            string[] split = input.Split("\n\n");
             int[] draws = Array.ConvertAll(split[0].Split(','), int.Parse);
             string[] strBoards = split[1..];
             Cell[][,] boards = new Cell[strBoards.Length][,];
             for (int i = 0; i < strBoards.Length; i++)
             {
                 boards[i] = new Cell[5, 5];
-                string[] brd = strBoards[i].Split(Environment.NewLine);
+                string[] brd = strBoards[i].Split("\n");
                 for (int ii = 0; ii < brd.Length; ii++)
                 {
                     string[] line = brd[ii].Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -41,7 +41,7 @@ namespace Advent_of_Code._2021
             void MarkAllBoards(int draw)
             {
                 //Console.Clear();
-                //Console.Write("Draw: " + draw + Environment.NewLine + Environment.NewLine);
+                //Console.Write("Draw: " + draw + "\n\n");
                 for (int i = 0; i < boards.Length; i++) //board
                 {
                     for (int ii = 0; ii < 5; ii++) //line
@@ -124,7 +124,7 @@ namespace Advent_of_Code._2021
                 }
                 //foreach (bool w in won)
                 //    Console.Write(w.ToString() + "|");
-                //Console.Write(Environment.NewLine + Environment.NewLine);
+                //Console.Write("\n\n");
 
                 if (boards.Length == wonBoards)
                     part2 = Result(chooseBoard, draws[d]);

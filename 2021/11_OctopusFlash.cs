@@ -61,7 +61,7 @@ namespace Advent_of_Code._2021
                 //    {
                 //        print += octo/* + "|"*/;
                 //    }
-                //    print += Environment.NewLine;
+                //    print += "\n";
                 //}
                 //Console.Clear();
                 //Console.WriteLine(print);

@@ -69,8 +69,8 @@ namespace Advent_of_Code._2021
                     {
                         if (divide.Any(div => Volume(div) < 1))
                             throw new Exception("Negative volume.");
-                        Console.WriteLine("Except:" + Environment.NewLine + PrintCuboid(coords) + state);
-                        Console.WriteLine("Old:" + Environment.NewLine + PrintCuboid(cub));
+                        Console.WriteLine("Except:" + "\n" + PrintCuboid(coords) + state);
+                        Console.WriteLine("Old:" + "\n" + PrintCuboid(cub));
                         if (divide.Count != 0)
                         {
                             Console.WriteLine("New:");
@@ -127,9 +127,9 @@ namespace Advent_of_Code._2021
                 result += "  |" + min.ToString().PadLeft(3)
                     + "|.(" + (max - min + 1).ToString().PadLeft(2)
                     + ").|" + max.ToString().PadLeft(3)
-                    + "|" + Environment.NewLine;
+                    + "|" + "\n";
             }
-            result += "Volume: " + Volume(cuboid) + Environment.NewLine;
+            result += "Volume: " + Volume(cuboid) + "\n";
             return result;
         }
     }

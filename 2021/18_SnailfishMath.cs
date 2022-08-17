@@ -119,7 +119,7 @@ namespace Advent_of_Code._2021
         //    Console.WriteLine();
         //    foreach (Regular reg in sum)
         //        Console.Write(reg.nested.ToString().PadLeft(2) + "|");
-        //    Console.WriteLine(Environment.NewLine + i);
+        //    Console.WriteLine("\n" + i);
         //}
     }
 }

@@ -8,7 +8,7 @@ namespace Advent_of_Code._2020
         readonly string[] eyeColors = new string[] { "amb", "blu", "brn", "gry", "grn", "hzl", "oth" };
         protected override void Run()
         {
-            string[] passports = input.Split(Environment.NewLine + Environment.NewLine);
+            string[] passports = input.Split("\n" + "\n");
             Dictionary<string, Predicate<string>> valid = new()
             {
                 { "byr", s => int.TryParse(s, out int i) && i >= 1920 && i <= 2002 },

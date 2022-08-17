@@ -2,7 +2,7 @@
 
 namespace Advent_of_Code._2019
 {
-    class _01_FuelCounter : AoCDay
+    class _01_RocketEquation : AoCDay
     {
         protected override void Run()
         {

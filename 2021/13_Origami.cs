@@ -38,9 +38,9 @@ namespace Advent_of_Code._2021
                         result += '\u2588';
                     else result += ' ';
                 }
-                result += Environment.NewLine;
+                result += "\n";
             }
-            return result + Environment.NewLine;
+            return result + "\n";
         }
 
         protected override void Run()

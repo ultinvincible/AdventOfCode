@@ -8,17 +8,17 @@ namespace Advent_of_Code._2020
     {
         protected override void Run()
         {
-            string[] groups = input.Split(Environment.NewLine + Environment.NewLine);
+            string[] groups = input.Split("\n\n");
             int anyCount = 0, everyCount = 0;
             foreach (var group in groups)
             {
-                List<char> anyone = group.Replace(Environment.NewLine, "")
+                List<char> anyone = group.Replace("\n", "")
                     .Distinct().ToList();
                 anyCount += anyone.Count;
 
                 List<char> everyone = anyone.ConvertAll(_ => _);
                 foreach (char yes in anyone)
-                    foreach (string person in group.Split(Environment.NewLine,
+                    foreach (string person in group.Split("\n",
                         StringSplitOptions.RemoveEmptyEntries))
                         if (!person.Contains(yes))
                         {

@@ -46,7 +46,7 @@ namespace Advent_of_Code._2021
             for (int i = 2; i < 50; i++)
             {
                 Enhance();
-                //Console.WriteLine(string.Join(Environment.NewLine, GridStr(image)));
+                //Console.WriteLine(string.Join("\n", GridStr(image)));
             }
             part2 = LitCount();
         }
