@@ -13,7 +13,7 @@ namespace Advent_of_Code
         protected string part1_str = "Not done.", part2_str = "Not done.";
         public void Run(string inputPath)
         {
-            input = File.ReadAllText(inputPath);
+            input = File.ReadAllText(inputPath).Replace("\r\n", "\n");
             inputLines = File.ReadAllLines(inputPath);
             Stopwatch watch = Stopwatch.StartNew();
             Run();
@@ -38,34 +38,46 @@ namespace Advent_of_Code
             return result;
         }
         protected bool[,] GridParse(char cTrue, int fromLine = 0)
-            => GridParse(inputLines[fromLine..], c => { if (c == cTrue) return true; return false; });
+            => GridParse(inputLines[fromLine..], c => c == cTrue);
         protected int[,] GridParse(int fromLine = 0)
             => GridParse(inputLines[fromLine..], c => (int)char.GetNumericValue(c));
 
-        protected static string GridStr<T>(T[,] input, Func<T, string> ToStr)
+        protected static string GridStr<T>(T[,] input,
+            Func<T, string> ToStr = null, string pad = "")
         {
+            if (ToStr is null) ToStr = t => t.ToString();
             string result = "";
             for (int y = 0; y < input.GetLength(0); y++)
             {
-                for (int x = 0; x < input.GetLength(1); x++)
-                    result += ToStr(input[y, x]);
-                result += "\n";
+                for (int x = 0; x < input.GetLength(1) - 1; x++)
+                    result += ToStr(input[y, x]) + pad;
+                result += ToStr(input[y, input.GetLength(1) - 1]) + "\n";
             }
             return result;
         }
-        protected static string GridStr<T>(T[,] input, string pad = "")
-            => GridStr(input, b => b + pad);
-        protected static string CollStr<T>(IEnumerable<T> coll, Func<T, string> ToStr)
+        protected static string GridStr<T>(IList<IList<T>> input,
+            Func<T, string> ToStr = null, string pad = "")
         {
+            if (ToStr is null) ToStr = t => t.ToString();
             string result = "";
-            foreach (T item in coll)
+            for (int y = 0; y < input.Count; y++)
             {
-                result += ToStr(item);
+                for (int x = 0; x < input[y].Count - 1; x++)
+                    result += ToStr(input[y][x]) + pad;
+                result += ToStr(input[y][input[y].Count - 1]) + "\n";
             }
             return result;
         }
-        protected static string CollStr<T>(IEnumerable<T> coll, string pad = "")
-            => CollStr(coll, t => t.ToString() + pad);
+        // Forgot string.Join() exists, kekw
+        //protected static string CollStr<T>(IList<T> coll, Func<T, string> ToStr, string pad = "")
+        //{
+        //    string result = "";
+        //    for (int i = 0; i < coll.Count - 1; i++)
+        //        result += ToStr(coll[i]) + pad;
+        //    return result + ToStr(coll[^1]);
+        //}
+        //protected static string CollStr<T>(IList<T> coll, string pad = "")
+        //    => CollStr(coll, t => t.ToString(), pad);
 
         protected static List<(int y, int x)> Neighbors
             (int y, int x, bool diagonal = false, bool self = false)

@@ -35,7 +35,7 @@ namespace Advent_of_Code._2021
                 }
                 else digits.Push(i);
             }
-            (part1_str,part2_str) = (CollStr(max), CollStr(min));
+            (part1_str, part2_str) = (string.Join("", max), string.Join("", min));
 
             //// raw brute force 14^9 numbers
             //Console.WriteLine();

@@ -9,17 +9,14 @@ namespace Advent_of_Code
         static void Main(string[] args)
         {
             const int yearMax = 2021;
-            int year = 2019, day = 5;
+            int year = 2020, day = 25;
             Directory.SetCurrentDirectory("../../../");
             Type[] assembly = Assembly.GetExecutingAssembly().GetTypes();
             Type[,] Solutions = new Type[yearMax - 2014, 26];
             for (int i = 0; i < assembly.Length; i++)
-            {
-                if (!assembly[i].IsSubclassOf(typeof(AoCDay)))
-                    continue;
-                Solutions[int.Parse(assembly[i].Namespace[^4..]) - 2015,
-                    int.Parse(assembly[i].Name[1..3])] = assembly[i];
-            }
+                if (assembly[i].IsSubclassOf(typeof(AoCDay)))
+                    Solutions[int.Parse(assembly[i].Namespace[^4..]) - 2015,
+                        int.Parse(assembly[i].Name[1..3])] = assembly[i];
 
             Console.WriteLine("Run {0} day: {1}", year, day);
             while (true)
@@ -61,7 +58,7 @@ namespace Advent_of_Code
                     AoCDay solution = (AoCDay)Activator.CreateInstance(type);
                     solution.Run(year + "/Inputs/" + day.ToString("00") + ".txt");
                 }
-                Console.WriteLine(new string('-', 25));
+                Console.WriteLine(new string('-', 50));
             }
         }
     }
