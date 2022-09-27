@@ -101,69 +101,72 @@ namespace Advent_of_Code
             => y < 0 || y >= boundY || x < 0 || x >= boundX;
 
         /// <summary>
-        /// Generic Dijkstra's algorithm, finds path from start to destination
+        /// Dijkstra's algorithm
         /// </summary>
-        /// <typeparam name="Key">Unique indentifier for a vertex</typeparam>
-        /// <param name="start"></param>
-        /// <param name="dest"></param>
-        /// <param name="PathWeight"></param>
-        /// <param name="Nei_key_dist"></param>
-        /// <param name="Heuristic"></param>
+        /// <param name="Neighbors"></param>
+        /// <param name="IsDestination"></param>
         /// <returns></returns>
-        protected static List<(Key key, int distance, int prev)> A_Star<Key>(
-            Key start, Key dest,
-            Func<Key, List<(Key, int)>> Nei_key_dist,
-            Func<Key, Key, bool> Equal,
-            Func<Key, int> Heuristic = null)
+        // All comments are stolen from https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+        // "distance" is named weight
+        static protected List<(int weight, int prev)> Dijkstras
+            (Func<int, List<(int, int)>> Neighbors, Func<int, bool> IsDestination = null)
         {
-            (Key key, int distance, int) current = (start, 0, -1);
-            int curIndex = 0;
-            List<(Key key, int distance, int)>
-                visited = new(), unvisited = new() { current };
+            // Mark all nodes unvisited.
+            // Create a set of all the unvisited nodes called the unvisited set.
+            List<bool> visited = new() { false };
+            HashSet<int> unvisited = new();
+            IsDestination ??= _ => unvisited.Count == 0;
 
-            do
+            // Assign to every node a tentative distance value:
+            // set it to zero for our initial node
+            // and to infinity for all other nodes.
+            // Set the initial node as current.
+            List<(int weight, int prev)> nodes = new() { (0, int.MaxValue) };
+            int current = 0;
+
+            // For the current node, consider all of its unvisited neighbors
+            // and calculate their tentative distances through the current node.
+            // Compare the newly calculated tentative distance to the one currently
+            // assigned to the neighbor and assign it the smaller one.
+            while (true)
             {
-                int min = int.MaxValue;
-                for (int i = 0; i < unvisited.Count; i++)
+                foreach ((int nei, int weight) in Neighbors(current))
                 {
-                    var (key, distance, prev) = unvisited[i];
-                    int unvDistHeur = distance;
-                    if (Heuristic != null)
-                        unvDistHeur += Heuristic(key);
-                    if (min > unvDistHeur)
+                    if (nei >= visited.Count)
+                        // Extend lists
+                        for (int i = visited.Count; i <= nei; i++)
+                        {
+                            visited.Add(false);
+                            nodes.Add((int.MaxValue, int.MaxValue));
+                        }
+                    if (!visited[nei])
                     {
-                        current = (key, distance, prev);
-                        curIndex = i;
-                        min = unvDistHeur;
+                        unvisited.Add(nei);
+                        int newDist = nodes[current].weight + weight;
+                        if (newDist < nodes[nei].weight)
+                            nodes[nei] = (newDist, current);
                     }
                 }
 
-                List<(Key, int)> neis = Nei_key_dist(current.key);
-                foreach (var (nei, pathWeight) in neis)
-                {
-                    if (visited.FindIndex(v => Equal(v.key, nei)) != -1) // too costly
-                        continue;
-                    int newDist = current.distance + pathWeight;
-                    int find = unvisited.FindIndex(u => Equal(u.key, nei));
-                    if (find == -1)
-                        unvisited.Add((nei, newDist, visited.Count));
-                    else if (newDist < unvisited[find].distance)
-                        unvisited[find] = (nei, newDist, visited.Count);
-                }
+                // Mark the current node as visited and remove it from the unvisited set. 
+                visited[current] = true;
+                unvisited.Remove(current);
 
-                visited.Add(current);
-                unvisited.RemoveAt(curIndex);
-                //if (debug)
-                //{
-                //Console.WriteLine(current.key.ToString()+ "Energy: " + current.distance);
-                //Console.WriteLine(new string('-', 16));
-                //Console.WriteLine(CollStr(unvisited,
-                //    p => p.key.ToString() + "Energy: " + p.distance + "\n"));
-                //Console.WriteLine(new string('\u2588', 16));
-                //}
-            } while (!Equal(current.key, dest));
-            //} while (unvisited.Count != 0);
-            return visited;
+                // If the destination node has been marked visited or if the smallest
+                // tentative distance among the nodes in the unvisited set is infinity
+                // then stop. The algorithm has finished.
+                // Otherwise, select the unvisited node that is marked with the smallest
+                // tentative distance, set it as the new current node.
+                if (IsDestination(current)) break;
+                int min = int.MaxValue;
+                foreach (int unv in unvisited)
+                    if (min > nodes[unv].weight)
+                    {
+                        current = unv;
+                        min = nodes[unv].weight;
+                    }
+            }
+            return nodes;
         }
     }
 }

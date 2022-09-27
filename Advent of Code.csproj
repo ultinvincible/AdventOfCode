@@ -15,8 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="2021\23_AmphipodRooms.cs" />
-    <Compile Remove="Code\23_AmphipodRooms.cs" />
   </ItemGroup>
 
 </Project>
