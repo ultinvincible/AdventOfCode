@@ -27,19 +27,19 @@ namespace Advent_of_Code
                 {
                     Console.Write("Run {0} day: ", year);
                     string read = Console.ReadLine();
-                    if (int.TryParse(read, out day) && day >= 1 && day <= 25)
+                    if (read == "all")
+                    {
+                        for (int d = 1; d <= 25; d++)
+                        {
+                            Console.WriteLine("Day " + d);
+                            RunSolution(year, d);
+                        }
+                        continue;
+                    }
+                    else if (int.TryParse(read, out day) && day >= 1 && day <= 25)
                         break;
                     else
                     {
-                        if (read == "all")
-                        {
-                            for (int d = 1; d <= 25; d++)
-                            {
-                                Console.WriteLine("Day " + d);
-                                RunSolution(year, d);
-                            }
-                            continue;
-                        }
                         Console.Write("Change year to: ");
                         if (!int.TryParse(Console.ReadLine(), out year)
                             || year < 2015 || year > yearMax)
@@ -56,7 +56,7 @@ namespace Advent_of_Code
                 else
                 {
                     AoCDay solution = (AoCDay)Activator.CreateInstance(type);
-                    solution.Run(year + "/Inputs/" + day.ToString("00") + ".txt");
+                    solution.Run(year + "/Inputs/" + day.ToString("00") + ".txt", day == 25);
                 }
                 Console.WriteLine(new string('-', 50));
             }

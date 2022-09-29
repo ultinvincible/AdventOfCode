@@ -11,7 +11,7 @@ namespace Advent_of_Code
         protected string[] inputLines;
         protected long part1, part2;
         protected string part1_str = "Not done.", part2_str = "Not done.";
-        public void Run(string inputPath)
+        public void Run(string inputPath, bool day25 = false)
         {
             input = File.ReadAllText(inputPath).Replace("\r\n", "\n");
             inputLines = File.ReadAllLines(inputPath);
@@ -19,10 +19,11 @@ namespace Advent_of_Code
             Run();
             watch.Stop();
 
-            if (part1 != default) Console.WriteLine(part1);
+            if (part1 != 0) Console.WriteLine(part1);
             else Console.WriteLine(part1_str);
-            if (part2 != default) Console.WriteLine(part2);
-            else Console.WriteLine(part2_str);
+            if (!day25)
+                if (part2 != 0) Console.WriteLine(part2);
+                else Console.WriteLine(part2_str);
             Console.WriteLine("Time: {0} ms", (decimal)watch.ElapsedMilliseconds);
         }
         protected abstract void Run();
@@ -58,7 +59,7 @@ namespace Advent_of_Code
         protected static string GridStr<T>(IList<IList<T>> input,
             Func<T, string> ToStr = null, string pad = "")
         {
-            if (ToStr is null) ToStr = t => t.ToString();
+            ToStr ??= t => t.ToString();
             string result = "";
             for (int y = 0; y < input.Count; y++)
             {
