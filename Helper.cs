@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
+using AdventOfCode;
 
 namespace Advent_of_Code
 {
-    abstract class AoCDay
+    abstract class AoCDay : IAsyncSolver<string, string>
     {
         protected string input;
         protected string[] inputLines;
         protected long part1, part2;
         protected string part1_str = "Not done.", part2_str = "Not done.";
-        public void Run(string inputPath, bool day25 = false)
+        public (string part1_str, string part2_str, decimal time) Run(string inputPath)
         {
             input = File.ReadAllText(inputPath).Replace("\r\n", "\n");
             inputLines = File.ReadAllLines(inputPath);
@@ -19,14 +21,16 @@ namespace Advent_of_Code
             Run();
             watch.Stop();
 
-            if (part1 != 0) Console.WriteLine(part1);
-            else Console.WriteLine(part1_str);
-            if (!day25)
-                if (part2 != 0) Console.WriteLine(part2);
-                else Console.WriteLine(part2_str);
-            Console.WriteLine("Time: {0} ms", (decimal)watch.ElapsedMilliseconds);
+            if (part1_str == "Not done.") part1_str = part1.ToString();
+            if (part2_str == "Not done.") part2_str = part2.ToString();
+            return (part1_str, part2_str, watch.ElapsedMilliseconds);
         }
         protected abstract void Run();
+
+        public ValueTask<string> Solve(IAsyncEnumerable<string> entries)
+        {
+            throw new NotImplementedException();
+        }
 
         // Helper functions
         protected static bool debug = false;

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Code\\Advent of Code\\AdventOfCode\\Advent of Code.csproj": {}
+    "C:\\Code\\AdventOfCode\\Advent of Code.csproj": {}
   },
   "projects": {
-    "C:\\Code\\Advent of Code\\AdventOfCode\\Advent of Code.csproj": {
+    "C:\\Code\\AdventOfCode\\Advent of Code.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Code\\Advent of Code\\AdventOfCode\\Advent of Code.csproj",
+        "projectUniqueName": "C:\\Code\\AdventOfCode\\Advent of Code.csproj",
         "projectName": "Advent of Code",
-        "projectPath": "C:\\Code\\Advent of Code\\AdventOfCode\\Advent of Code.csproj",
+        "projectPath": "C:\\Code\\AdventOfCode\\Advent of Code.csproj",
         "packagesPath": "C:\\Users\\Hello\\.nuget\\packages\\",
-        "outputPath": "C:\\Code\\Advent of Code\\AdventOfCode\\obj\\",
+        "outputPath": "C:\\Code\\AdventOfCode\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Hello\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,16 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "AdventOfCode.Runner": {
+              "target": "Package",
+              "version": "[1.0.2, )"
+            },
+            "Microsoft.AspNet.WebApi.Client": {
+              "target": "Package",
+              "version": "[5.2.9, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

@@ -62,3 +62,34 @@ C:\Code\Advent of Code\AdventOfCode\obj\Debug\net5.0\refint\Advent of Code.dll
 C:\Code\Advent of Code\AdventOfCode\obj\Debug\net5.0\Advent of Code.pdb
 C:\Code\Advent of Code\AdventOfCode\obj\Debug\net5.0\Advent of Code.genruntimeconfig.cache
 C:\Code\Advent of Code\AdventOfCode\obj\Debug\net5.0\ref\Advent of Code.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\Advent of Code.exe
+C:\Code\AdventOfCode\bin\Debug\net5.0\Advent of Code.deps.json
+C:\Code\AdventOfCode\bin\Debug\net5.0\Advent of Code.runtimeconfig.json
+C:\Code\AdventOfCode\bin\Debug\net5.0\Advent of Code.runtimeconfig.dev.json
+C:\Code\AdventOfCode\bin\Debug\net5.0\Advent of Code.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\Advent of Code.pdb
+C:\Code\AdventOfCode\obj\Debug\net5.0\Advent of Code.csproj.AssemblyReference.cache
+C:\Code\AdventOfCode\obj\Debug\net5.0\Advent of Code.GeneratedMSBuildEditorConfig.editorconfig
+C:\Code\AdventOfCode\obj\Debug\net5.0\Advent of Code.AssemblyInfoInputs.cache
+C:\Code\AdventOfCode\obj\Debug\net5.0\Advent of Code.AssemblyInfo.cs
+C:\Code\AdventOfCode\obj\Debug\net5.0\Advent of Code.csproj.CoreCompileInputs.cache
+C:\Code\AdventOfCode\obj\Debug\net5.0\Advent of Code.dll
+C:\Code\AdventOfCode\obj\Debug\net5.0\refint\Advent of Code.dll
+C:\Code\AdventOfCode\obj\Debug\net5.0\Advent of Code.pdb
+C:\Code\AdventOfCode\obj\Debug\net5.0\Advent of Code.genruntimeconfig.cache
+C:\Code\AdventOfCode\obj\Debug\net5.0\ref\Advent of Code.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\System.Net.Http.Formatting.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+C:\Code\AdventOfCode\obj\Debug\net5.0\Advent of Code.csproj.CopyComplete
+C:\Code\AdventOfCode\bin\Debug\net5.0\AdventOfCode.Runner.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.Http.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.Logging.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\System.Linq.Async.dll
+C:\Code\AdventOfCode\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
