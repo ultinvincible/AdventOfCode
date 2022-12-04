@@ -12,7 +12,7 @@ namespace Advent_of_Code
         protected string input;
         protected string[] inputLines;
         protected long part1, part2;
-        protected string part1_str = "Not done.", part2_str = "Not done.";
+        protected string part1_str = "", part2_str = "";
         public (string part1_str, string part2_str, decimal time) Run(string inputPath)
         {
             input = File.ReadAllText(inputPath).Replace("\r\n", "\n");
@@ -21,8 +21,8 @@ namespace Advent_of_Code
             Run();
             watch.Stop();
 
-            if (part1_str == "Not done.") part1_str = part1.ToString();
-            if (part2_str == "Not done.") part2_str = part2.ToString();
+            if (part1_str == "") part1_str = part1.ToString();
+            if (part2_str == "") part2_str = part2.ToString();
             return (part1_str, part2_str, watch.ElapsedMilliseconds);
         }
         protected abstract void Run();
