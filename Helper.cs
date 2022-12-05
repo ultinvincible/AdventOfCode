@@ -21,8 +21,10 @@ namespace Advent_of_Code
             Run();
             watch.Stop();
 
-            if (part1_str == "") part1_str = part1.ToString();
-            if (part2_str == "") part2_str = part2.ToString();
+            if (part1 != 0) part1_str = part1.ToString();
+            else if (part1_str == "") part1_str = "Not done.";
+            if (part2 != 0) part2_str = part2.ToString();
+            else if (part2_str == "") part2_str = "Not done.";
             return (part1_str, part2_str, watch.ElapsedMilliseconds);
         }
         protected abstract void Run();
@@ -48,28 +50,31 @@ namespace Advent_of_Code
             => GridParse(inputLines[fromLine..], c => (int)char.GetNumericValue(c));
 
         protected static string GridStr<T>(T[,] input,
-            Func<T, string> ToStr = null, string pad = "")
+            Func<T, string> ToStr = null, string pad = "", bool numbered = false)
         {
             if (ToStr is null) ToStr = t => t.ToString();
             string result = "";
             for (int y = 0; y < input.GetLength(0); y++)
             {
-                for (int x = 0; x < input.GetLength(1) - 1; x++)
+                if (numbered) result += y + ": ";
+                for (int x = 0; x < input.GetLength(1); x++)
                     result += ToStr(input[y, x]) + pad;
-                result += ToStr(input[y, input.GetLength(1) - 1]) + "\n";
             }
+            result += "\n";
             return result;
         }
-        protected static string GridStr<T>(IList<IList<T>> input,
-            Func<T, string> ToStr = null, string pad = "")
+        protected static string GridStr<T>(IEnumerable<IEnumerable<T>> input,
+            Func<T, string> ToStr = null, string pad = "", bool numbered = false)
         {
             ToStr ??= t => t.ToString();
             string result = "";
-            for (int y = 0; y < input.Count; y++)
+            int i = 0;
+            foreach (IEnumerable<T> row in input)
             {
-                for (int x = 0; x < input[y].Count - 1; x++)
-                    result += ToStr(input[y][x]) + pad;
-                result += ToStr(input[y][input[y].Count - 1]) + "\n";
+                if (numbered) { result += i + ": "; i++; }
+                foreach (T item in row)
+                    result += ToStr(item) + pad;
+                result += "\n";
             }
             return result;
         }
