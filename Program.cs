@@ -85,11 +85,11 @@ namespace Advent_of_Code
 
                     if (submit)
                     {
-                        Console.Write("Submit? ");
+                        Console.Write("Enter \"y\" to submit: ");
                         if (Console.ReadLine() == "y")
                         {
                             int part = 1;
-                            if (part2 != "0")
+                            if (part2 != "Not done.")
                                 part = 2;
                             string[] result = new string[] { part1, part2 };
                             FormUrlEncodedContent content = new(new KeyValuePair<string, string>[]
@@ -99,25 +99,33 @@ namespace Advent_of_Code
                             });
                             HttpResponseMessage response = await client.PostAsync($"/{year}/day/{day}/answer", content);
                             string responseContent = await response.Content.ReadAsStringAsync();
+                            bool answered = false;
                             foreach (string rp in responses)
                                 if (responseContent.Contains(rp))
+                                {
                                     Console.WriteLine(rp);
-                            //Console.WriteLine($"Level: {part}");
-                            //Console.WriteLine(responseContent.Split(new string[] { "<main>\n<article><p>", "</main>" },
-                            //     StringSplitOptions.None)[1]);
+                                    answered = true;
+                                }
+                            if (!answered)
+                            {
+                                Console.WriteLine($"Level: {part}");
+                                Console.WriteLine(responseContent.Split
+                                    (new string[] { "<main>\n<article><p>", "</main>" },
+                                     StringSplitOptions.None)[1]);
+                            }
                         }
                     }
                 }
-                Console.WriteLine(new string('-', Console.BufferWidth));
+                Console.WriteLine(new string('~', Console.BufferWidth));
             }
         }
         static string[] responses = new string[]
         {
-            "Your answer is too high",
-            "Your answer is too low",
-            "You gave an answer too recently.",
+            "your answer is too high",
+            "your answer is too low",
+            "You gave an answer too recently",
             "You don't seem to be solving the right level.",
-            "That's not the right answer.",
+            "That's not the right answer",
             "That's the right answer!",
         };
     }
