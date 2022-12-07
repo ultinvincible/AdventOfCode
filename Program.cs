@@ -9,6 +9,10 @@ namespace Advent_of_Code
 {
     class Program
     {
+        const int firstYear = 2015;
+        static int nowYear => DateTime.Now.Year;
+        static int nowMonth => DateTime.Now.Month;
+        static int nowDay => DateTime.Now.Day;
         static HttpClient client = new()
         {
             BaseAddress = new Uri("https://adventofcode.com")
@@ -16,18 +20,15 @@ namespace Advent_of_Code
         static async Task Main(string[] args)
         {
             Directory.SetCurrentDirectory("../../../");
-            int nowYear = DateTime.Now.Year,
-                nowMonth = DateTime.Now.Month,
-                nowDay = DateTime.Now.Day,
-                year = nowYear,
+            int year = nowYear,
                 day = Math.Min(nowDay, 25);
             if (nowMonth != 12) { year--; day = 25; }
 
             Type[] assembly = Assembly.GetExecutingAssembly().GetTypes();
-            Type[,] Solutions = new Type[year - 2014, 26];
+            Type[,] Solutions = new Type[year - firstYear + 1, 26];
             for (int i = 0; i < assembly.Length; i++)
                 if (assembly[i].IsSubclassOf(typeof(AoCDay)))
-                    Solutions[int.Parse(assembly[i].Namespace[^4..]) - 2015,
+                    Solutions[int.Parse(assembly[i].Namespace[^4..]) - firstYear,
                         int.Parse(assembly[i].Name[1..3])] = assembly[i];
 
             client.DefaultRequestHeaders.Add
@@ -103,7 +104,9 @@ namespace Advent_of_Code
                             foreach (string rp in responses)
                                 if (responseContent.Contains(rp))
                                 {
-                                    Console.WriteLine(rp);
+                                    char[] print = rp.ToCharArray();
+                                    print[0] = char.ToUpper(print[0]);
+                                    Console.WriteLine(string.Join("", print) + '.');
                                     answered = true;
                                 }
                             if (!answered)
@@ -119,14 +122,14 @@ namespace Advent_of_Code
                 Console.WriteLine(new string('~', Console.BufferWidth));
             }
         }
-        static string[] responses = new string[]
+        static readonly string[] responses = new string[]
         {
             "your answer is too high",
             "your answer is too low",
-            "You gave an answer too recently",
-            "You don't seem to be solving the right level.",
+            "you gave an answer too recently",
+            "You don't seem to be solving the right level",
             "That's not the right answer",
-            "That's the right answer!",
+            "That's the right answer",
         };
     }
 }
