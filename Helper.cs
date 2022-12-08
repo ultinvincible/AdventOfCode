@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using AdventOfCode;
 
 namespace Advent_of_Code
 {
-    abstract class AoCDay : IAsyncSolver<string, string>
+    abstract class AoCDay
     {
         protected string input;
         protected string[] inputLines;

@@ -82,14 +82,3 @@ C:\Code\AdventOfCode\bin\Debug\net5.0\System.Net.Http.Formatting.dll
 C:\Code\AdventOfCode\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\Code\AdventOfCode\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
 C:\Code\AdventOfCode\obj\Debug\net5.0\Advent of Code.csproj.CopyComplete
-C:\Code\AdventOfCode\bin\Debug\net5.0\AdventOfCode.Runner.dll
-C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
-C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.Http.dll
-C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.Logging.dll
-C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
-C:\Code\AdventOfCode\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
-C:\Code\AdventOfCode\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
-C:\Code\AdventOfCode\bin\Debug\net5.0\System.Linq.Async.dll
-C:\Code\AdventOfCode\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll

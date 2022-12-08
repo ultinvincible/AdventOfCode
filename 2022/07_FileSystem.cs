@@ -6,6 +6,7 @@ namespace Advent_of_Code._2022
     class _07_FileSystem : AoCDay
     {
         const int RequiredUsedSpace = 40000000;
+        // 70000000 - 30000000
         class Directory
         {
             public string name;
@@ -62,7 +63,6 @@ namespace Advent_of_Code._2022
                 Console.WriteLine(print);
             }
         }
-        static int minDelete;
         void GetSize(Directory dir)
         {
             foreach (Directory child in dir.children)
@@ -75,6 +75,7 @@ namespace Advent_of_Code._2022
             if (!dir.isFile && dir.size <= 100000) part1 += dir.size;
         }
 
+        static int minDelete;
         void CheckDelete(Directory dir)
         {
             if (!dir.isFile && dir.size >= minDelete)
