@@ -33,6 +33,8 @@ namespace Advent_of_Code
 
             client.DefaultRequestHeaders.Add
                 ("cookie", "session=" + File.ReadAllText("sessionToken.txt"));
+            client.DefaultRequestHeaders.Add("User-Agent",
+                ".NET/6.0 (https://github.com/ultinvincible/AdventOfCode by trinhminhkhanh278@gmail.com)");
 
             Console.WriteLine($"Run {year} day: {day}");
             await RunSolutionAsync(year, day);
@@ -100,36 +102,46 @@ namespace Advent_of_Code
                             });
                             HttpResponseMessage response = await client.PostAsync($"/{year}/day/{day}/answer", content);
                             string responseContent = await response.Content.ReadAsStringAsync();
-                            bool answered = false;
-                            foreach (string rp in responses)
-                                if (responseContent.Contains(rp))
-                                {
-                                    char[] print = rp.ToCharArray();
-                                    print[0] = char.ToUpper(print[0]);
-                                    Console.WriteLine(string.Join("", print) + '.');
-                                    answered = true;
-                                }
-                            if (!answered)
-                            {
-                                Console.WriteLine($"Level: {part}");
-                                Console.WriteLine(responseContent.Split
-                                    (new string[] { "<main>\n<article><p>", "</main>" },
-                                     StringSplitOptions.None)[1]);
-                            }
+                            //bool answered = false;
+                            //foreach (string rp in responses)
+                            //    if (responseContent.Contains(rp))
+                            //    {
+                            //        char[] print = rp.ToCharArray();
+                            //        print[0] = char.ToUpper(print[0]);
+                            //        Console.WriteLine(string.Join("", print) + '.');
+                            //        answered = true;
+                            //    }
+                            //if (!answered)
+                            //{
+                            //Console.WriteLine($"Level: {part}");
+                            Console.WriteLine(StripHtmlTags(responseContent.Split
+                                (new string[] { "<main>\n<article><p>",
+                                    $"<a href=\"/{year}/day/{day}",
+                                    " You can " },
+                                 StringSplitOptions.None)[1]));
+                            //}
                         }
                     }
                 }
                 Console.WriteLine(new string('~', Console.BufferWidth));
             }
         }
-        static readonly string[] responses = new string[]
+        static string StripHtmlTags(string html)
         {
-            "your answer is too high",
-            "your answer is too low",
-            "you gave an answer too recently",
-            "You don't seem to be solving the right level",
-            "That's not the right answer",
-            "That's the right answer",
-        };
+            string[] split = html.Split(new char[] { '<', '>' });
+            string result = "";
+            for (int i = 0; i < split.Length; i += 2)
+                result += split[i];
+            return result;
+        }
+        //static readonly string[] responses = new string[]
+        //{
+        //    "your answer is too high",
+        //    "your answer is too low",
+        //    "you gave an answer too recently",
+        //    "You don't seem to be solving the right level",
+        //    "That's not the right answer",
+        //    "That's the right answer",
+        //};
     }
 }

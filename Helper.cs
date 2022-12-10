@@ -58,8 +58,8 @@ namespace Advent_of_Code
                 if (numbered) result += y + ": ";
                 for (int x = 0; x < input.GetLength(1); x++)
                     result += ToStr(input[y, x]) + pad;
+                result += "\n";
             }
-            result += "\n";
             return result;
         }
         protected static string GridStr<T>(IEnumerable<IEnumerable<T>> input,
