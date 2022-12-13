@@ -39,10 +39,16 @@ namespace Advent_of_Code
                     result[y, x] = Converter(input[y][x]);
             return result;
         }
-        protected bool[,] GridParse(char cTrue, int fromLine = 0)
-            => GridParse(inputLines[fromLine..], c => c == cTrue);
-        protected int[,] GridParse(int fromLine = 0)
-            => GridParse(inputLines[fromLine..], c => (int)char.GetNumericValue(c));
+        protected static T[,] GridParse<T>(string[] input, Func<int, int, T> Converter)
+        {
+            T[,] result = new T[input.Length, input[0].Length];
+            for (int y = 0; y < input.Length; y++)
+                for (int x = 0; x < input[0].Length; x++)
+                    result[y, x] = Converter(y, x);
+            return result;
+        }
+        protected int[,] GridParse()
+            => GridParse(inputLines, c => (int)char.GetNumericValue(c));
 
         protected static string GridStr<T>(T[,] input,
             Func<T, string> ToStr = null, string pad = "", bool numbered = false)
@@ -111,12 +117,12 @@ namespace Advent_of_Code
         /// <returns></returns>
         // All comments are stolen from https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
         // "distance" is named weight
-        static protected List<(int weight, int prev)> Dijkstras
-            (Func<int, List<(int, int)>> Neighbors, Func<int, bool> IsDestination = null)
+        static protected List<(int weight, int prev)> Dijkstras(
+            Func<int, List<(int nei, int weight)>> Neighbors, Func<int, bool> IsDestination = null, int start = 0)
         {
             // Mark all nodes unvisited.
             // Create a set of all the unvisited nodes called the unvisited set.
-            List<bool> visited = new() { false };
+            List<bool> visited = new();
             HashSet<int> unvisited = new();
             IsDestination ??= _ => unvisited.Count == 0;
 
@@ -124,8 +130,15 @@ namespace Advent_of_Code
             // set it to zero for our initial node
             // and to infinity for all other nodes.
             // Set the initial node as current.
-            List<(int weight, int prev)> nodes = new() { (0, int.MaxValue) };
-            int current = 0;
+            List<(int weight, int prev)> nodes = new();
+            for (int i = 0; i < start; i++)
+            {
+                visited.Add(false);
+                nodes.Add((int.MaxValue, -1));
+            }
+            visited.Add(false);
+            nodes.Add((0, -1));
+            int current = start;
 
             // For the current node, consider all of its unvisited neighbors
             // and calculate their tentative distances through the current node.
@@ -140,7 +153,7 @@ namespace Advent_of_Code
                         for (int i = visited.Count; i <= nei; i++)
                         {
                             visited.Add(false);
-                            nodes.Add((int.MaxValue, int.MaxValue));
+                            nodes.Add((int.MaxValue, -1));
                         }
                     if (!visited[nei])
                     {

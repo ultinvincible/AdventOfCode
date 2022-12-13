@@ -125,8 +125,7 @@ namespace Advent_of_Code._2020
 
         protected override void Run()
         {
-            int[,] start = GridParse(inputLines, c =>
-                 Convert.ToInt32(c == '#'));
+            int[,] start = GridParse(inputLines, c => Convert.ToInt32(c == '#'));
             part1 = RunCycles3D(start, 6);
             part2 = RunCycles4D(start, 6);
         }
