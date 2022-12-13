@@ -10,7 +10,7 @@ namespace Advent_of_Code._2020
     {
         protected override void Run()
         {
-            string[] notes = input.Split("\n\n"),
+            string[] notes = inputSections,
                 fields = notes[0].Split('\n'),
                 tickets = notes[2].Split
                     ('\n', StringSplitOptions.RemoveEmptyEntries)[1..];

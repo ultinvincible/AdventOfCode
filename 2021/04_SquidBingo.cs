@@ -21,7 +21,7 @@ namespace Advent_of_Code._2021
         }
         protected override void Run()
         {
-            string[] split = input.Split("\n\n");
+            string[] split = inputSections;
             int[] draws = Array.ConvertAll(split[0].Split(','), int.Parse);
             string[] strBoards = split[1..];
             Cell[][,] boards = new Cell[strBoards.Length][,];

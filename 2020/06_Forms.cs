@@ -8,7 +8,7 @@ namespace Advent_of_Code._2020
     {
         protected override void Run()
         {
-            string[] groups = input.Split("\n\n");
+            string[] groups = inputSections;
             int anyCount = 0, everyCount = 0;
             foreach (var group in groups)
             {

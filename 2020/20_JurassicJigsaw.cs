@@ -67,7 +67,7 @@ namespace Advent_of_Code._2020
         {
             Dictionary<int, int[]> borders = new();
             Dictionary<int, bool[,]> tiles = new();
-            foreach (string inputTile in input.Split("\n\n"))
+            foreach (string inputTile in inputSections)
             {
                 int[] borderCodes = new int[8];
                 string[] tile = inputTile.Split("\n")[1..];

@@ -6,7 +6,7 @@ namespace Advent_of_Code._2022
     {
         protected override void Run()
         {
-            string[] reindeers = input.Split("\n\n");
+            string[] reindeers = inputSections;
             int[] calories = new int[reindeers.Length];
             //int max = 0;
             for (int r = 0; r < reindeers.Length; r++)

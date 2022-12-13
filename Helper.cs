@@ -9,13 +9,14 @@ namespace Advent_of_Code
     abstract class AoCDay
     {
         protected string input;
-        protected string[] inputLines;
+        protected string[] inputLines, inputSections;
         protected long part1, part2;
         protected string part1_str = "", part2_str = "";
         public (string part1_str, string part2_str, decimal time) Run(string inputPath)
         {
             input = File.ReadAllText(inputPath).Replace("\r\n", "\n");
             inputLines = File.ReadAllLines(inputPath);
+            inputSections = input.Split("\n\n");
             Stopwatch watch = Stopwatch.StartNew();
             Run();
             watch.Stop();
@@ -27,11 +28,6 @@ namespace Advent_of_Code
             return (part1_str, part2_str, watch.ElapsedMilliseconds);
         }
         protected abstract void Run();
-
-        public ValueTask<string> Solve(IAsyncEnumerable<string> entries)
-        {
-            throw new NotImplementedException();
-        }
 
         // Helper functions
         protected static bool debug = false;
@@ -51,13 +47,13 @@ namespace Advent_of_Code
         protected static string GridStr<T>(T[,] input,
             Func<T, string> ToStr = null, string pad = "", bool numbered = false)
         {
-            if (ToStr is null) ToStr = t => t.ToString();
+            ToStr ??= t => t.ToString();
             string result = "";
-            for (int y = 0; y < input.GetLength(0); y++)
+            for (int row = 0; row < input.GetLength(0); row++)
             {
-                if (numbered) result += y + ": ";
-                for (int x = 0; x < input.GetLength(1); x++)
-                    result += ToStr(input[y, x]) + pad;
+                if (numbered) result += row + ": ";
+                for (int col = 0; col < input.GetLength(1); col++)
+                    result += ToStr(input[row, col]) + pad;
                 result += "\n";
             }
             return result;
@@ -71,9 +67,7 @@ namespace Advent_of_Code
             foreach (IEnumerable<T> row in input)
             {
                 if (numbered) { result += i + ": "; i++; }
-                foreach (T item in row)
-                    result += ToStr(item) + pad;
-                result += "\n";
+                result += string.Join(pad, row) + "\n";
             }
             return result;
         }

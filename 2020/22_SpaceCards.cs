@@ -9,7 +9,7 @@ namespace Advent_of_Code._2020
         protected override void Run()
         {
             List<int>[] inputDecks = new List<int>[2];
-            foreach (string player in input.Split("\n\n"))
+            foreach (string player in inputSections)
             {
                 List<int> deck = new(Array.ConvertAll(player.Split
                     ("\n", StringSplitOptions.RemoveEmptyEntries)[1..], int.Parse));

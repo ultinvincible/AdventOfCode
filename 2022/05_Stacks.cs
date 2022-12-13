@@ -8,7 +8,7 @@ namespace Advent_of_Code._2022
         protected override void Run()
         {
             //debug = true;
-            string[][] split = Array.ConvertAll(input.Split("\n\n"),
+            string[][] split = Array.ConvertAll(inputSections,
                 s => s.Split("\n", StringSplitOptions.RemoveEmptyEntries));
             List<char>[] stacks = new List<char>[9];
             for (int col = 0; col < 9; col++)

@@ -8,7 +8,7 @@ namespace Advent_of_Code._2020
     {
         protected override void Run()
         {
-            string[] split = input.Split("\n\n");
+            string[] split = inputSections;
             string[] inputRules = split[0].Split("\n");
             string[][][] rules = new string[inputRules.Length][][];
             List<string>[] completed = new List<string>[rules.Length];

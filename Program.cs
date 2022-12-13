@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
-using System.Threading.Tasks;
 using System.Net.Http;
 
 namespace Advent_of_Code
@@ -10,19 +9,19 @@ namespace Advent_of_Code
     class Program
     {
         const int firstYear = 2015;
-        static int nowYear => DateTime.Now.Year;
-        static int nowMonth => DateTime.Now.Month;
-        static int nowDay => DateTime.Now.Day;
+        static int NowYear => DateTime.Now.Year;
+        static int NowMonth => DateTime.Now.Month;
+        static int NowDay => DateTime.Now.Day;
         static HttpClient client = new()
         {
             BaseAddress = new Uri("https://adventofcode.com")
         };
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             Directory.SetCurrentDirectory("../../../");
-            int year = nowYear,
-                day = Math.Min(nowDay, 25);
-            if (nowMonth != 12) { year--; day = 25; }
+            int year = NowYear,
+                day = Math.Min(NowDay, 25);
+            if (NowMonth != 12) { year--; day = 25; }
 
             Type[] assembly = Assembly.GetExecutingAssembly().GetTypes();
             Type[,] Solutions = new Type[year - firstYear + 1, 26];
@@ -37,7 +36,7 @@ namespace Advent_of_Code
                 ".NET/6.0 (https://github.com/ultinvincible/AdventOfCode by trinhminhkhanh278@gmail.com)");
 
             Console.WriteLine($"Run {year} day: {day}");
-            await RunSolutionAsync(year, day);
+            RunSolution(year, day);
             while (true)
             {
                 Console.Write($"Run {year} day: ");
@@ -49,24 +48,24 @@ namespace Advent_of_Code
                         DateTime.Now >= new DateTime(year, 12, d); d++)
                     {
                         Console.WriteLine("Day " + d);
-                        await RunSolutionAsync(year, d, false);
+                        RunSolution(year, d, false);
                     }
                 }
                 else if (int.TryParse(read, out day) && day >= 1 && day <= 25)
                 {
-                    await RunSolutionAsync(year, day);
+                    RunSolution(year, day);
                 }
                 else
                 {
                     Console.Write("Change year to: ");
                     if (!int.TryParse(Console.ReadLine(), out year)
-                        || year < 2015 || year > nowYear ||
-                        (year == nowYear && nowMonth < 12))
+                        || year < 2015 || year > NowYear ||
+                        (year == NowYear && NowMonth < 12))
                         return;
                 }
             }
 
-            async Task RunSolutionAsync(int year, int day, bool submit = true)
+            void RunSolution(int year, int day, bool submit = true)
             {
                 Type type = Solutions[year - 2015, day];
                 if (type is null)
@@ -75,10 +74,12 @@ namespace Advent_of_Code
                 {
                     string path = $"{year}/Inputs/{day:00}.txt";
 
-                    if (!File.Exists(path) || File.ReadAllText(path) == "")
+                    if (!File.Exists(path) || new FileInfo(path).Length < 6)
                     {
-                        File.WriteAllText(path, await client.GetStringAsync
-                            ($"{year}/day/{day}/input"));
+                        FileStream file = File.Create(path);
+                        client.Send(new(HttpMethod.Get, $"{year}/day/{day}/input"))
+                          .Content.ReadAsStream().CopyTo(file);
+                        file.Close();
                     }
                     AoCDay solution = (AoCDay)Activator.CreateInstance(type);
                     var (part1, part2, time) = solution.Run(path);
@@ -86,7 +87,7 @@ namespace Advent_of_Code
                     if (day != 25) Console.WriteLine("Part 2: " + part2);
                     Console.WriteLine($"Time: {time} ms");
 
-                    if (submit)
+                    if (part1 != "Not done." && submit)
                     {
                         Console.Write("Enter \"y\" to submit: ");
                         if (Console.ReadLine() == "y")
@@ -95,31 +96,23 @@ namespace Advent_of_Code
                             if (part2 != "Not done.")
                                 part = 2;
                             string[] result = new string[] { part1, part2 };
-                            FormUrlEncodedContent content = new(new KeyValuePair<string, string>[]
+                            HttpRequestMessage request = new(HttpMethod.Post, $"/{year}/day/{day}/answer")
                             {
-                                new("level", part.ToString()),
-                                new("answer", result[part - 1])
-                            });
-                            HttpResponseMessage response = await client.PostAsync($"/{year}/day/{day}/answer", content);
-                            string responseContent = await response.Content.ReadAsStringAsync();
-                            //bool answered = false;
-                            //foreach (string rp in responses)
-                            //    if (responseContent.Contains(rp))
-                            //    {
-                            //        char[] print = rp.ToCharArray();
-                            //        print[0] = char.ToUpper(print[0]);
-                            //        Console.WriteLine(string.Join("", print) + '.');
-                            //        answered = true;
-                            //    }
-                            //if (!answered)
-                            //{
-                            //Console.WriteLine($"Level: {part}");
-                            Console.WriteLine(StripHtmlTags(responseContent.Split
-                                (new string[] { "<main>\n<article><p>",
-                                    $"<a href=\"/{year}/day/{day}",
-                                    " You can " },
-                                 StringSplitOptions.None)[1]));
-                            //}
+                                Content = new FormUrlEncodedContent(new KeyValuePair<string, string>[]
+                                {
+                                    new("level", part.ToString()),
+                                    new("answer", result[part - 1])
+                                })
+                            };
+                            string response = new StreamReader(client.Send(request)
+                                .Content.ReadAsStream()).ReadToEnd();
+                            string main = response.Split(new string[] {
+                                "<main>\n<article><p>","</main>" },
+                                StringSplitOptions.None)[1];
+                            File.AppendAllText("answers.txt", main + "\n");
+                            Console.WriteLine(StripHtmlTags(main.Split(
+                                new string[] { $"<a href=\"/{year}/day/{day}", " You can " },
+                                StringSplitOptions.None)[0]));
                         }
                     }
                 }
@@ -134,14 +127,5 @@ namespace Advent_of_Code
                 result += split[i];
             return result;
         }
-        //static readonly string[] responses = new string[]
-        //{
-        //    "your answer is too high",
-        //    "your answer is too low",
-        //    "you gave an answer too recently",
-        //    "You don't seem to be solving the right level",
-        //    "That's not the right answer",
-        //    "That's the right answer",
-        //};
     }
 }
