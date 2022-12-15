@@ -36,17 +36,8 @@ namespace Advent_of_Code._2020
         readonly (int, int)[] directions = new[]
         { (-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1) };
         List<char> Adjacent(int row, int col)
-        {
-            List<char> result = new();
-            foreach (var (rowDir, colDir) in directions)
-            {
-                int r = row + rowDir, c = col + colDir;
-                if (r >= 0 && r < seats.GetLength(0) &&
-                    c >= 0 && c < seats.GetLength(1))
-                    result.Add(seats[r, c]);
-            }
-            return result;
-        }
+            => Neighbors(row, col, seats.GetLength(0), seats.GetLength(1), true)
+            .ConvertAll(((int row, int col) seat) => seats[seat.row, seat.col]);
         List<char> See(int row, int col)
         {
             List<char> result = new();

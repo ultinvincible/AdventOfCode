@@ -177,62 +177,62 @@ namespace Advent_of_Code._2021
 
             mapHashes = new() { Hash(inputMap) };
             depth = 3;
-            if (true)
+            //if (true)
+            //{
+            var result = Dijkstras(Next, i => mapHashes[i] == 194194);
+            int index = mapHashes.IndexOf(194194);
+            part1 = result[index].weight;
+
+            if (debug)
             {
-                var result = Dijkstras(Next, i => mapHashes[i] == 194194);
-                int index = mapHashes.IndexOf(194194);
-                part1 = result[index].weight;
-
-                if (debug)
-                {
-                    string print = "";
-                    do
-                    {
-                        print = PrintMap(Restore(mapHashes[index])) + "\n" + print;
-                        index = result[index].prev;
-                    } while (index != 0);
-                    Console.WriteLine(print);
-                }
-
-                mapHashes = new() { Hash(realMap) };
-                depth = 5;
-                result = Dijkstras(Next, i => mapHashes[i] == 194194194194);
-                index = mapHashes.IndexOf(194194194194);
-                part2 = result[index].weight;
-
-                if (debug)
-                {
-                    string print = "";
-                    do
-                    {
-                        print = PrintMap(Restore(mapHashes[index])) + "\n" + print;
-                        index = result[index].prev;
-                    } while (index != 0);
-                    Console.WriteLine(print);
-                }
-            }
-            else
-            {
-                int current = 0;
-                List<(int nei, int weight)> next;
+                string print = "";
                 do
                 {
-                    next = Next(current);
-                    if (next.Count == 1)
-                    {
-                        Console.WriteLine("Auto 0");
-                        current = next[0].nei;
-                    }
-                    else
-                    {
-                        Console.Write("Next: ");
-                        current = next[int.Parse(Console.ReadLine())].nei;
-                    }
-                } while (next.Count != 0);
+                    print = PrintMap(Restore(mapHashes[index])) + "\n" + print;
+                    index = result[index].prev;
+                } while (index != 0);
+                Console.WriteLine(print);
             }
+
+            mapHashes = new() { Hash(realMap) };
+            depth = 5;
+            result = Dijkstras(Next, i => mapHashes[i] == 194194194194);
+            index = mapHashes.IndexOf(194194194194);
+            part2 = result[index].weight;
+
+            if (debug)
+            {
+                string print = "";
+                do
+                {
+                    print = PrintMap(Restore(mapHashes[index])) + "\n" + print;
+                    index = result[index].prev;
+                } while (index != 0);
+                Console.WriteLine(print);
+            }
+            //    }
+            //    else
+            //    {
+            //        int current = 0;
+            //        List<(int nei, int weight)> next;
+            //        do
+            //        {
+            //            next = Next(current);
+            //            if (next.Count == 1)
+            //            {
+            //                Console.WriteLine("Auto 0");
+            //                current = next[0].nei;
+            //            }
+            //            else
+            //            {
+            //                Console.Write("Next: ");
+            //                current = next[int.Parse(Console.ReadLine())].nei;
+            //            }
+            //        } while (next.Count != 0);
+            //    }
         }
 
-        string PrintMap(int[,] map) 
+        string PrintMap(int[,] map)
             => GridStr(map, i => i == -1 ? " " : i == 0 ? "." : char.ConvertFromUtf32('A' + i - 1))[..^1];
     }
 }

@@ -88,22 +88,22 @@ namespace Advent_of_Code
         //protected static string CollStr<T>(IList<T> coll, string pad = "")
         //    => CollStr(coll, t => t.ToString(), pad);
 
-        protected static List<(int y, int x)> Neighbors
-            (int y, int x, bool diagonal = false, bool self = false)
+        protected static List<(int row, int col)> Neighbors
+            (int row, int col, bool diagonal = false, bool self = false)
         {
             List<(int, int)> neighbors = new();
-            for (int neiY = y - 1; neiY <= y + 1; neiY++)
-                for (int neiX = x - 1; neiX <= x + 1; neiX++)
-                    if ((diagonal || neiY == y || neiX == x) &&
-                        (self || (neiY, neiX) != (y, x)))
+            for (int neiY = row - 1; neiY <= row + 1; neiY++)
+                for (int neiX = col - 1; neiX <= col + 1; neiX++)
+                    if ((diagonal || neiY == row || neiX == col) &&
+                        (self || (neiY, neiX) != (row, col)))
                         neighbors.Add((neiY, neiX));
             return neighbors;
         }
-        protected static List<(int y, int x)> Neighbors
-            (int y, int x, int boundY, int boundX, bool diagonal = false, bool self = false)
+        protected static List<(int row, int col)> Neighbors
+            (int row, int col, int boundRow, int boundCol, bool diagonal = false, bool self = false)
         {
-            List<(int y, int x)> neighbors = Neighbors(y, x, self, diagonal);
-            neighbors.RemoveAll(nei => OutOfBounds(nei.y, nei.x, boundY, boundX));
+            List<(int row, int col)> neighbors = Neighbors(row, col, self, diagonal);
+            neighbors.RemoveAll(nei => OutOfBounds(nei.row, nei.col, boundRow, boundCol));
             return neighbors;
         }
         protected static bool OutOfBounds(int y, int x, int boundY, int boundX)
@@ -117,7 +117,7 @@ namespace Advent_of_Code
         /// <returns></returns>
         // All comments are stolen from https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
         // "distance" is named weight
-        static protected List<(int weight, int prev)> Dijkstras(
+        static protected List<(int prev, int weight)> Dijkstras(
             Func<int, List<(int nei, int weight)>> Neighbors, Func<int, bool> IsDestination = null, int start = 0)
         {
             // Mark all nodes unvisited.
@@ -130,14 +130,14 @@ namespace Advent_of_Code
             // set it to zero for our initial node
             // and to infinity for all other nodes.
             // Set the initial node as current.
-            List<(int weight, int prev)> nodes = new();
+            List<(int prev, int weight)> nodes = new();
             for (int i = 0; i < start; i++)
             {
                 visited.Add(false);
-                nodes.Add((int.MaxValue, -1));
+                nodes.Add((-1, int.MaxValue));
             }
             visited.Add(false);
-            nodes.Add((0, -1));
+            nodes.Add((-1, 0));
             int current = start;
 
             // For the current node, consider all of its unvisited neighbors
@@ -160,7 +160,7 @@ namespace Advent_of_Code
                         unvisited.Add(nei);
                         int newDist = nodes[current].weight + weight;
                         if (newDist < nodes[nei].weight)
-                            nodes[nei] = (newDist, current);
+                            nodes[nei] = (current, newDist);
                     }
                 }
 
@@ -181,6 +181,63 @@ namespace Advent_of_Code
                         current = unv;
                         min = nodes[unv].weight;
                     }
+            }
+            return nodes;
+        }
+
+        static protected (int prevRow, int prevCol, int weight)[,] Dijkstras(int[,] grid,
+            Func<(int row, int col), List<(int row, int col, int weight)>> Neighbors,
+            (int row, int col) start = default, (int row, int col)? destination = null)
+        {
+            // Mark all nodes unvisited.
+            // Create a set of all the unvisited nodes called the unvisited set.
+            bool[,] visited = new bool[grid.GetLength(0), grid.GetLength(1)];
+            HashSet<(int row, int col)> unvisited = new();
+
+            // Assign to every node a tentative distance value:
+            // set it to zero for our initial node
+            // and to infinity for all other nodes.
+            // Set the initial node as current.
+            (int prevRow, int prevCol, int weight)[,] nodes =
+                new (int prevRow, int prevCol, int weight)[grid.GetLength(0), grid.GetLength(1)];
+            for (int row = 0; row < grid.GetLength(0); row++)
+                for (int col = 0; col < grid.GetLength(1); col++)
+                    nodes[row, col] = (row, col) != start ? (-1, -1, int.MaxValue) : (-1, -1, 0);
+            (int row, int col) current = start;
+
+            // For the current node, consider all of its unvisited neighbors
+            // and calculate their tentative distances through the current node.
+            // Compare the newly calculated tentative distance to the one currently
+            // assigned to the neighbor and assign it the smaller one.
+            while (true)
+            {
+                foreach ((int row, int col, int weight) in Neighbors(current))
+                {
+                    if (visited[row, col]) continue;
+                    unvisited.Add((row, col));
+                    int newWeight = nodes[current.row, current.col].weight + weight;
+                    if (newWeight < nodes[row, col].weight)
+                        nodes[row, col] = (current.row, current.col, newWeight);
+                }
+
+                // Mark the current node as visited and remove it from the unvisited set. 
+                visited[current.row, current.col] = true;
+                unvisited.Remove(current);
+
+                // If the destination node has been marked visited or if the smallest
+                // tentative distance among the nodes in the unvisited set is infinity
+                // then stop. The algorithm has finished.
+                // Otherwise, select the unvisited node that is marked with the smallest
+                // tentative distance, set it as the new current node.
+                if (current == destination) break;
+                int min = int.MaxValue;
+                foreach ((int row, int col) in unvisited)
+                    if (min > nodes[row, col].weight)
+                    {
+                        current = (row, col);
+                        min = nodes[row, col].weight;
+                    }
+                if (min == int.MaxValue) break;
             }
             return nodes;
         }

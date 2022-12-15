@@ -12,16 +12,16 @@ namespace Advent_of_Code._2021
         void Enhance()
         {
             bool[,] newImage = new bool[LengthY + 2, LengthX + 2];
-            for (int y = -1; y < LengthY + 1; y++)
-                for (int x = -1; x < LengthX + 1; x++)
+            for (int row = -1; row < LengthY + 1; row++)
+                for (int col = -1; col < LengthX + 1; col++)
                 {
                     string bin = "";
-                    foreach (var (areaY, areaX) in Neighbors(y, x, true, true))
-                        if (OutOfBounds(areaY, areaX, LengthY, LengthX))
+                    foreach (var (neiRow, neiCol) in Neighbors(row, col, true, true))
+                        if (OutOfBounds(neiRow, neiCol, LengthY, LengthX))
                             bin += Convert.ToByte(infiniteLight);
-                        else bin += Convert.ToByte(image[areaY, areaX]);
+                        else bin += Convert.ToByte(image[neiRow, neiCol]);
                     if (algorithm[Convert.ToInt32(bin, 2)])
-                        newImage[y + 1, x + 1] = true;
+                        newImage[row + 1, col + 1] = true;
                 }
             image = newImage;
             if ((!infiniteLight && algorithm[0]) || (infiniteLight && !algorithm[^1]))
