@@ -2,7 +2,7 @@
 
 namespace Advent_of_Code._2021
 {
-    class _04_SquidBingo:AoCDay
+    class _04_SquidBingo : AoCDay
     {
         class Cell
         {
@@ -21,14 +21,13 @@ namespace Advent_of_Code._2021
         }
         protected override void Run()
         {
-            string[] split = inputSections;
-            int[] draws = Array.ConvertAll(split[0].Split(','), int.Parse);
-            string[] strBoards = split[1..];
+            int[] draws = Array.ConvertAll(inputSections[0][0].Split(','), int.Parse);
+            string[][] strBoards = inputSections[1..];
             Cell[][,] boards = new Cell[strBoards.Length][,];
             for (int i = 0; i < strBoards.Length; i++)
             {
                 boards[i] = new Cell[5, 5];
-                string[] brd = strBoards[i].Split("\n");
+                string[] brd = strBoards[i];
                 for (int ii = 0; ii < brd.Length; ii++)
                 {
                     string[] line = brd[ii].Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -36,7 +35,7 @@ namespace Advent_of_Code._2021
                         boards[i][ii, iii] = new(int.Parse(line[iii]));
                 }
             }
-            (part1,part2) = (-1, -1);
+            (part1, part2) = (-1, -1);
 
             void MarkAllBoards(int draw)
             {

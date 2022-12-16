@@ -9,14 +9,16 @@ namespace Advent_of_Code
     abstract class AoCDay
     {
         protected string input;
-        protected string[] inputLines, inputSections;
+        protected string[] inputLines;
+        protected string[][] inputSections;
         protected long part1, part2;
         protected string part1_str = "", part2_str = "";
         public (string part1_str, string part2_str, decimal time) Run(string inputPath)
         {
             input = File.ReadAllText(inputPath).Replace("\r\n", "\n");
             inputLines = File.ReadAllLines(inputPath);
-            inputSections = input.Split("\n\n");
+            inputSections = Array.ConvertAll(input.Split("\n\n"),
+                s => s.Split("\n", StringSplitOptions.RemoveEmptyEntries));
             Stopwatch watch = Stopwatch.StartNew();
             Run();
             watch.Stop();

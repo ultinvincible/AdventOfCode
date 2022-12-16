@@ -67,10 +67,10 @@ namespace Advent_of_Code._2020
         {
             Dictionary<int, int[]> borders = new();
             Dictionary<int, bool[,]> tiles = new();
-            foreach (string inputTile in inputSections)
+            foreach (string[] inputTile in inputSections)
             {
                 int[] borderCodes = new int[8];
-                string[] tile = inputTile.Split("\n")[1..];
+                string[] tile = inputTile[1..];
                 char[][] border = new char[4][];
                 for (int i = 0; i < 4; i++)
                     border[i] = new char[10];
@@ -87,7 +87,7 @@ namespace Advent_of_Code._2020
                     Array.Reverse(border[i]);
                     borderCodes[i + 4] = BorderCode(border[i]);
                 }
-                int ID = int.Parse(inputTile[5..9]);
+                int ID = int.Parse(inputTile[0][5..9]);
                 borders[ID] = borderCodes;
 
                 bool[,] noBorder = new bool[8, 8];

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Advent_of_Code._2020
 {
@@ -10,10 +7,8 @@ namespace Advent_of_Code._2020
     {
         protected override void Run()
         {
-            string[] notes = inputSections,
-                fields = notes[0].Split('\n'),
-                tickets = notes[2].Split
-                    ('\n', StringSplitOptions.RemoveEmptyEntries)[1..];
+            string[][] notes = inputSections;
+            string[] fields = notes[0], tickets = notes[2][1..];
             //string[] names = new string[fields.Length]; //useless
             int[][] ranges = new int[fields.Length][];
             for (int i = 0; i < ranges.Length; i++)
@@ -102,9 +97,10 @@ namespace Advent_of_Code._2020
                     }
                 }
             } while (toRemove != found);
+
             part2 = 1;
             int[] yourTicket = Array.ConvertAll
-                (notes[1].Split('\n')[1].Split(','), int.Parse);
+                (notes[1][1].Split(','), int.Parse);
             for (int i = 0; i < yourTicket.Length; i++)
                 if (fieldOrder[i] < 6)
                     part2 *= yourTicket[i];

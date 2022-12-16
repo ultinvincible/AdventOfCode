@@ -9,10 +9,9 @@ namespace Advent_of_Code._2020
         protected override void Run()
         {
             List<int>[] inputDecks = new List<int>[2];
-            foreach (string player in inputSections)
+            foreach (string[] player in inputSections)
             {
-                List<int> deck = new(Array.ConvertAll(player.Split
-                    ("\n", StringSplitOptions.RemoveEmptyEntries)[1..], int.Parse));
+                List<int> deck = new(Array.ConvertAll(player[1..], int.Parse));
                 if (inputDecks[0] is null) inputDecks[0] = deck;
                 else inputDecks[1] = deck;
             }

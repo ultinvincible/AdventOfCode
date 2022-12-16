@@ -8,8 +8,8 @@ namespace Advent_of_Code._2020
     {
         protected override void Run()
         {
-            string[] split = inputSections;
-            string[] inputRules = split[0].Split("\n");
+            string[][] split = inputSections;
+            string[] inputRules = split[0];
             string[][][] rules = new string[inputRules.Length][][];
             List<string>[] completed = new List<string>[rules.Length];
             foreach (string line in inputRules)
@@ -98,7 +98,7 @@ namespace Advent_of_Code._2020
                 }
             }
 
-            foreach (string message in split[1].Split('\n'))
+            foreach (string message in split[1])
             {
                 if (completed[0].Contains(message))
                     part1++;

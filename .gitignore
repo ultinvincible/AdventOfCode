@@ -401,4 +401,4 @@ FodyWeavers.xsd
 *.cache
 sessionToken.txt
 */Inputs/*
-answers.txt
+responses.txt

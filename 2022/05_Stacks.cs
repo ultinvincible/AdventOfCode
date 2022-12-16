@@ -8,15 +8,13 @@ namespace Advent_of_Code._2022
         protected override void Run()
         {
             //debug = true;
-            string[][] split = Array.ConvertAll(inputSections,
-                s => s.Split("\n", StringSplitOptions.RemoveEmptyEntries));
             List<char>[] stacks = new List<char>[9];
             for (int col = 0; col < 9; col++)
             {
                 stacks[col] = new();
-                for (int row = split[0].Length - 2; row >= 0; row--)
+                for (int row = inputSections[0].Length - 2; row >= 0; row--)
                 {
-                    char crate = split[0][row][1 + col * 4];
+                    char crate = inputSections[0][row][1 + col * 4];
                     if (crate != ' ') stacks[col].Add(crate);
                 }
             }
@@ -27,7 +25,7 @@ namespace Advent_of_Code._2022
                 //Console.WriteLine(GridStr(stacks2, numbered: true));
             }
 
-            int[][] moves = Array.ConvertAll(split[1],
+            int[][] moves = Array.ConvertAll(inputSections[1],
                 line => Array.ConvertAll(line.Split
                 (new string[] { "move ", " from ", " to " },
                 StringSplitOptions.RemoveEmptyEntries), int.Parse));

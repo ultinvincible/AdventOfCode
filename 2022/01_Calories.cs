@@ -6,13 +6,12 @@ namespace Advent_of_Code._2022
     {
         protected override void Run()
         {
-            string[] reindeers = inputSections;
+            string[][] reindeers = inputSections;
             int[] calories = new int[reindeers.Length];
             //int max = 0;
             for (int r = 0; r < reindeers.Length; r++)
             {
-                foreach (string food in reindeers[r].Split("\n",
-                    StringSplitOptions.RemoveEmptyEntries))
+                foreach (string food in reindeers[r])
                     calories[r] += int.Parse(food);
                 //max = Math.Max(max, calories[r]);
             }

@@ -14,8 +14,7 @@ namespace Advent_of_Code._2022
 
             for (int mk = 0; mk < inputSections.Length; mk++)
             {
-                string[] split = inputSections[mk].Split('\n', StringSplitOptions.RemoveEmptyEntries)[1..];
-                string[] section = Array.ConvertAll(split, s => s.Split(':')[1]);
+                string[] section = Array.ConvertAll(inputSections[mk][1..], s => s.Split(':')[1]);
 
                 items[mk] = new(Array.ConvertAll(section[0].Split(','), long.Parse));
                 string op = section[1][" new = old ".Length..];

@@ -8,26 +8,23 @@ namespace Advent_of_Code._2020
     {
         protected override void Run()
         {
-            string[] groups = inputSections;
-            int anyCount = 0, everyCount = 0;
+            string[][] groups = inputSections;
             foreach (var group in groups)
             {
-                List<char> anyone = group.Replace("\n", "")
+                List<char> anyone = string.Join("",group)
                     .Distinct().ToList();
-                anyCount += anyone.Count;
+                part1 += anyone.Count;
 
                 List<char> everyone = anyone.ConvertAll(_ => _);
                 foreach (char yes in anyone)
-                    foreach (string person in group.Split("\n",
-                        StringSplitOptions.RemoveEmptyEntries))
+                    foreach (string person in group)
                         if (!person.Contains(yes))
                         {
                             everyone.Remove(yes);
                             break;
                         }
-                everyCount += everyone.Count;
+                part2 += everyone.Count;
             }
-            (part1,part2) = (anyCount, everyCount);
         }
     }
 }
