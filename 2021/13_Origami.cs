@@ -35,7 +35,7 @@ namespace Advent_of_Code._2021
                 for (int x = 0; x < dot.GetLength(1); x++)
                 {
                     if (dot[y, x])
-                        result += '\u2588';
+                        result += blockCharacter;
                     else result += ' ';
                 }
                 result += "\n";

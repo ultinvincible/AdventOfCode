@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Advent_of_Code
 {
@@ -33,62 +32,53 @@ namespace Advent_of_Code
 
         // Helper functions
         protected static bool debug = false;
-        protected static T[,] GridParse<T>(string[] input, Func<char, T> Converter)
+        protected const char blockCharacter = '\u2588';
+        protected static T[,] GridParse<T>(string[] inputLines, Func<int, int, T> Converter)
         {
-            T[,] result = new T[input.Length, input[0].Length];
-            for (int y = 0; y < input.Length; y++)
-                for (int x = 0; x < input[0].Length; x++)
-                    result[y, x] = Converter(input[y][x]);
+            T[,] result = new T[inputLines.Length, inputLines[0].Length];
+            for (int row = 0; row < inputLines.Length; row++)
+                for (int col = 0; col < inputLines[0].Length; col++)
+                    result[row, col] = Converter(row, col);
             return result;
         }
-        protected static T[,] GridParse<T>(string[] input, Func<int, int, T> Converter)
-        {
-            T[,] result = new T[input.Length, input[0].Length];
-            for (int y = 0; y < input.Length; y++)
-                for (int x = 0; x < input[0].Length; x++)
-                    result[y, x] = Converter(y, x);
-            return result;
-        }
+        protected T[,] GridParse<T>(Func<char, T> Converter, int fromLine = 0)
+            => GridParse(inputLines[fromLine..], (row, col) => Converter(inputLines[row][col]));
         protected int[,] GridParse()
-            => GridParse(inputLines, c => (int)char.GetNumericValue(c));
+            => GridParse(c => (int)char.GetNumericValue(c));
 
-        protected static string GridStr<T>(T[,] input,
-            Func<T, string> ToStr = null, string pad = "", bool numbered = false)
+        private static string GridStr(int length0, Func<int, int> GetLength1,
+            Func<int, int, string> ToStr = null, bool numbered = false)
         {
-            ToStr ??= t => t.ToString();
             string result = "";
-            for (int row = 0; row < input.GetLength(0); row++)
+            for (int row = 0; row < length0; row++)
             {
                 if (numbered) result += row + ": ";
-                for (int col = 0; col < input.GetLength(1); col++)
-                    result += ToStr(input[row, col]) + pad;
+                for (int col = 0; col < GetLength1(row); col++)
+                    result += ToStr(row, col);
                 result += "\n";
             }
             return result;
         }
-        protected static string GridStr<T>(IEnumerable<IEnumerable<T>> input,
-            Func<T, string> ToStr = null, string pad = "", bool numbered = false)
+
+        protected static string GridStr<T>(T[,] input,
+            Func<int, int, string> ToStr = null, bool numbered = false)
         {
-            ToStr ??= t => t.ToString();
-            string result = "";
-            int i = 0;
-            foreach (IEnumerable<T> row in input)
-            {
-                if (numbered) { result += i + ": "; i++; }
-                result += string.Join(pad, row) + "\n";
-            }
-            return result;
+            ToStr ??= (row, col) => input[row, col].ToString();
+            return GridStr(input.GetLength(0), _ => input.GetLength(1), ToStr, numbered);
         }
-        // Forgot string.Join() exists, kekw
-        //protected static string CollStr<T>(IList<T> coll, Func<T, string> ToStr, string pad = "")
-        //{
-        //    string result = "";
-        //    for (int i = 0; i < coll.Count - 1; i++)
-        //        result += ToStr(coll[i]) + pad;
-        //    return result + ToStr(coll[^1]);
-        //}
-        //protected static string CollStr<T>(IList<T> coll, string pad = "")
-        //    => CollStr(coll, t => t.ToString(), pad);
+        protected static string GridStr<T>(T[,] input,
+            Func<T, string> ToStr, bool numbered = false)
+            => GridStr(input, (row, col) => ToStr(input[row, col]), numbered);
+
+        protected static string GridStr<T>(IList<IList<T>> input,
+            Func<int, int, string> ToStr = null, bool numbered = false)
+        {
+            ToStr ??= (row, col) => input[row][col].ToString();
+            return GridStr(input.Count, row => input[row].Count, ToStr, numbered);
+        }
+        protected static string GridStr<T>(IList<IList<T>> input,
+            Func<T, string> ToStr, bool numbered = false)
+            => GridStr(input, (row, col) => ToStr(input[row][col]), numbered);
 
         protected static List<(int row, int col)> Neighbors
             (int row, int col, bool diagonal = false, bool self = false)

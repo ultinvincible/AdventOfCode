@@ -6,7 +6,7 @@ namespace Advent_of_Code._2021
     {
         protected override void Run()
         {
-            char[,] cucumbers = GridParse(inputLines, _ => _);
+            char[,] cucumbers = GridParse(_ => _);
             //Console.WriteLine(GridStr(cucumbers));
             int[] directions = new int[] { 1, 0 }; // 1|0 -> east|south
             int[] length = new int[]

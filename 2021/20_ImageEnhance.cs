@@ -37,7 +37,7 @@ namespace Advent_of_Code._2021
         protected override void Run()
         {
             algorithm = Array.ConvertAll(inputLines[0].ToCharArray(), c => c == '#');
-            image = GridParse(inputLines[2..], c => c == '#');
+            image = GridParse(c => c == '#', 2);
 
             Enhance();
             Enhance();

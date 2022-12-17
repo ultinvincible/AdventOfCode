@@ -27,7 +27,7 @@ namespace Advent_of_Code._2022
         static void Cycle(int X, ref int cycle, ref int position, char[,] CRT)
         {
             int row = Math.DivRem(position, 40, out int col);
-            if (Math.Abs(X - col) <= 1) CRT[row, col] = '\u2588';
+            if (Math.Abs(X - col) <= 1) CRT[row, col] = blockCharacter;
             else CRT[row, col] = ' ';
             position++; cycle++;
         }
