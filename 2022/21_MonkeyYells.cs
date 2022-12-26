@@ -54,14 +54,14 @@ namespace Advent_of_Code._2022
             {
                 int mk1 = Array.IndexOf(name, yell[current][..4]),
                     mk2 = Array.IndexOf(name, yell[current][7..]);
-                switch (yell[current][5])
+                result = yell[current][5] switch
                 {
-                    case '+': result = Evaluate(mk1) + Evaluate(mk2); break;
-                    case '-': result = Evaluate(mk1) - Evaluate(mk2); break;
-                    case '*': result = Evaluate(mk1) * Evaluate(mk2); break;
-                    case '/': result = Evaluate(mk1) / Evaluate(mk2); break;
-                    default: throw new Exception("Wot");
-                }
+                    '+' => Evaluate(mk1) + Evaluate(mk2),
+                    '-' => Evaluate(mk1) - Evaluate(mk2),
+                    '*' => Evaluate(mk1) * Evaluate(mk2),
+                    '/' => Evaluate(mk1) / Evaluate(mk2),
+                    _ => throw new Exception("Wot"),
+                };
             }
             if (debug) Console.WriteLine($"{current,4}: {result}");
             return result;
@@ -95,24 +95,24 @@ namespace Advent_of_Code._2022
             else
             {
                 if (debug) Console.WriteLine(
-                        string.Join("|", eval1) + "|=|" + string.Join("|", eval2));
+                        string.Join("|", eval1) + "|==|" + string.Join("|", eval2));
 
                 if (eval1.Count == 1) (eval1, eval2) = (eval2, eval1); // safety
                 part2 = long.Parse(eval2[0]);
                 for (int i = eval1.Count - 2; i > 0; i -= 2)
                 {
                     string op = eval1[i];
-                    long opValue = long.Parse(eval1[i + 1]);
-                    switch (op)
+                    long value = long.Parse(eval1[i + 1]);
+                    part2 = op switch
                     {
-                        case "+": part2 -= opValue; break;
-                        case "-": part2 += opValue; break;
-                        case "--": part2 = opValue - part2; break;
-                        case "*": part2 /= opValue; break;
-                        case "/": part2 *= opValue; break;
-                        case "//": part2 = opValue / part2; break;
-                        default: throw new Exception("Wot");
-                    }
+                        "+" => part2 - value,
+                        "-" => part2 + value,
+                        "--" => value - part2,
+                        "*" => part2 / value,
+                        "/" => part2 * value,
+                        "//" => value / part2,
+                        _ => throw new Exception("Wot")
+                    };
                 }
                 return new() { "humn", "==", part2.ToString() };
             }

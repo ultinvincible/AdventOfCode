@@ -60,7 +60,7 @@ namespace Advent_of_Code
                 else
                 {
                     Console.Write("Change year to: ");
-                    if (!int.TryParse(Console.ReadLine(), out year)
+                    if (!int.TryParse("20" + Console.ReadLine(), out year)
                         || year < 2015 || year > NowYear ||
                         (year == NowYear && NowMonth < 12))
                         return;
