@@ -6,18 +6,18 @@ namespace Advent_of_Code._2021
     {
         bool[] algorithm;
         bool[,] image;
-        int LengthY => image.GetLength(0);
-        int LengthX => image.GetLength(1);
+        int length0 => image.GetLength(0);
+        int length1 => image.GetLength(1);
         bool infiniteLight = false;
         void Enhance()
         {
-            bool[,] newImage = new bool[LengthY + 2, LengthX + 2];
-            for (int row = -1; row < LengthY + 1; row++)
-                for (int col = -1; col < LengthX + 1; col++)
+            bool[,] newImage = new bool[length0 + 2, length1 + 2];
+            for (int row = -1; row < length0 + 1; row++)
+                for (int col = -1; col < length1 + 1; col++)
                 {
                     string bin = "";
-                    foreach (var (neiRow, neiCol) in Neighbors(row, col, true, true))
-                        if (OutOfBounds(neiRow, neiCol, LengthY, LengthX))
+                    foreach (var (neiRow, neiCol) in Neighbors(row, col, null, true, true))
+                        if (OutOfBounds(neiRow, neiCol, image))
                             bin += Convert.ToByte(infiniteLight);
                         else bin += Convert.ToByte(image[neiRow, neiCol]);
                     if (algorithm[Convert.ToInt32(bin, 2)])
@@ -26,6 +26,7 @@ namespace Advent_of_Code._2021
             image = newImage;
             if ((!infiniteLight && algorithm[0]) || (infiniteLight && !algorithm[^1]))
                 infiniteLight = !infiniteLight;
+            if (debug) Console.WriteLine(string.Join("\n", GridStr(image, b => b ? "#" : ".")));
         }
         int LitCount()
         {
@@ -36,18 +37,16 @@ namespace Advent_of_Code._2021
         }
         protected override void Run()
         {
+            //debug = true;
             algorithm = Array.ConvertAll(inputLines[0].ToCharArray(), c => c == '#');
             image = GridParse(c => c == '#', 2);
+            if (debug) Console.WriteLine(string.Join("\n", GridStr(image, b => b ? "#" : ".")));
 
             Enhance();
             Enhance();
             part1 = LitCount();
 
-            for (int i = 2; i < 50; i++)
-            {
-                Enhance();
-                //Console.WriteLine(string.Join("\n", GridStr(image)));
-            }
+            for (int i = 2; i < 50; i++) Enhance();
             part2 = LitCount();
         }
     }

@@ -10,15 +10,15 @@ namespace Advent_of_Code._2022
         protected override void Run()
         {
             //debug = true;
-            hill = GridParse(inputLines, (row, col) =>
-            {
-                switch (inputLines[row][col])
-                {
-                    case 'S': start = (row, col); return 0;
-                    case 'E': end = (row, col); return 25;
-                    default: return inputLines[row][col] - 'a';
-                }
-            });
+            hill = GridParse((row, col) =>
+             {
+                 switch (inputLines[row][col])
+                 {
+                     case 'S': start = (row, col); return 0;
+                     case 'E': end = (row, col); return 25;
+                     default: return inputLines[row][col] - 'a';
+                 }
+             });
 
             (int prevRow, int prevCol, int weight)[,] map = Dijkstras(hill,
                 point => Step(point.row, point.col), start, end);
@@ -36,8 +36,7 @@ namespace Advent_of_Code._2022
         private static List<(int row, int col, int weight)> Step(int row, int col, bool reverse = false)
         {
             List<(int, int, int)> result = new();
-            foreach ((int neiRow, int neiCol) in
-                Neighbors(row, col, hill.GetLength(0), hill.GetLength(1)))
+            foreach ((int neiRow, int neiCol) in Neighbors(row, col, hill))
                 if (!reverse && hill[neiRow, neiCol] - hill[row, col] <= 1 ||
                     (reverse && hill[neiRow, neiCol] - hill[row, col] >= -1))
                     result.Add((neiRow, neiCol, 1));

@@ -8,16 +8,16 @@ namespace Advent_of_Code._2021
     {
         protected override void Run()
         {
-            int lengthY = inputLines.Length, lengthX = inputLines[0].Length;
             int[,] map = GridParse();
+            int length0 = map.GetLength(0), length1 = map.GetLength(1);
 
             int result = 0;
             List<(int, int)> lows = new();
-            for (int y = 0; y < lengthY; y++)
-                for (int x = 0; x < lengthX; x++)
+            for (int y = 0; y < length0; y++)
+                for (int x = 0; x < length1; x++)
                 {
                     bool low = true;
-                    foreach (var (neiY, neiX) in Neighbors(y, x, lengthY, lengthX))
+                    foreach (var (neiY, neiX) in Neighbors(y, x, map))
                         if (map[neiY, neiX] <= map[y, x])
                         {
                             low = false;
@@ -40,7 +40,7 @@ namespace Advent_of_Code._2021
                 {
                     basin.Add(new());
                     foreach (var (prevY, prevX) in basin[i - 1])
-                        foreach (var (y, x) in Neighbors(prevY, prevX, lengthY, lengthX))
+                        foreach (var (y, x) in Neighbors(prevY, prevX, map))
                             if (map[y, x] != 9)
                                 basin[i].Add((y, x));
                     if (i > 1)

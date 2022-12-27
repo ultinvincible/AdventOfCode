@@ -36,7 +36,7 @@ namespace Advent_of_Code._2020
         readonly (int, int)[] directions = new[]
         { (-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1) };
         List<char> Adjacent(int row, int col)
-            => Neighbors(row, col, seats.GetLength(0), seats.GetLength(1), true)
+            => Neighbors(row, col, seats, true)
             .ConvertAll(((int row, int col) seat) => seats[seat.row, seat.col]);
         List<char> See(int row, int col)
         {
@@ -46,7 +46,7 @@ namespace Advent_of_Code._2020
                 for (int dist = 1; ; dist++)
                 {
                     int seeRow = row + rowDir * dist, seeCol = col + colDir * dist;
-                    if (OutOfBounds(seeCol, seeRow, seats.GetLength(1), seats.GetLength(0)))
+                    if (OutOfBounds(seeCol, seeRow, seats))
                         break;
                     char s = seats[seeRow, seeCol];
                     if (s != '.') { result.Add(s); break; }

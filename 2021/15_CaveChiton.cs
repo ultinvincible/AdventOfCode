@@ -8,10 +8,10 @@ namespace Advent_of_Code._2021
             int lengthRow = cavern.GetLength(0), lengthCol = cavern.GetLength(1);
             (int row, int col) end = (lengthRow - 1, lengthCol - 1);
             var result = Dijkstras(cavern,
-                point => Neighbors(point.row, point.col, lengthRow, lengthCol)
+                point => Neighbors(point.row, point.col, cavern)
                  .ConvertAll(nei => (nei.row, nei.col, cavern[nei.row, nei.col])),
                 destination:end);
-            return result[end.row, end.col].weight;
+            return result[end.row, end.col].distance;
         }
 
         protected override void Run()

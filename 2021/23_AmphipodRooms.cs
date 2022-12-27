@@ -181,7 +181,7 @@ namespace Advent_of_Code._2021
             //{
             var result = Dijkstras(Next, i => mapHashes[i] == 194194);
             int index = mapHashes.IndexOf(194194);
-            part1 = result[index].weight;
+            part1 = result[index].distance;
 
             if (debug)
             {
@@ -198,7 +198,7 @@ namespace Advent_of_Code._2021
             depth = 5;
             result = Dijkstras(Next, i => mapHashes[i] == 194194194194);
             index = mapHashes.IndexOf(194194194194);
-            part2 = result[index].weight;
+            part2 = result[index].distance;
 
             if (debug)
             {

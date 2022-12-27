@@ -33,16 +33,18 @@ namespace Advent_of_Code
         // Helper functions
         protected static bool debug = false;
         protected const char blockCharacter = '\u2588';
-        protected static T[,] GridParse<T>(string[] inputLines, Func<int, int, T> Converter)
+        protected T[,] GridParse<T>(Func<int, int, T> Converter, string[] lines = null)
         {
-            T[,] result = new T[inputLines.Length, inputLines[0].Length];
-            for (int row = 0; row < inputLines.Length; row++)
-                for (int col = 0; col < inputLines[0].Length; col++)
+            lines ??= inputLines;
+            T[,] result = new T[lines.Length, lines[0].Length];
+            for (int row = 0; row < lines.Length; row++)
+                for (int col = 0; col < lines[row].Length; col++)
                     result[row, col] = Converter(row, col);
             return result;
         }
         protected T[,] GridParse<T>(Func<char, T> Converter, int fromLine = 0)
-            => GridParse(inputLines[fromLine..], (row, col) => Converter(inputLines[row][col]));
+            => GridParse((row, col) => Converter(inputLines[fromLine..][row][col]),
+                inputLines[fromLine..]);
         protected int[,] GridParse()
             => GridParse(c => (int)char.GetNumericValue(c));
 
@@ -81,36 +83,28 @@ namespace Advent_of_Code
             => GridStr(input, (row, col) => ToStr(input[row][col]), numbered);
 
         protected static List<(int row, int col)> Neighbors
-            (int row, int col, bool diagonal = false, bool self = false)
+            (int row, int col, Func<int, int, bool> OutOfBounds = null,
+            bool diagonal = false, bool self = false)
         {
-            List<(int, int)> neighbors = new();
-            for (int neiY = row - 1; neiY <= row + 1; neiY++)
-                for (int neiX = col - 1; neiX <= col + 1; neiX++)
-                    if ((diagonal || neiY == row || neiX == col) &&
-                        (self || (neiY, neiX) != (row, col)))
-                        neighbors.Add((neiY, neiX));
+            OutOfBounds ??= (_, _) => false;
+            List<(int, int)> neighbors = new(9);
+            for (int neiRow = row - 1; neiRow <= row + 1; neiRow++)
+                for (int neiCol = col - 1; neiCol <= col + 1; neiCol++)
+                    if ((diagonal || neiRow == row || neiCol == col) &&
+                        (self || (neiRow, neiCol) != (row, col)) &&
+                        !OutOfBounds(neiRow, neiCol))
+                        neighbors.Add((neiRow, neiCol));
             return neighbors;
         }
-        protected static List<(int row, int col)> Neighbors
-            (int row, int col, int boundRow, int boundCol, bool diagonal = false, bool self = false)
-        {
-            List<(int row, int col)> neighbors = Neighbors(row, col, self, diagonal);
-            neighbors.RemoveAll(nei => OutOfBounds(nei.row, nei.col, boundRow, boundCol));
-            return neighbors;
-        }
-        protected static bool OutOfBounds(int y, int x, int boundY, int boundX)
-            => y < 0 || y >= boundY || x < 0 || x >= boundX;
+        protected static List<(int row, int col)> Neighbors<T>
+            (int row, int col, T[,] grid, bool diagonal = false, bool self = false)
+            => Neighbors(row, col, (r, c) => OutOfBounds(r, c, grid), diagonal, self);
+        protected static bool OutOfBounds<T>(int row, int col, T[,] grid)
+            => row < 0 || row >= grid.GetLength(0) || col < 0 || col >= grid.GetLength(1);
 
-        /// <summary>
-        /// Dijkstra's algorithm
-        /// </summary>
-        /// <param name="Neighbors"></param>
-        /// <param name="IsDestination"></param>
-        /// <returns></returns>
         // All comments are stolen from https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
-        // "distance" is named weight
-        static protected List<(int prev, int weight)> Dijkstras(
-            Func<int, List<(int nei, int weight)>> Neighbors, Func<int, bool> IsDestination = null, int start = 0)
+        static protected List<(int prev, int distance)> Dijkstras(
+            Func<int, List<(int nei, int distance)>> Neighbors, Func<int, bool> IsDestination = null, int start = 0)
         {
             // Mark all nodes unvisited.
             // Create a set of all the unvisited nodes called the unvisited set.
@@ -122,7 +116,7 @@ namespace Advent_of_Code
             // set it to zero for our initial node
             // and to infinity for all other nodes.
             // Set the initial node as current.
-            List<(int prev, int weight)> nodes = new();
+            List<(int prev, int distance)> nodes = new();
             for (int i = 0; i < start; i++)
             {
                 visited.Add(false);
@@ -138,7 +132,7 @@ namespace Advent_of_Code
             // assigned to the neighbor and assign it the smaller one.
             while (true)
             {
-                foreach ((int nei, int weight) in Neighbors(current))
+                foreach ((int nei, int distance) in Neighbors(current))
                 {
                     if (nei >= visited.Count)
                         // Extend lists
@@ -147,13 +141,11 @@ namespace Advent_of_Code
                             visited.Add(false);
                             nodes.Add((int.MaxValue, -1));
                         }
-                    if (!visited[nei])
-                    {
-                        unvisited.Add(nei);
-                        int newDist = nodes[current].weight + weight;
-                        if (newDist < nodes[nei].weight)
-                            nodes[nei] = (current, newDist);
-                    }
+                    if (visited[nei]) continue;
+                    unvisited.Add(nei);
+                    int newDist = nodes[current].distance + distance;
+                    if (newDist < nodes[nei].distance)
+                        nodes[nei] = (current, newDist);
                 }
 
                 // Mark the current node as visited and remove it from the unvisited set. 
@@ -168,32 +160,35 @@ namespace Advent_of_Code
                 if (IsDestination(current)) break;
                 int min = int.MaxValue;
                 foreach (int unv in unvisited)
-                    if (min > nodes[unv].weight)
+                    if (min > nodes[unv].distance)
                     {
                         current = unv;
-                        min = nodes[unv].weight;
+                        min = nodes[unv].distance;
                     }
             }
             return nodes;
         }
 
-        static protected (int prevRow, int prevCol, int weight)[,] Dijkstras(int[,] grid,
-            Func<(int row, int col), List<(int row, int col, int weight)>> Neighbors,
+        static protected (int prevRow, int prevCol, int distance)[,] Dijkstras(int[,] grid,
+            Func<(int row, int col), List<(int row, int col, int distance)>> Neighbors,
             (int row, int col) start = default, (int row, int col)? destination = null)
         {
+            int length0 = grid.GetLength(0), length1 = grid.GetLength(1);
+
             // Mark all nodes unvisited.
             // Create a set of all the unvisited nodes called the unvisited set.
-            bool[,] visited = new bool[grid.GetLength(0), grid.GetLength(1)];
+            bool[,] visited = new bool[length0, length1];
             HashSet<(int row, int col)> unvisited = new();
+            destination ??= (-1, -1);
 
             // Assign to every node a tentative distance value:
             // set it to zero for our initial node
             // and to infinity for all other nodes.
             // Set the initial node as current.
-            (int prevRow, int prevCol, int weight)[,] nodes =
-                new (int prevRow, int prevCol, int weight)[grid.GetLength(0), grid.GetLength(1)];
-            for (int row = 0; row < grid.GetLength(0); row++)
-                for (int col = 0; col < grid.GetLength(1); col++)
+            (int prevRow, int prevCol, int distance)[,] nodes =
+                new (int prevRow, int prevCol, int distance)[length0, length1];
+            for (int row = 0; row < length0; row++)
+                for (int col = 0; col < length1; col++)
                     nodes[row, col] = (row, col) != start ? (-1, -1, int.MaxValue) : (-1, -1, 0);
             (int row, int col) current = start;
 
@@ -203,13 +198,13 @@ namespace Advent_of_Code
             // assigned to the neighbor and assign it the smaller one.
             while (true)
             {
-                foreach ((int row, int col, int weight) in Neighbors(current))
+                foreach ((int row, int col, int distance) in Neighbors(current))
                 {
                     if (visited[row, col]) continue;
                     unvisited.Add((row, col));
-                    int newWeight = nodes[current.row, current.col].weight + weight;
-                    if (newWeight < nodes[row, col].weight)
-                        nodes[row, col] = (current.row, current.col, newWeight);
+                    int newdistance = nodes[current.row, current.col].distance + distance;
+                    if (newdistance < nodes[row, col].distance)
+                        nodes[row, col] = (current.row, current.col, newdistance);
                 }
 
                 // Mark the current node as visited and remove it from the unvisited set. 
@@ -224,10 +219,10 @@ namespace Advent_of_Code
                 if (current == destination) break;
                 int min = int.MaxValue;
                 foreach ((int row, int col) in unvisited)
-                    if (min > nodes[row, col].weight)
+                    if (min > nodes[row, col].distance)
                     {
                         current = (row, col);
-                        min = nodes[row, col].weight;
+                        min = nodes[row, col].distance;
                     }
                 if (min == int.MaxValue) break;
             }
