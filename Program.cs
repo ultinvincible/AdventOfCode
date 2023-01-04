@@ -110,10 +110,10 @@ namespace Advent_of_Code
             };
             string response = new StreamReader(client.Send(request)
                 .Content.ReadAsStream()).ReadToEnd();
+            File.AppendAllText("responses.txt", response + "\n");
             response = response.Split(new string[] {
                                 "<main>\n<article><p>","</p></article></main>" },
                 StringSplitOptions.None)[1];
-            File.AppendAllText("responses.txt", response + "\n");
             response = StripHtmlTags(response.Split(
                 new string[] { $"<a href=\"/{year}/day/{day}", " You can " },
                 StringSplitOptions.None)[0]);

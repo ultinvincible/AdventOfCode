@@ -104,7 +104,7 @@ namespace Advent_of_Code
 
         // All comments are stolen from https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
         static protected List<(int prev, int distance)> Dijkstras(
-            Func<int, List<(int nei, int distance)>> Neighbors, Func<int, bool> IsDestination = null, int start = 0)
+            Func<int, IEnumerable<(int nei, int distance)>> Neighbors, Func<int, bool> IsDestination = null, int start = 0)
         {
             // Mark all nodes unvisited.
             // Create a set of all the unvisited nodes called the unvisited set.
@@ -134,12 +134,12 @@ namespace Advent_of_Code
             {
                 foreach ((int nei, int distance) in Neighbors(current))
                 {
+                    // Extend lists
                     if (nei >= visited.Count)
-                        // Extend lists
                         for (int i = visited.Count; i <= nei; i++)
                         {
                             visited.Add(false);
-                            nodes.Add((int.MaxValue, -1));
+                            nodes.Add((-1, int.MaxValue));
                         }
                     if (visited[nei]) continue;
                     unvisited.Add(nei);
@@ -157,7 +157,8 @@ namespace Advent_of_Code
                 // then stop. The algorithm has finished.
                 // Otherwise, select the unvisited node that is marked with the smallest
                 // tentative distance, set it as the new current node.
-                if (IsDestination(current)) break;
+                if (IsDestination(current))
+                    break;
                 int min = int.MaxValue;
                 foreach (int unv in unvisited)
                     if (min > nodes[unv].distance)
@@ -170,7 +171,7 @@ namespace Advent_of_Code
         }
 
         static protected (int prevRow, int prevCol, int distance)[,] Dijkstras(int[,] grid,
-            Func<(int row, int col), List<(int row, int col, int distance)>> Neighbors,
+            Func<(int row, int col), IEnumerable<(int row, int col, int distance)>> Neighbors,
             (int row, int col) start = default, (int row, int col)? destination = null)
         {
             int length0 = grid.GetLength(0), length1 = grid.GetLength(1);
@@ -202,9 +203,9 @@ namespace Advent_of_Code
                 {
                     if (visited[row, col]) continue;
                     unvisited.Add((row, col));
-                    int newdistance = nodes[current.row, current.col].distance + distance;
-                    if (newdistance < nodes[row, col].distance)
-                        nodes[row, col] = (current.row, current.col, newdistance);
+                    int newDist = nodes[current.row, current.col].distance + distance;
+                    if (newDist < nodes[row, col].distance)
+                        nodes[row, col] = (current.row, current.col, newDist);
                 }
 
                 // Mark the current node as visited and remove it from the unvisited set. 
