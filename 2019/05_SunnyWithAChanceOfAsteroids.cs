@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Advent_of_Code._2019
 {
@@ -76,7 +73,7 @@ namespace Advent_of_Code._2019
                         return new();
                 }
             }
-            if (debug)
+            if (debug == 1)
             {
                 Console.WriteLine("i = " + input);
                 foreach (int o in outputs)
@@ -89,7 +86,7 @@ namespace Advent_of_Code._2019
         {
             inputProgram = Array.ConvertAll(input.Split(','), int.Parse);
 
-            if (debug)
+            if (debug == 1)
                 for (int i = 0; i < 10; i++)
                     RunProgram(i);
 

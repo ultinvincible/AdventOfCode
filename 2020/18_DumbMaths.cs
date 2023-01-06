@@ -53,7 +53,7 @@ namespace Advent_of_Code._2020
             }
             calc.RemoveRange(start, end - start);
             calc.Insert(start, value.ToString());
-            if (debug) Console.Write(PrintCalc(calc));
+            if (debug == 1) Console.Write(PrintCalc(calc));
         }
         string PrintCalc(List<string> calc)
         {
@@ -73,7 +73,7 @@ namespace Advent_of_Code._2020
                         foreach (char c in s)
                             calculation.Add(c.ToString());
                     else calculation.Add(s);
-                if (debug) Console.Write(PrintCalc(calculation));
+                if (debug == 1) Console.Write(PrintCalc(calculation));
                 List<string> calculation2 = new(calculation);
                 Evaluate(ref calculation);
                 part1 += long.Parse(calculation[0]);

@@ -36,7 +36,7 @@ namespace Advent_of_Code._2021
         }
         protected override void Run()
         {
-            //debug = true;
+            debug = 0;
             HashSet<(int x, int y, int z)> initial = new();
             List<(int, int)[]> cuboids = new();
             foreach (string line in inputLines)
@@ -65,7 +65,7 @@ namespace Advent_of_Code._2021
                     var divide = Divide_Except(cub, coords);
                     newCuboids.AddRange(divide);
 
-                    if (debug)
+                    if (debug == 1)
                     {
                         if (divide.Any(div => Volume(div) < 1))
                             throw new Exception("Negative volume.");
@@ -90,7 +90,7 @@ namespace Advent_of_Code._2021
                     newCuboids.Add(coords);
                 cuboids = newCuboids;
 
-                if (debug)
+                if (debug == 1)
                 {
                     long volume = cuboids.Sum(c => Volume(c));
                     Console.WriteLine("Total:      " + volume);

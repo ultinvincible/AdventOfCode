@@ -26,7 +26,7 @@ namespace Advent_of_Code._2022
             importantValves.Insert(0, start);
             int[][] tunnels = Array.ConvertAll(tunnelsStr,
                 v => Array.ConvertAll(v, path => Array.IndexOf(names, path)));
-            if (debug)
+            if (debug == 1)
                 for (int i = 0; i < names.Length; i++)
                     Console.WriteLine($"{i,2}: {rates[i],2}|" +
                         $"{string.Join(",", Array.ConvertAll(tunnels[i], i => $"{i,2}"))}");
@@ -39,7 +39,7 @@ namespace Advent_of_Code._2022
             foreach (int release in result)
                 part1 = Math.Max(part1, release);
 
-            //debug = true;
+            debug = 0;
             result = new();
             MoveP2(start);
             foreach (int release in result)
@@ -77,7 +77,7 @@ namespace Advent_of_Code._2022
 
             void Print(List<int> path)
             {
-                if (debug) Console.WriteLine(string.Join(" | ", path.ConvertAll(i => $"{i,2}")));
+                if (debug == 1) Console.WriteLine(string.Join(" | ", path.ConvertAll(i => $"{i,2}")));
             }
 
             void MoveP2(int current, List<int>[] path = null, int[] time = null,
@@ -121,10 +121,12 @@ namespace Advent_of_Code._2022
             }
             void PrintP2(List<int>[] path)
             {
-                if (!debug) return;
-                foreach (List<int> mover in path)
-                    Print(mover);
-                Console.WriteLine();
+                if (debug == 1)
+                {
+                    foreach (List<int> mover in path)
+                        Print(mover);
+                    Console.WriteLine();
+                }
             }
         }
     }

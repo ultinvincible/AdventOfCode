@@ -7,7 +7,7 @@ namespace Advent_of_Code._2022
         protected override void Run()
         {
             int X = 1, cycleCount = 1, position = 0;
-            char[,] CRT = new char[6, 40];
+            bool[,] CRT = new bool[6, 40];
             foreach (string line in inputLines)
             {
                 Cycle(X, ref cycleCount, ref position, CRT);
@@ -21,14 +21,14 @@ namespace Advent_of_Code._2022
                         part1 += cycleCount * X;
                 }
             }
-            part2_str = "\n" + GridStr(CRT);
+            part2_str = "\n" + GridStr(CRT,b=>b?block:" ");
         }
 
-        static void Cycle(int X, ref int cycle, ref int position, char[,] CRT)
+        static void Cycle(int X, ref int cycle, ref int position, bool[,] CRT)
         {
             int row = Math.DivRem(position, 40, out int col);
-            if (Math.Abs(X - col) <= 1) CRT[row, col] = blockCharacter;
-            else CRT[row, col] = ' ';
+            if (Math.Abs(X - col) <= 1) CRT[row, col] = true;
+            else CRT[row, col] = false;
             position++; cycle++;
         }
     }

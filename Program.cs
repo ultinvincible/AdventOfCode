@@ -45,7 +45,7 @@ namespace Advent_of_Code
                 string read = Console.ReadLine();
                 if (read == "all")
                 {
-                    Console.WriteLine(new string('-', Console.BufferWidth));
+                    Console.WriteLine();
                     for (int d = 1; d <= 25 &&
                         DateTime.Now >= new DateTime(year, 12, d); d++)
                     {

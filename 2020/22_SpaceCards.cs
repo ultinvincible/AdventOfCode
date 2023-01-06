@@ -39,7 +39,7 @@ namespace Advent_of_Code._2020
             int winner, round = 1;
             do
             {
-                if (debug)
+                if (debug == 1)
                 {
                     Console.WriteLine("Round " + round++);
                     Console.WriteLine(string.Join(", ", decks[0]));
@@ -50,7 +50,7 @@ namespace Advent_of_Code._2020
 
                 if (pastDecks.FindIndex(d => d.SequenceEqual(decks[0])) != -1)
                 {
-                    if (debug) Console.WriteLine("Loop\n");
+                    if (debug == 1) Console.WriteLine("Loop\n");
                     return 0;
                 }
 
@@ -62,7 +62,7 @@ namespace Advent_of_Code._2020
 
                 if (recursive && decks[0].Count >= win && decks[1].Count >= lose)
                 {
-                    if (debug) Console.WriteLine("New game\n");
+                    if (debug == 1) Console.WriteLine("New game\n");
                     winner = Combat(new List<int>[]
                     { decks[0].Take(win).ToList(), decks[1].Take(lose).ToList() }, true);
                 }
@@ -71,7 +71,7 @@ namespace Advent_of_Code._2020
                 if (winner == 1) (win, lose) = (lose, win);
                 decks[winner].Add(win);
                 decks[winner].Add(lose);
-                if (debug) Console.WriteLine("Player " + (winner + 1) + " wins round\n");
+                if (debug == 1) Console.WriteLine("Player " + (winner + 1) + " wins round\n");
             } while (decks[1 - winner].Count != 0);
 
             return winner;

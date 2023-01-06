@@ -1,21 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Advent_of_Code._2022
 {
     class _09_Rope : AoCDay
     {
-        static Dictionary<char, int[]> directions = new()
-        {
-            { 'L', new int[] { 0, 1 } },
-            { 'R', new int[] { 0, -1 } },
-            { 'U', new int[] { -1, 0 } },
-            { 'D', new int[] { 1, 0 } },
-        };
         protected override void Run()
         {
-            //debug = true;
+            debug = 0;
             int[] head = new int[2], tail = new int[2];
             HashSet<(int, int)> visited = new() { (0, 0) };
             foreach (string line in inputLines)
@@ -41,7 +33,7 @@ namespace Advent_of_Code._2022
                     visited.Add((rope[^1][0], rope[^1][1]));
                 }
             }
-            if (debug) Console.WriteLine(PrintVisited(visited));
+            if (debug == 1) Console.WriteLine(PrintVisited(visited));
             part2 = visited.Count;
         }
 

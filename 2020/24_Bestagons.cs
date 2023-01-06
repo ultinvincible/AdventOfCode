@@ -73,7 +73,7 @@ namespace Advent_of_Code._2020
                             !(neiCount[x, z] == 0 || neiCount[x, z] > 2) ||
                             (!map[x, z] && neiCount[x, z] == 2);
                 map = newMap;
-                if (debug) Console.WriteLine(GridStr(map, b => b ? "#" : "."));
+                if (debug == 1) Console.WriteLine(GridStr(map, b => b ? "#" : "."));
             }
             foreach (bool tile in map)
                 if (tile) part2++;

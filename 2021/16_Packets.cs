@@ -24,15 +24,15 @@ namespace Advent_of_Code._2021
         protected override void Run()
         {
             Packet.Transmission = "";
-            foreach (char hex in input[..^2])
+            foreach (char hex in input)
                 Packet.Transmission += Convert.ToString(Convert.ToInt32(hex.ToString(), 16), 2).PadLeft(4, '0');
             //for (int i = 0; i < Packet.Transmission.Length; i++)
             //    Console.WriteLine(i.ToString("0 \u2588 ").PadLeft(7) + char.GetNumericValue(Packet.Transmission[i]));
 
-            outermost = Decode(0);
+            outermost = Decode();
             (part1,part2) = (VersionSum(outermost), outermost.value);
         }
-        Packet Decode(int start)
+        Packet Decode(int start = 0)
         {
             Packet result = new(start);
             if (result.typeID == 4)

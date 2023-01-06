@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Advent_of_Code._2022
 {
@@ -10,7 +9,7 @@ namespace Advent_of_Code._2022
         (int row, int col) source;
         protected override void Run()
         {
-            debug = true;
+            debug = 0;
             int minCol = int.MaxValue,
                 maxRow = 0,
                 maxCol = 0;
@@ -97,7 +96,7 @@ namespace Advent_of_Code._2022
 
         void PrintMap()
         {
-            if (debug) Console.WriteLine(GridStr(blocked, (row, col) =>
+            if (debug == 1) Console.WriteLine(GridStr(blocked, (row, col) =>
                 (row, col) == source ? "+" : blocked[row, col] ? rock[row, col] ? "#" : "o" : "."));
         }
     }

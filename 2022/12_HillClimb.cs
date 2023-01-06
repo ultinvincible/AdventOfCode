@@ -9,7 +9,7 @@ namespace Advent_of_Code._2022
         static int[,] hill;
         protected override void Run()
         {
-            //debug = true;
+            debug = 0;
             hill = GridParse((row, col) =>
              {
                  switch (inputLines[row][col])

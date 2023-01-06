@@ -14,7 +14,7 @@ namespace Advent_of_Code
         protected string part1_str = "", part2_str = "";
         public (string part1_str, string part2_str, decimal time) Run(string inputPath)
         {
-            input = File.ReadAllText(inputPath).Replace("\r\n", "\n");
+            input = File.ReadAllText(inputPath).Replace("\r\n", "\n").TrimEnd('\n');
             inputLines = File.ReadAllLines(inputPath);
             inputSections = Array.ConvertAll(input.Split("\n\n"),
                 s => s.Split("\n", StringSplitOptions.RemoveEmptyEntries));
@@ -31,8 +31,8 @@ namespace Advent_of_Code
         protected abstract void Run();
 
         // Helper functions
-        protected static bool debug = false;
-        protected const char blockCharacter = '\u2588';
+        protected static int debug = 0;
+        protected const string block = "\u2588";
         protected T[,] GridParse<T>(Func<int, int, T> Converter, string[] lines = null)
         {
             lines ??= inputLines;

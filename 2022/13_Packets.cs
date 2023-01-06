@@ -65,7 +65,7 @@ namespace Advent_of_Code._2022
         }
         protected override void Run()
         {
-            //debug = true;
+            debug = 0;
             List<Packet> packets = new();
             for (int s = 0; s < inputSections.Length; s++)
             {
@@ -83,7 +83,7 @@ namespace Advent_of_Code._2022
             packets.Add(decoder2);
             packets.Sort();
 
-            if (debug)
+            if (debug == 1)
                 foreach (Packet packet in packets)
                     Console.WriteLine(packet);
 

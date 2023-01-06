@@ -58,7 +58,7 @@ namespace Advent_of_Code._2022
                     }
                 }
             }
-            if (debug) Console.WriteLine(GridStr(lines.Count, r => lines[r].Length,
+            if (debug == 1) Console.WriteLine(GridStr(lines.Count, r => lines[r].Length,
                   (r, c) => lines[r][c].ToString().PadLeft(2) + " | "));
 
             for (int l1 = 0; l1 < lines.Count; l1++)
@@ -72,7 +72,7 @@ namespace Advent_of_Code._2022
                     }
                     if (sum is null || diff is null) continue;
                     (long col, long row) result = ((long)(sum + diff) / 2, (long)(sum - diff) / 2);
-                    if (debug) Console.WriteLine($"{result.col,2} | {result.row,2} | {l1} | {l2}");
+                    if (debug == 1) Console.WriteLine($"{result.col,2} | {result.row,2} | {l1} | {l2}");
                     part2 = result.col * 4000000 + result.row;
                     return;
                 }

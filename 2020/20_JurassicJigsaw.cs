@@ -175,7 +175,7 @@ namespace Advent_of_Code._2020
                 }
             }
             //image = Transform(image, 3, true); // test input
-            if (debug) Console.WriteLine(Print(image));
+            if (debug == 1) Console.WriteLine(Print(image));
 
             List<(int, int)> seaMonster = new();
             for (int row = 0; row < inputSeaMonster.Length; row++)
@@ -187,7 +187,7 @@ namespace Advent_of_Code._2020
                 for (int rotate = 0; rotate < 4; rotate++)
                 {
                     bool[,] transform = Transform(image, rotate, flip);
-                    if (debug) Console.WriteLine(flip + "|" + rotate + "\n" + Print(transform));
+                    if (debug == 1) Console.WriteLine(flip + "|" + rotate + "\n" + Print(transform));
                     for (int row = 0; row < length * 8 - 3; row++)
                         for (int col = 0; col < length * 8 - 20; col++)
                             if (seaMonster.All(rc =>

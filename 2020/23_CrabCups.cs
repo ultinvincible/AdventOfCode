@@ -132,7 +132,7 @@ namespace Advent_of_Code._2020
                 newCups.Add(cups[0]);
                 cups = newCups.ToArray();
 
-                //if (debug) Console.WriteLine(string.Join(" ", cups));
+                //if (debug == 1) Console.WriteLine(string.Join(" ", cups));
             }
             return cups;
         }

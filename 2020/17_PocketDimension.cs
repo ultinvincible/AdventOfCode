@@ -25,7 +25,7 @@ namespace Advent_of_Code._2020
             for (int col = 0; col < start.GetLength(1); col++)
                 for (int row = 0; row < start.GetLength(0); row++)
                     current[col + 1 + cycles, row + 1 + cycles, 1 + cycles] = start[row, col];
-            if (debug) Console.WriteLine(Print3D(current, -1, cycles));
+            if (debug == 1) Console.WriteLine(Print3D(current, -1, cycles));
 
             for (int c = 0; c < cycles; c++)
             {
@@ -36,7 +36,7 @@ namespace Advent_of_Code._2020
                             if (current[x, y, z] == 1)
                                 foreach ((int neiX, int neiY, int neiZ) in Neighbors3d(x, y, z))
                                     next[neiX, neiY, neiZ]++;
-                if (debug) Console.WriteLine(Print3D(next, c, cycles, true));
+                if (debug == 1) Console.WriteLine(Print3D(next, c, cycles, true));
                 for (int x = 0; x < next.GetLength(0); x++)
                     for (int y = 0; y < next.GetLength(1); y++)
                         for (int z = 0; z < next.GetLength(2); z++)
@@ -46,7 +46,7 @@ namespace Advent_of_Code._2020
                                 next[x, y, z] = 1;
                             else next[x, y, z] = 0;
                 current = next;
-                if (debug) Console.WriteLine(Print3D(current, c, cycles));
+                if (debug == 1) Console.WriteLine(Print3D(current, c, cycles));
             }
             int activeCount = 0;
             foreach (int cube in current)
@@ -71,7 +71,7 @@ namespace Advent_of_Code._2020
             for (int col = 0; col < start.GetLength(1); col++)
                 for (int row = 0; row < start.GetLength(0); row++)
                     current[col + 1 + cycles, row + 1 + cycles, 1 + cycles, 1 + cycles] = start[row, col];
-            //if (debug) Console.WriteLine(Print3D(current, -1, cycles));
+            //if (debug == 1) Console.WriteLine(Print3D(current, -1, cycles));
 
             for (int c = 0; c < cycles; c++)
             {
@@ -83,7 +83,7 @@ namespace Advent_of_Code._2020
                                 if (current[x, y, z, w] == 1)
                                     foreach ((int neiX, int neiY, int neiZ, int neiW) in Neighbors4d(x, y, z, w))
                                         next[neiX, neiY, neiZ, neiW]++;
-                //if (debug) Console.WriteLine(Print3D(next, c, cycles, true));
+                //if (debug == 1) Console.WriteLine(Print3D(next, c, cycles, true));
                 for (int x = 0; x < next.GetLength(0); x++)
                     for (int y = 0; y < next.GetLength(1); y++)
                         for (int z = 0; z < next.GetLength(2); z++)
@@ -94,7 +94,7 @@ namespace Advent_of_Code._2020
                                     next[x, y, z, w] = 1;
                                 else next[x, y, z, w] = 0;
                 current = next;
-                //if (debug) Console.WriteLine(Print3D(current, c, cycles));
+                //if (debug == 1) Console.WriteLine(Print3D(current, c, cycles));
             }
             int activeCount = 0;
             foreach (int cube in current)

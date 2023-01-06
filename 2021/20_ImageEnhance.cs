@@ -26,7 +26,7 @@ namespace Advent_of_Code._2021
             image = newImage;
             if ((!infiniteLight && algorithm[0]) || (infiniteLight && !algorithm[^1]))
                 infiniteLight = !infiniteLight;
-            if (debug) Console.WriteLine(string.Join("\n", GridStr(image, b => b ? "#" : ".")));
+            if (debug == 1) Console.WriteLine(string.Join("\n", GridStr(image, b => b ? "#" : ".")));
         }
         int LitCount()
         {
@@ -37,10 +37,10 @@ namespace Advent_of_Code._2021
         }
         protected override void Run()
         {
-            //debug = true;
+            debug = 0;
             algorithm = Array.ConvertAll(inputLines[0].ToCharArray(), c => c == '#');
             image = GridParse(c => c == '#', 2);
-            if (debug) Console.WriteLine(string.Join("\n", GridStr(image, b => b ? "#" : ".")));
+            if (debug == 1) Console.WriteLine(string.Join("\n", GridStr(image, b => b ? "#" : ".")));
 
             Enhance();
             Enhance();

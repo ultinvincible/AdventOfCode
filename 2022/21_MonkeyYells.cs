@@ -21,7 +21,7 @@ namespace Advent_of_Code._2022
             int rootI = Array.IndexOf(name, "root");
             part1 = Evaluate(rootI);
 
-            if (debug)
+            if (debug == 1)
             {
                 List<string> current = new() { "humn" }, found;
                 while (true)
@@ -63,7 +63,7 @@ namespace Advent_of_Code._2022
                     _ => throw new Exception("Wot"),
                 };
             }
-            if (debug) Console.WriteLine($"{current,4}: {result}");
+            if (debug == 1) Console.WriteLine($"{current,4}: {result}");
             return result;
         }
 
@@ -94,7 +94,7 @@ namespace Advent_of_Code._2022
             }
             else
             {
-                if (debug) Console.WriteLine(
+                if (debug == 1) Console.WriteLine(
                         string.Join("|", eval1) + "|==|" + string.Join("|", eval2));
 
                 if (eval1.Count == 1) (eval1, eval2) = (eval2, eval1); // safety

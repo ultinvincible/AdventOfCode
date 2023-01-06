@@ -7,7 +7,7 @@ namespace Advent_of_Code._2022
         static int[] repeatDist;
         protected override void Run()
         {
-            //debug = true;
+            debug = 0;
             repeatDist = new int[input.Length];
             part1 = Detect(4);
             part2 = Detect(14);
@@ -41,7 +41,7 @@ namespace Advent_of_Code._2022
                         break;
                     }
 
-                if (debug) Console.WriteLine
+                if (debug == 1) Console.WriteLine
                     (input[i] + " | " + repeatDist[i]);
 
                 if (result)

@@ -29,7 +29,7 @@ namespace Advent_of_Code._2022
         }
         protected override void Run()
         {
-            //debug = true;
+            debug = 0;
             Directory root = new("/", null), current = root;
             foreach (string line in inputLines[1..])
             {
@@ -56,7 +56,7 @@ namespace Advent_of_Code._2022
             minDelete = root.size - RequiredUsedSpace;
             CheckDelete(root);
 
-            if (debug)
+            if (debug == 1)
             {
                 string print = "";
                 PrintFileTree(root, ref print);

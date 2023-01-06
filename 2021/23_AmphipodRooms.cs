@@ -76,7 +76,7 @@ namespace Advent_of_Code._2021
             (bool correct, int topRow) Room(int col) => IsHallway[col] ?
                throw new Exception("Hallway column") : roomData[col / 2 - 1];
 
-            if (debug) Console.WriteLine(PrintMap(map) + "\n");
+            if (debug == 1) Console.WriteLine(PrintMap(map) + "\n");
 
             for (int col = 0; col < IsHallway.Length; col++)
             {
@@ -121,7 +121,7 @@ namespace Advent_of_Code._2021
                     int energy = (int)Math.Pow(10, ampType - 1) *
                         (row + Math.Abs(col - destCol) + destRow);
 
-                    if (debug) Console.WriteLine(result.Count + ":\n"
+                    if (debug == 1) Console.WriteLine(result.Count + ":\n"
                          + PrintMap(newMap) + "    " + energy);
 
                     if (destCol == ampType * 2)
@@ -130,14 +130,14 @@ namespace Advent_of_Code._2021
                 }
             }
 
-            if (debug)
+            if (debug == 1)
                 Console.WriteLine(new string('-', 25) + "\n");
             return result;
         }
         protected override void Run()
         {
-            //debug = true;
-            if (debug) Console.WriteLine(Hash(new int[,]{
+            debug = 0;
+            if (debug == 1) Console.WriteLine(Hash(new int[,]{
                 {  0,  0, 0,  0, 0,  0, 0,  0, 0,  0,  0 },
                 { -1, -1, 1, -1, 2, -1, 3, -1, 4, -1, -1 },
                 { -1, -1, 1, -1, 2, -1, 3, -1, 4, -1, -1 },
@@ -157,7 +157,7 @@ namespace Advent_of_Code._2021
                     else value = inputLines[row][col] - 'A' + 1;
                     inputMap[row - 1, col - 1] = value;
                 }
-            if (debug) Console.WriteLine(PrintMap(inputMap));
+            if (debug == 1) Console.WriteLine(PrintMap(inputMap));
 
             string[] toInsert = new string[] {
             "#D#C#B#A#",
@@ -173,7 +173,7 @@ namespace Advent_of_Code._2021
                 }
                 else for (int row = 1; row < realMap.GetLength(0); row++)
                         realMap[row, col] = -1;
-            if (debug) Console.WriteLine(PrintMap(realMap));
+            if (debug == 1) Console.WriteLine(PrintMap(realMap));
 
             mapHashes = new() { Hash(inputMap) };
             depth = 3;
@@ -183,7 +183,7 @@ namespace Advent_of_Code._2021
             int index = mapHashes.IndexOf(194194);
             part1 = result[index].distance;
 
-            if (debug)
+            if (debug == 1)
             {
                 string print = "";
                 do
@@ -200,7 +200,7 @@ namespace Advent_of_Code._2021
             index = mapHashes.IndexOf(194194194194);
             part2 = result[index].distance;
 
-            if (debug)
+            if (debug == 1)
             {
                 string print = "";
                 do

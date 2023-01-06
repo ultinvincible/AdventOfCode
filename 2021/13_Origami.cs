@@ -28,20 +28,7 @@ namespace Advent_of_Code._2021
             //PrintDots();
         }
         string PrintDots()
-        {
-            string result = "";
-            for (int y = 0; y < dot.GetLength(0); y++)
-            {
-                for (int x = 0; x < dot.GetLength(1); x++)
-                {
-                    if (dot[y, x])
-                        result += blockCharacter;
-                    else result += ' ';
-                }
-                result += "\n";
-            }
-            return result + "\n";
-        }
+            => "\n" + GridStr(dot, b => b ? block : " ");
 
         protected override void Run()
         {

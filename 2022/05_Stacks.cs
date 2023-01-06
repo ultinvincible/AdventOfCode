@@ -7,7 +7,7 @@ namespace Advent_of_Code._2022
     {
         protected override void Run()
         {
-            //debug = true;
+            debug = 0;
             List<char>[] stacks = new List<char>[9];
             for (int col = 0; col < 9; col++)
             {
@@ -19,7 +19,7 @@ namespace Advent_of_Code._2022
                 }
             }
             List<char>[] stacks2 = Array.ConvertAll(stacks, s => new List<char>(s));
-            if (debug)
+            if (debug == 1)
             {
                 Console.WriteLine(GridStr(stacks, numbered: true));
                 //Console.WriteLine(GridStr(stacks2, numbered: true));
@@ -32,7 +32,7 @@ namespace Advent_of_Code._2022
             foreach (int[] move in moves)
             {
                 int quantity = move[0], from = move[1] - 1, to = move[2] - 1;
-                if (debug) Console.WriteLine
+                if (debug == 1) Console.WriteLine
                     ($"move {quantity} from {from} to {to}");
 
                 List<char> range = stacks[from].
@@ -45,7 +45,7 @@ namespace Advent_of_Code._2022
                     GetRange(stacks2[from].Count - quantity, quantity));
                 stacks2[from].RemoveRange(stacks2[from].Count - quantity, quantity);
 
-                if (debug)
+                if (debug == 1)
                 {
                     Console.WriteLine(GridStr(stacks, numbered: true));
                     Console.WriteLine(GridStr(stacks2, numbered: true));

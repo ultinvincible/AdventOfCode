@@ -83,7 +83,7 @@ namespace Advent_of_Code._2020
                             rules[ruleI][i] = newRule[i].ToArray();
                     }
 
-                    if (debug && rules[ruleI] is null && ruleI != 0)
+                    if (debug == 1 && rules[ruleI] is null && ruleI != 0)
                     {
                         Console.Write(ruleI + ": ");
                         if (rules[ruleI] is not null)

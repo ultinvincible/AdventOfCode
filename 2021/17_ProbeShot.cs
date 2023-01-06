@@ -6,7 +6,7 @@ namespace Advent_of_Code._2021
     {
         protected override void Run()
         {
-            string[] split = input[15..^1].Split(".."),
+            string[] split = input[15..].Split(".."),
                 split1 = split[1].Split(", y=");
             int xLeftt = int.Parse(split[0]),
                 xRight = int.Parse(split1[0]),

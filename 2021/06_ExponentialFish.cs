@@ -8,8 +8,7 @@ namespace Advent_of_Code._2021
     {
         protected override void Run()
         {
-            int[] inputFishes = Array.ConvertAll(input
-                .Trim().Split(','), int.Parse);
+            int[] inputFishes = Array.ConvertAll(input.Split(','), int.Parse);
 
             int Spawns_Part1(int days) // O ~ exponential
             {

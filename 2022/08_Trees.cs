@@ -13,7 +13,7 @@ namespace Advent_of_Code._2022
         int[,,] distances;
         protected override void Run()
         {
-            debug = true;
+            debug = 0;
             trees = GridParse();
             if (trees.GetLength(0) != trees.GetLength(1))
                 throw new Exception("Input not square");
@@ -21,7 +21,7 @@ namespace Advent_of_Code._2022
             distances = new int[length, length, 4];
             for (int pivot = 1; pivot <= length - 2; pivot++)
             {
-                if (debug) Console.WriteLine("Pivot " + pivot);
+                if (debug == 1) Console.WriteLine("Pivot " + pivot);
 
                 int direction = 0;
                 foreach (bool isRow in new bool[] { true, false })
@@ -42,7 +42,7 @@ namespace Advent_of_Code._2022
                             {
                                 visible.Add((row, col));
                                 max = trees[row, col];
-                                if (debug) Console.WriteLine
+                                if (debug == 1) Console.WriteLine
                                         ($"  {names[direction],-6}{row,2},{col,2}");
 
                                 if (!reverse) distances[row, col, direction] = move;
@@ -75,7 +75,7 @@ namespace Advent_of_Code._2022
                     if (part2 < score)
                     {
                         part2 = score;
-                        if (debug) Console.WriteLine
+                        if (debug == 1) Console.WriteLine
                                 ($"{row,2} {col,2} {trees[row, col]} {score}");
                     }
                 }
