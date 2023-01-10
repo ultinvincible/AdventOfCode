@@ -82,7 +82,7 @@ namespace Advent_of_Code._2022
             int height = 0, jet = 0;
             int repeat1 = 0, repeat2 = 0, jetAtRep1 = 0;
             List<int> heightAt = new();
-            for (int i = 0; repeat2 == 0 || i < repeat2 * 2 - repeat1; i++)
+            for (int i = 0; i < 2022 || repeat2 == 0 || i < repeat2 * 2 - repeat1 + 10; i++)
             {
                 int shapeIndex = i % shapes.Length;
                 List<(int row, int col)> shape = shapes[shapeIndex];
@@ -137,7 +137,7 @@ namespace Advent_of_Code._2022
                 if (i == 2021) part1 = height;
             }
 
-            for (int row = repeat2 - repeat1; row >= 1; row--)
+            for (int row = heightAt[repeat2] - heightAt[repeat1]; row >= 1; row--)
             {
                 for (int col = 1; col <= 7; col++)
                     if (map[heightAt[repeat1] + row][col] != map[heightAt[repeat2] + row][col])
@@ -147,15 +147,13 @@ namespace Advent_of_Code._2022
                     string.Join("", Array.ConvertAll(map[heightAt[repeat1] + row][1..8], b => b ? block : " ")) + "    " +
                     string.Join("", Array.ConvertAll(map[heightAt[repeat2] + row][1..8], b => b ? block : " ")));
             }
-            //Console.WriteLine(Math.DivRem(stupidElephants - 16, 35));
-            //Print(map);
             part2 = heightAt[repeat1]
                 + Math.DivRem(stupidElephants - repeat1 - 1, repeat2 - repeat1, out long rem)
                 * (heightAt[repeat2] - heightAt[repeat1])
                 + heightAt[repeat1 + (int)rem] - heightAt[repeat1];
         }
 
-        void Print(List<bool[]> map, int sI = -1, int row = -1, int col = -1, int heightAtRep1 = -1)
+        void Print(List<bool[]> map, int sI = -1, int row = -1, int col = -1)
         {
             Console.WriteLine();
             char[][] print = map.ConvertAll(row => Array.ConvertAll(row, b => b ? '#' : '.')).ToArray();
@@ -165,7 +163,7 @@ namespace Advent_of_Code._2022
             for (int line = map.Count - 1; line >= 1; line--)
             {
                 print[line][0] = '|'; print[line][8] = '|';
-                Console.WriteLine(string.Join("", print[line]) + (line == heightAtRep1 ? " <-" : ""));
+                Console.WriteLine(string.Join("", print[line]));
             }
             Console.WriteLine("+-------+");
             Console.WriteLine("Height: " + (map.Count - 8));

@@ -33,8 +33,8 @@ namespace Advent_of_Code
 
             client.DefaultRequestHeaders.Add
                 ("cookie", "session=" + File.ReadAllText("sessionToken.txt"));
-            client.DefaultRequestHeaders.Add("User-Agent",
-                ".NET/6.0 (https://github.com/ultinvincible/AdventOfCode by trinhminhkhanh278@gmail.com)");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd(
+                ".NET/6.0 (+via https://github.com/ultinvincible/AdventOfCode by trinhminhkhanh278@gmail.com)");
 
             Console.WriteLine($"Run {year} day: {day}");
             RunSolution(year, day);
@@ -95,9 +95,7 @@ namespace Advent_of_Code
             if (part1 == "Not done." || !submit) return;
             Console.Write("Enter \"y\" to submit: ");
             if (Console.ReadLine() != "y") return;
-            int part = 1;
-            if (part2 != "Not done.")
-                part = 2;
+            int part = part2 == "Not done." ? 1 : 2;
             string[] result = new string[] { part1, part2 };
 
             HttpRequestMessage request = new(HttpMethod.Post, $"/{year}/day/{day}/answer")
@@ -108,7 +106,8 @@ namespace Advent_of_Code
                     new("answer", result[part - 1])
                 })
             };
-            string response = new StreamReader(client.Send(request)
+            HttpResponseMessage send = client.Send(request);
+            string response = new StreamReader(send
                 .Content.ReadAsStream()).ReadToEnd();
             File.AppendAllText("responses.txt", response + "\n");
             response = response.Split(new string[] {
