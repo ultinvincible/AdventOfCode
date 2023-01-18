@@ -144,8 +144,8 @@ namespace Advent_of_Code._2022
                     { }
 
                 if (debug == 2) Console.WriteLine(
-                    string.Join("", Array.ConvertAll(map[heightAt[repeat1] + row][1..8], b => b ? block : " ")) + "    " +
-                    string.Join("", Array.ConvertAll(map[heightAt[repeat2] + row][1..8], b => b ? block : " ")));
+                    string.Concat(Array.ConvertAll(map[heightAt[repeat1] + row][1..8], b => b ? block : " ")) + "    " +
+                    string.Concat(Array.ConvertAll(map[heightAt[repeat2] + row][1..8], b => b ? block : " ")));
             }
             part2 = heightAt[repeat1]
                 + Math.DivRem(stupidElephants - repeat1 - 1, repeat2 - repeat1, out long rem)
@@ -163,7 +163,7 @@ namespace Advent_of_Code._2022
             for (int line = map.Count - 1; line >= 1; line--)
             {
                 print[line][0] = '|'; print[line][8] = '|';
-                Console.WriteLine(string.Join("", print[line]));
+                Console.WriteLine(string.Concat(print[line]));
             }
             Console.WriteLine("+-------+");
             Console.WriteLine("Height: " + (map.Count - 8));

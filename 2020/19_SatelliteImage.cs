@@ -70,7 +70,7 @@ namespace Advent_of_Code._2020
                         completed[ruleI] = new();
                         foreach (List<string> subRule in newRule)
                         {
-                            string text = string.Join("", subRule);
+                            string text = string.Concat(subRule);
                             //if (!completed[ruleI].Contains(text))
                             completed[ruleI].Add(text);
                         }

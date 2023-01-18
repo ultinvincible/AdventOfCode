@@ -48,7 +48,7 @@ namespace Advent_of_Code
         protected int[,] GridParse()
             => GridParse(c => (int)char.GetNumericValue(c));
 
-        protected static string GridStr(int length0, Func<int, int> GetLength1,
+        private static string GridStr(int length0, Func<int, int> GetLength1,
             Func<int, int, string> ToStr, bool numbered = false)
         {
             string result = "";

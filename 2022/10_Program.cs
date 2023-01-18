@@ -21,7 +21,7 @@ namespace Advent_of_Code._2022
                         part1 += cycleCount * X;
                 }
             }
-            part2_str = "\n" + GridStr(CRT,b=>b?block:" ");
+            part2_str = "\n" + GridStr(CRT, b => b ? block : " ");
         }
 
         static void Cycle(int X, ref int cycle, ref int position, bool[,] CRT)

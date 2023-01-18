@@ -104,7 +104,7 @@ namespace Advent_of_Code._2020
             {
                 result[i] = (char)('0' + cups1[(i1 + 1 + i) % 9]);
             }
-            part1_str = string.Join("", result);
+            part1_str = string.Concat(result);
 
             part2 = Move(cups2, (int)Math.Pow(10, 7), (int)Math.Pow(10, 6));
         }
