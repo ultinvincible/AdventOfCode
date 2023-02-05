@@ -38,7 +38,7 @@ namespace Advent_of_Code
 
             Console.WriteLine($"Run {year} day: {day}");
             RunSolution(year, day);
-            Console.WriteLine(new string('~', Console.BufferWidth));
+            Console.WriteLine(new string('~', Console.BufferWidth) + "\n");
             while (true)
             {
                 Console.Write($"Run {year} day: ");
@@ -65,7 +65,7 @@ namespace Advent_of_Code
                         (year == NowYear && NowMonth < 12))
                         return;
                 }
-                Console.WriteLine(new string('~', Console.BufferWidth));
+                Console.WriteLine(new string('~', Console.BufferWidth) + "\n");
             }
         }
 
