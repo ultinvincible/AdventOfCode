@@ -5,7 +5,7 @@ namespace Advent_of_Code._2022
 {
     internal class _22_Snake : AoCDay
     {
-        static readonly (int dimension, int sign)[] directions = new (int dimension, int sign)[]
+        static readonly (int dimension, int value)[] directions = new (int dimension, int value)[]
         {
             (1, 1), (0, 1), (1, -1), (0, -1)
         };
@@ -80,65 +80,45 @@ namespace Advent_of_Code._2022
                 else if (i == path.Length - 1)
                     split.Add(path[prev..path.Length]);
 
-            (int[] position, int dir) = Destination((position, dir) =>
+            (int[] result, int resultDir) = Destination((newPosition, dimension, value, min, max) =>
             {
-                (int dimension, int sign) = directions[dir];
-                (int min, int max) = bounds[dimension][position[1 - dimension]];
-                int dest = position[dimension] + sign;
-                if (dest == max + 1) dest = min;
-                else if (dest == min - 1) dest = max;
-                int[] newPosition = Array.ConvertAll(position, _ => _);
-                newPosition[dimension] = dest;
-                return (newPosition, dir);
+                newPosition[dimension] += value;
+                if (newPosition[dimension] == max + 1) newPosition[dimension] = min;
+                else if (newPosition[dimension] == min - 1) newPosition[dimension] = max;
+                return -1;
             });
-            part1 = position[0] * 1000 + position[1] * 4 + 1004 + dir;
+            part1 = result[0] * 1000 + result[1] * 4 + 1004 + resultDir;
 
-            debug = 0;
             map = Array.ConvertAll(inputSections[0], s => s.ToCharArray());
-            (position, dir) = Destination((position, dir) =>
+            (result, resultDir) = Destination((newPosition, dimension, value, min, max) =>
             {
-                (int dimension, int sign) = directions[dir];
-                (int min, int max) = bounds[dimension][position[1 - dimension]];
-                int dest = position[dimension] + sign;
-                int[] newPosition = Array.ConvertAll(position, _ => _);
-                newPosition[dimension] = dest;
-                int newDir = dir;
-
-                if (dest == max + 1 || dest == min - 1)
-                {
+                int newDir = -1;
+                if (newPosition[dimension] + value == max + 1 || newPosition[dimension] + value == min - 1)
                     for (int f = 0; f < folds.Length; f++)
                     {
-                        (int foldDim, int foldSign) = directions[folds[f][2]];
-                        int distance = (position[foldDim] - folds[f][foldDim]) * foldSign;
-                        if (position[1 - foldDim] == folds[f][1 - foldDim] && 0 <= distance && distance < cubeLength)
+                        (int foldDim, int foldValue) = directions[folds[f][2]];
+                        int distance = (newPosition[foldDim] - folds[f][foldDim]) * foldValue;
+                        if (newPosition[1 - foldDim] == folds[f][1 - foldDim] && 0 <= distance && distance < cubeLength)
                         {
                             int[] fold = folds[f + (f % 2 == 0 ? 1 : -1)];
-                            (int newDim, int newSign) = directions[fold[2]];
+                            (int newDim, int newValue) = directions[fold[2]];
                             newPosition[1 - newDim] = fold[1 - newDim];
-                            newPosition[newDim] = fold[newDim] + distance * newSign;
+                            newPosition[newDim] = fold[newDim] + distance * newValue;
                             newDir = fold[3];
                             break;
                         }
                     }
-
-                    if (debug == 2)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine((position[0], position[1], facing[dir]));
-                        Console.WriteLine((newPosition[0], newPosition[1], facing[newDir]));
-                    }
-                }
-
-                return (newPosition, newDir);
+                else newPosition[dimension] += value;
+                return newDir;
             });
-            if (debug == 2)
-                Console.WriteLine();
-            part2 = position[0] * 1000 + position[1] * 4 + 1004 + dir;
+            if (debug == 2) Console.WriteLine();
+            part2 = result[0] * 1000 + result[1] * 4 + 1004 + resultDir;
 
-            (int[], int) Destination(Func<int[], int, (int[], int)> Move)
+            (int[], int) Destination(Func<int[], int, int, int, int, int> Warp)
             {
                 int[] position = new int[] { 0, bounds[1][0].min };
                 int dir = 0;
+                map[position[0]][position[1]] = facing[dir];
                 foreach (string move in split)
                 {
                     if (debug == 2) Console.Write(move);
@@ -146,12 +126,23 @@ namespace Advent_of_Code._2022
                     else if (move == "R") dir = (dir + 1) % 4;
                     else
                     {
-                        int dist = int.Parse(move);
-                        for (int i = 1; i <= dist; i++)
+                        for (int i = 1; i <= int.Parse(move); i++)
                         {
-                            (int[] newPosition, int newDir) = Move(position, dir);
+                            (int dimension, int value) = directions[dir];
+                            (int min, int max) = bounds[dimension][position[1 - dimension]];
+                            int[] newPosition = Array.ConvertAll(position, _ => _);
+                            int newDir = Warp(newPosition, dimension, value, min, max);
+                            if (newDir == -1) newDir = dir;
+
                             if (map[newPosition[0]][newPosition[1]] != '#')
                             {
+                                if (debug == 2 && position[0] != newPosition[0] && position[1] != newPosition[1])
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine((position[0], position[1], facing[dir]));
+                                    Console.WriteLine((newPosition[0], newPosition[1], facing[newDir]));
+                                }
+
                                 (position, dir) = (newPosition, newDir);
                                 map[newPosition[0]][newPosition[1]] = facing[dir];
                             }
@@ -160,6 +151,7 @@ namespace Advent_of_Code._2022
 
                         if (debug == 1)
                         {
+                            Console.WriteLine((position[0], position[1]));
                             const int range = 15;
                             for (int row = Math.Max(0, position[0] - range);
                                 row < Math.Min(map.Length, position[0] + range + 1); row++)
@@ -175,6 +167,7 @@ namespace Advent_of_Code._2022
                                 }
                                 Console.WriteLine();
                             }
+                            Console.WriteLine();
                         }
                     }
                 }
