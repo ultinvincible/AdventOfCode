@@ -96,7 +96,7 @@ namespace Advent_of_Code._2022
 
         void PrintMap()
         {
-            if (debug == 1) Console.WriteLine(GridStr(blocked, (row, col) =>
+            if (debug == 1) Console.WriteLine(GridPrint(blocked, (row, col) =>
                 (row, col) == source ? "+" : blocked[row, col] ? rock[row, col] ? "#" : "o" : "."));
         }
     }

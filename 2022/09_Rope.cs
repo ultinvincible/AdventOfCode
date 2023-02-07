@@ -75,7 +75,7 @@ namespace Advent_of_Code._2022
                     grid[row, col] = visited.Contains
                        ((row - maxAbs, col - maxAbs)) ? '#' : '.';
             grid[maxAbs, maxAbs] = 's';
-            return GridStr(grid);
+            return GridPrint(grid);
         }
     }
 }

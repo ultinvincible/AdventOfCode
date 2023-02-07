@@ -232,6 +232,6 @@ namespace Advent_of_Code._2021
         }
 
         string PrintMap(int[,] map)
-            => GridStr(map, i => i == -1 ? " " : i == 0 ? "." : char.ConvertFromUtf32('A' + i - 1))[..^1];
+            => GridPrint(map, i => i == -1 ? " " : i == 0 ? "." : char.ConvertFromUtf32('A' + i - 1))[..^1];
     }
 }

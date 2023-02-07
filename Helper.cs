@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace Advent_of_Code
 {
@@ -48,39 +50,59 @@ namespace Advent_of_Code
         protected int[,] GridParse()
             => GridParse(c => (int)char.GetNumericValue(c));
 
-        private static string GridStr(int length0, Func<int, int> GetLength1,
-            Func<int, int, string> ToStr, bool numbered = false)
-        {
-            string result = "";
-            for (int row = 0; row < length0; row++)
-            {
-                if (numbered) result += row + ": ";
-                for (int col = 0; col < GetLength1(row); col++)
-                    result += ToStr(row, col);
-                result += "\n";
-            }
-            return result;
-        }
-
-        protected static string GridStr<T>(T[,] input,
+        protected static string GridPrint<T>(T[,] input,
             Func<int, int, string> ToStr = null, bool numbered = false)
         {
             ToStr ??= (row, col) => input[row, col].ToString();
-            return GridStr(input.GetLength(0), _ => input.GetLength(1), ToStr, numbered);
+            StringBuilder print = Header(input.GetLength(1), numbered);
+            for (int row = 0; row < input.GetLength(0); row++)
+            {
+                if (numbered) print.Append($"{row,2} ");
+                for (int col = 0; col < input.GetLength(1); col++)
+                    print.Append(ToStr(row, col));
+                print.AppendLine();
+            }
+            return print.ToString();
         }
-        protected static string GridStr<T>(T[,] input,
+        protected static string GridPrint<T>(T[,] input,
             Func<T, string> ToStr, bool numbered = false)
-            => GridStr(input, (row, col) => ToStr(input[row, col]), numbered);
+            => GridPrint(input, (row, col) => ToStr(input[row, col]), numbered);
 
-        protected static string GridStr<T>(IList<IList<T>> input,
-            Func<int, int, string> ToStr = null, bool numbered = false)
+        protected static string GridPrint<T>(IEnumerable<IEnumerable<T>> input,
+            Func<T, string> ToStr = null, bool numbered = false)
         {
-            ToStr ??= (row, col) => input[row][col].ToString();
-            return GridStr(input.Count, row => input[row].Count, ToStr, numbered);
+            ToStr ??= item => item.ToString();
+            StringBuilder print = Header(input.Count(), numbered);
+
+            int row = 0;
+            foreach (IEnumerable<T> line in input)
+            {
+                if (numbered) print.Append($"{row,2} ");
+                foreach (T item in line)
+                    print.Append(ToStr(item));
+                print.AppendLine();
+                row++;
+            }
+            return print.ToString();
         }
-        protected static string GridStr<T>(IList<IList<T>> input,
-            Func<T, string> ToStr, bool numbered = false)
-            => GridStr(input, (row, col) => ToStr(input[row][col]), numbered);
+
+        private static StringBuilder Header(int length, bool numbered)
+        {
+            StringBuilder print = new();
+            if (numbered)
+            {
+                string line0 = "   ", line1 = "   ";
+                for (int i = 0; i < length; i++)
+                {
+                    string lastTwoDigits = (i % 100).ToString();
+                    line0 += lastTwoDigits.Length == 1 ? ' ' : lastTwoDigits[0];
+                    line1 += lastTwoDigits[^1];
+                }
+                print.AppendLine(line0);
+                print.AppendLine(line1);
+            }
+            return print;
+        }
 
         protected static List<(int row, int col)> Neighbors
             (int row, int col, Func<int, int, bool> OutOfBounds = null,

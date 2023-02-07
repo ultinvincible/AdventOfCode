@@ -87,7 +87,7 @@ namespace Advent_of_Code._2020
                     {
                         Console.Write(ruleI + ": ");
                         if (rules[ruleI] is not null)
-                            Console.WriteLine(GridStr(rules[ruleI], s => s + "|"));
+                            Console.WriteLine(GridPrint(rules[ruleI], s => s + "|"));
                         else
                         {
                             Console.WriteLine(string.Join("|", completed[ruleI]) + "\nCompleted");

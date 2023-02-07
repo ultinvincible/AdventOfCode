@@ -28,7 +28,7 @@ namespace Advent_of_Code._2021
             //PrintDots();
         }
         string PrintDots()
-            => "\n" + GridStr(dot, b => b ? block : " ");
+            => "\n" + GridPrint(dot, b => b ? block : " ");
 
         protected override void Run()
         {

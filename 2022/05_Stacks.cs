@@ -21,7 +21,7 @@ namespace Advent_of_Code._2022
             List<char>[] stacks2 = Array.ConvertAll(stacks, s => new List<char>(s));
             if (debug == 1)
             {
-                Console.WriteLine(GridStr(stacks, numbered: true));
+                Console.WriteLine(GridPrint(stacks, numbered: true));
                 //Console.WriteLine(GridStr(stacks2, numbered: true));
             }
 
@@ -47,8 +47,8 @@ namespace Advent_of_Code._2022
 
                 if (debug == 1)
                 {
-                    Console.WriteLine(GridStr(stacks, numbered: true));
-                    Console.WriteLine(GridStr(stacks2, numbered: true));
+                    Console.WriteLine(GridPrint(stacks, numbered: true));
+                    Console.WriteLine(GridPrint(stacks2, numbered: true));
                 }
             }
 

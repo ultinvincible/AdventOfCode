@@ -6,14 +6,13 @@ namespace Advent_of_Code._2022
 {
     internal class _23_ElvesMoving : AoCDay
     {
-        const int rounds = 10;
         static readonly List<(int dimension, int value)> directions = new()
         {
             (0, -1), (0, 1), (1, -1), (1, 1),
         }; // N, S, W, E
         protected override void Run()
         {
-            debug = 0;
+            debug = 1;
             List<List<bool>> map = new(Array.ConvertAll(inputLines,
                 s => new List<char>(s).ConvertAll(c => c == '#')));
             int elves = 0;
@@ -92,17 +91,7 @@ namespace Advent_of_Code._2022
 
                 if (debug == 1)
                 {
-                    Console.WriteLine($"After round {r + 1}");
-                    for (int row = 0; row < map.Count; row++)
-                    {
-                        //for (int col = 0; col < map[0].Count; col++)
-                        //    Console.Write(propose[row, col] != (-1, -1) && propose[row, col] != (-2, -2) ? "#" : ".");
-                        //Console.Write("  ");
-                        for (int col = 0; col < map[0].Count; col++)
-                            Console.Write(map[row][col] ? "#" : ".");
-                        Console.WriteLine();
-                    }
-                    Console.WriteLine();
+                    Console.WriteLine(GridPrint(map, b => b ? "#" : ".", true));
                 }
 
                 if (r == 9 || !moved && part1 == 0)

@@ -58,7 +58,7 @@ namespace Advent_of_Code._2022
                     }
                 }
             }
-            if (debug == 1) Console.WriteLine(GridStr(lines.ToArray(), line => $"{line,2} | "));
+            if (debug == 1) Console.WriteLine(GridPrint(lines.ToArray(), line => $"{line,2} | "));
 
             for (int l1 = 0; l1 < lines.Count; l1++)
                 for (int l2 = l1 + 1; l2 < lines.Count; l2++)
