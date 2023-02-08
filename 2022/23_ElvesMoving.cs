@@ -12,7 +12,7 @@ namespace Advent_of_Code._2022
         }; // N, S, W, E
         protected override void Run()
         {
-            debug = 1;
+            debug = 0;
             List<List<bool>> map = new(Array.ConvertAll(inputLines,
                 s => new List<char>(s).ConvertAll(c => c == '#')));
             int elves = 0;
