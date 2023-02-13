@@ -125,28 +125,20 @@ namespace Advent_of_Code
             => row < 0 || row >= grid.GetLength(0) || col < 0 || col >= grid.GetLength(1);
 
         // All comments are stolen from https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
-        static protected List<(int prev, int distance)> Dijkstras(
-            Func<int, IEnumerable<(int nei, int distance)>> Neighbors, Func<int, bool> IsDestination = null, int start = 0)
+        static protected Dictionary<S, (S prev, int cost)> Dijkstras<S>
+            (Func<S, IEnumerable<(S next, int cost)>> NextStates, S start, Func<S, bool> IsDestination = null)
+            where S : IEquatable<S>
         {
             // Mark all nodes unvisited.
             // Create a set of all the unvisited nodes called the unvisited set.
-            List<bool> visited = new();
-            HashSet<int> unvisited = new();
-            IsDestination ??= _ => unvisited.Count == 0;
-
             // Assign to every node a tentative distance value:
             // set it to zero for our initial node
             // and to infinity for all other nodes.
             // Set the initial node as current.
-            List<(int prev, int distance)> nodes = new();
-            for (int i = 0; i < start; i++)
-            {
-                visited.Add(false);
-                nodes.Add((-1, int.MaxValue));
-            }
-            visited.Add(false);
-            nodes.Add((-1, 0));
-            int current = start;
+
+            Dictionary<S, (S prev, int cost)> visited = new();
+            Dictionary<S, (S prev, int cost)> unvisited = new() { { start, (default, 0) } };
+            S current = start;
 
             // For the current node, consider all of its unvisited neighbors
             // and calculate their tentative distances through the current node.
@@ -154,102 +146,50 @@ namespace Advent_of_Code
             // assigned to the neighbor and assign it the smaller one.
             while (true)
             {
-                foreach ((int nei, int distance) in Neighbors(current))
+                foreach ((S next, int cost) in NextStates(current))
                 {
-                    // Extend lists
-                    if (nei >= visited.Count)
-                        for (int i = visited.Count; i <= nei; i++)
-                        {
-                            visited.Add(false);
-                            nodes.Add((-1, int.MaxValue));
-                        }
-                    if (visited[nei]) continue;
-                    unvisited.Add(nei);
-                    int newDist = nodes[current].distance + distance;
-                    if (newDist < nodes[nei].distance)
-                        nodes[nei] = (current, newDist);
+                    int newCost = unvisited[current].cost + cost;
+                    if (!visited.ContainsKey(next) && (!unvisited.ContainsKey(next) || newCost < unvisited[next].cost))
+                        unvisited[next] = (current, newCost);
                 }
 
                 // Mark the current node as visited and remove it from the unvisited set. 
-                visited[current] = true;
-                unvisited.Remove(current);
+                visited.Add(current, unvisited[current]);
+                if (!unvisited.Remove(current)) throw new Exception("KV pair not found");
 
                 // If the destination node has been marked visited or if the smallest
                 // tentative distance among the nodes in the unvisited set is infinity
                 // then stop. The algorithm has finished.
                 // Otherwise, select the unvisited node that is marked with the smallest
                 // tentative distance, set it as the new current node.
-                if (IsDestination(current))
+                if (IsDestination is not null && IsDestination(current) || unvisited.Count == 0)
                     break;
+
                 int min = int.MaxValue;
-                foreach (int unv in unvisited)
-                    if (min > nodes[unv].distance)
+                foreach (S state in unvisited.Keys)
+                    if (min > unvisited[state].cost)
                     {
-                        current = unv;
-                        min = nodes[unv].distance;
+                        current = state;
+                        min = unvisited[state].cost;
                     }
             }
-            return nodes;
+            return visited;
         }
 
-        static protected (int prevRow, int prevCol, int distance)[,] Dijkstras(int[,] grid,
-            Func<(int row, int col), IEnumerable<(int row, int col, int distance)>> Neighbors,
+        static protected (int prevRow, int prevCol, int cost)[,] Dijkstras(int[,] grid,
+            Func<(int row, int col), IEnumerable<((int row, int col) pos, int cost)>> Neighbors,
             (int row, int col) start = default, (int row, int col)? destination = null)
         {
-            int length0 = grid.GetLength(0), length1 = grid.GetLength(1);
-
-            // Mark all nodes unvisited.
-            // Create a set of all the unvisited nodes called the unvisited set.
-            bool[,] visited = new bool[length0, length1];
-            HashSet<(int row, int col)> unvisited = new();
-            destination ??= (-1, -1);
-
-            // Assign to every node a tentative distance value:
-            // set it to zero for our initial node
-            // and to infinity for all other nodes.
-            // Set the initial node as current.
-            (int prevRow, int prevCol, int distance)[,] nodes =
-                new (int prevRow, int prevCol, int distance)[length0, length1];
-            for (int row = 0; row < length0; row++)
-                for (int col = 0; col < length1; col++)
-                    nodes[row, col] = (row, col) != start ? (-1, -1, int.MaxValue) : (-1, -1, 0);
-            (int row, int col) current = start;
-
-            // For the current node, consider all of its unvisited neighbors
-            // and calculate their tentative distances through the current node.
-            // Compare the newly calculated tentative distance to the one currently
-            // assigned to the neighbor and assign it the smaller one.
-            while (true)
-            {
-                foreach ((int row, int col, int distance) in Neighbors(current))
-                {
-                    if (visited[row, col]) continue;
-                    unvisited.Add((row, col));
-                    int newDist = nodes[current.row, current.col].distance + distance;
-                    if (newDist < nodes[row, col].distance)
-                        nodes[row, col] = (current.row, current.col, newDist);
-                }
-
-                // Mark the current node as visited and remove it from the unvisited set. 
-                visited[current.row, current.col] = true;
-                unvisited.Remove(current);
-
-                // If the destination node has been marked visited or if the smallest
-                // tentative distance among the nodes in the unvisited set is infinity
-                // then stop. The algorithm has finished.
-                // Otherwise, select the unvisited node that is marked with the smallest
-                // tentative distance, set it as the new current node.
-                if (current == destination) break;
-                int min = int.MaxValue;
-                foreach ((int row, int col) in unvisited)
-                    if (min > nodes[row, col].distance)
-                    {
-                        current = (row, col);
-                        min = nodes[row, col].distance;
-                    }
-                if (min == int.MaxValue) break;
-            }
-            return nodes;
+            Dictionary<(int row, int col), ((int row, int col) prev, int cost)> tree =
+                Dijkstras(pos => Neighbors(pos), start, destination is null ? null : pos => pos == destination);
+            (int prevRow, int prevCol, int cost)[,] result =
+                new (int prevRow, int prevCol, int cost)[grid.GetLength(0), grid.GetLength(1)];
+            for (int row = 0; row < grid.GetLength(0); row++)
+                for (int col = 0; col < grid.GetLength(1); col++)
+                    result[row, col] = (-1, -1, int.MaxValue);
+            foreach (((int row, int col) pos, ((int row, int col) prev, int cost) node) in tree)
+                result[pos.row, pos.col] = (node.prev.row, node.prev.col, node.cost);
+            return result;
         }
     }
 }

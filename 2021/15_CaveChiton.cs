@@ -5,13 +5,12 @@ namespace Advent_of_Code._2021
     {
         static int Dijkstras(int[,] cavern)
         {
-            int lengthRow = cavern.GetLength(0), lengthCol = cavern.GetLength(1);
-            (int row, int col) end = (lengthRow - 1, lengthCol - 1);
-            var result = Dijkstras(cavern,
-                point => Neighbors(point.row, point.col, cavern)
-                 .ConvertAll(nei => (nei.row, nei.col, cavern[nei.row, nei.col])),
-                destination:end);
-            return result[end.row, end.col].distance;
+            (int row, int col) end = (cavern.GetLength(0) - 1, cavern.GetLength(1) - 1);
+            (int prevRow, int prevCol, int cost)[,] result =
+                Dijkstras(cavern, point => Neighbors(point.row, point.col, cavern)
+                 .ConvertAll(nei => (nei, cavern[nei.row, nei.col])),
+                destination: end);
+            return result[end.row, end.col].cost;
         }
 
         protected override void Run()

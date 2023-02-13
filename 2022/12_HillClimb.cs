@@ -5,7 +5,7 @@ namespace Advent_of_Code._2022
 {
     class _12_HillClimb : AoCDay
     {
-        (int row, int col) start = (0, 0), end = (0, 0);
+        (int row, int col) start = default, end = default;
         static int[,] hill;
         protected override void Run()
         {
@@ -20,26 +20,25 @@ namespace Advent_of_Code._2022
                  }
              });
 
-            (int prevRow, int prevCol, int weight)[,] map = Dijkstras(hill,
-                point => Step(point.row, point.col), start, end);
-            part1 = map[end.row, end.col].weight;
+            (int prevRow, int prevCol, int cost)[,] map =
+                 Dijkstras(hill, point => Step(point.row, point.col), start, end);
+            part1 = map[end.row, end.col].cost;
 
-            map = Dijkstras(hill,
-                ((int row, int col) point) => Step(point.row, point.col, true), end);
+            map = Dijkstras(hill, point => Step(point.row, point.col, true), end);
             part2 = int.MaxValue;
             for (int row = 0; row < map.GetLength(0); row++)
                 for (int col = 0; col < map.GetLength(1); col++)
                     if (hill[row, col] == 0)
-                        part2 = Math.Min(part2, map[row, col].weight);
+                        part2 = Math.Min(part2, map[row, col].cost);
         }
 
-        private static List<(int row, int col, int weight)> Step(int row, int col, bool reverse = false)
+        private static List<((int row, int col), int cost)> Step(int row, int col, bool reverse = false)
         {
-            List<(int, int, int)> result = new();
+            List<((int, int), int)> result = new();
             foreach ((int neiRow, int neiCol) in Neighbors(row, col, hill))
                 if (!reverse && hill[neiRow, neiCol] - hill[row, col] <= 1 ||
                     (reverse && hill[neiRow, neiCol] - hill[row, col] >= -1))
-                    result.Add((neiRow, neiCol, 1));
+                    result.Add(((neiRow, neiCol), 1));
             return result;
         }
     }

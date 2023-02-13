@@ -37,7 +37,7 @@ namespace Advent_of_Code
                 ".NET/6.0 (+via https://github.com/ultinvincible/AdventOfCode by trinhminhkhanh278@gmail.com)");
 
             Console.WriteLine($"Run {year} day: {day}");
-            RunSolution(year, day);
+            RunSolution(year, day, false);
             Console.WriteLine(new string('~', Console.BufferWidth) + "\n");
             while (true)
             {

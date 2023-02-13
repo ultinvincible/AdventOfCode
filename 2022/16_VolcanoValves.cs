@@ -5,12 +5,15 @@ namespace Advent_of_Code._2022
 {
     class _16_VolcanoValves : AoCDay
     {
+        int[] rates;
+        List<int> importantValves = new();
+        Dictionary<int, int[]> costs = new();
+
         protected override void Run()
         {
             string[] names = new string[inputLines.Length];
-            int[] rates = new int[inputLines.Length];
-            string[][] tunnelsStr = new string[inputLines.Length][];
-            List<int> importantValves = new();
+            rates = new int[inputLines.Length];
+            string[][] tunnelsNames = new string[inputLines.Length][];
             for (int l = 0; l < inputLines.Length; l++)
             {
                 string line = inputLines[l];
@@ -20,113 +23,115 @@ namespace Advent_of_Code._2022
                 names[l] = split[0];
                 rates[l] = int.Parse(split[1]);
                 if (rates[l] > 0) importantValves.Add(l);
-                tunnelsStr[l] = split[2].Split(", ");
+                tunnelsNames[l] = split[2].Split(", ");
             }
-            int start = Array.IndexOf(names, "AA");
-            importantValves.Insert(0, start);
-            int[][] tunnels = Array.ConvertAll(tunnelsStr,
-                v => Array.ConvertAll(v, path => Array.IndexOf(names, path)));
+            importantValves.Insert(0, Array.IndexOf(names, "AA"));
+            int[][] tunnels = Array.ConvertAll(tunnelsNames,
+                valve => Array.ConvertAll(valve, tunnel => Array.IndexOf(names, tunnel)));
             if (debug == 1)
                 for (int i = 0; i < names.Length; i++)
                     Console.WriteLine($"{i,2}: {rates[i],2}|" +
                         $"{string.Join(",", Array.ConvertAll(tunnels[i], i => $"{i,2}"))}");
-            Dictionary<int, (int path, int dist)[]> map = new();
             foreach (int iV in importantValves)
-                map[iV] = Dijkstras
-                        (v => Array.ConvertAll(tunnels[v], t => (t, 1)), start: iV).ToArray();
-            List<int> result = new();
-            Move(start);
-            foreach (int release in result)
-                part1 = Math.Max(part1, release);
+            {
+                Dictionary<int, (int prev, int cost)> tree =
+                    Dijkstras(v => Array.ConvertAll(tunnels[v], t => (t, 1)), iV);
+                costs[iV] = new int[tree.Count];
+                foreach ((int index, (int prev, int cost) node) in tree)
+                    costs[iV][index] = node.cost;
+            }
+
+            Move(importantValves[0]);
+            part1 = maxRelease;
 
             debug = 0;
-            result = new();
-            MoveP2(start);
-            foreach (int release in result)
-                part2 = Math.Max(part2, release);
+            maxRelease = 0;
+            MoveP2(importantValves[0]);
+            part2 = maxRelease;
+        }
 
-            void Move(int current, List<int> path = null, int time = 30, int release = 0)
+        int maxRelease = 0;
+        void Move(int current, List<int> path = null, int time = 30, int release = 0)
+        {
+            path ??= new();
+            path.Add(current);
+            if (path.Count == importantValves.Count)
             {
-                path ??= new();
-                path.Add(current);
-                if (path.Count == importantValves.Count)
-                {
-                    result.Add(release);
-                    Print(path);
-                    return;
-                }
-
-                bool move = false;
-                foreach (int valve in importantValves)
-                {
-                    if (path.Contains(valve)) continue;
-                    int timeLeft = time - map[current][valve].dist - 1,
-                        newRelease = rates[valve] * timeLeft;
-                    if (timeLeft >= 0)
-                    {
-                        Move(valve, new(path), timeLeft, release + newRelease);
-                        move = true;
-                    }
-                }
-                if (!move)
-                {
-                    result.Add(release);
-                    Print(path);
-                }
+                maxRelease = Math.Max(maxRelease, release);
+                Print(path);
+                return;
             }
 
-            void Print(List<int> path)
+            bool move = false;
+            foreach (int valve in importantValves)
             {
-                if (debug == 1) Console.WriteLine(string.Join(" | ", path.ConvertAll(i => $"{i,2}")));
-            }
-
-            void MoveP2(int current, List<int>[] path = null, int[] time = null,
-                int release = 0, int mover = 0)
-            {
-                path ??= new List<int>[] { new(), new() { current } };
-                time ??= new int[] { 26, 26 };
-                path[mover].Add(current);
-                if (path[0].Count + path[1].Count == importantValves.Count + 1)
+                if (path.Contains(valve)) continue;
+                int timeLeft = time - costs[current][valve] - 1,
+                    newRelease = rates[valve] * timeLeft;
+                if (timeLeft >= 0)
                 {
-                    result.Add(release);
-                    PrintP2(path);
-                    return;
-                }
-
-                if (time[mover] < time[1 - mover])
-                {
-                    mover = 1 - mover;
-                    current = path[mover][^1];
-                }
-                bool move = false;
-                foreach (int valve in importantValves)
-                {
-                    if (path[0].Contains(valve) || path[1].Contains(valve)) continue;
-                    int timeLeft = time[mover] - map[current][valve].dist - 1,
-                        newRelease = rates[valve] * timeLeft;
-                    if (timeLeft >= 0)
-                    {
-                        int[] newTime = Array.ConvertAll(time, _ => _);
-                        newTime[mover] = timeLeft;
-                        MoveP2(valve, Array.ConvertAll(path, l => new List<int>(l)),
-                            newTime, release + newRelease, mover);
-                        move = true;
-                    }
-                }
-                if (!move)
-                {
-                    result.Add(release);
-                    PrintP2(path);
+                    Move(valve, new(path), timeLeft, release + newRelease);
+                    move = true;
                 }
             }
-            void PrintP2(List<int>[] path)
+            if (!move)
             {
-                if (debug == 1)
+                maxRelease = Math.Max(maxRelease, release);
+                Print(path);
+            }
+        }
+
+        void Print(List<int> path)
+        {
+            if (debug == 1) Console.WriteLine(string.Join(" | ", path.ConvertAll(i => $"{i,2}")));
+        }
+
+        void MoveP2(int current, List<int>[] path = null, int[] time = null,
+            int release = 0, int mover = 0)
+        {
+            path ??= new List<int>[] { new(), new() { current } };
+            time ??= new int[] { 26, 26 };
+            path[mover].Add(current);
+            if (path[0].Count + path[1].Count == importantValves.Count + 1)
+            {
+                maxRelease = Math.Max(maxRelease, release);
+                PrintP2(path);
+                return;
+            }
+
+            if (time[mover] < time[1 - mover])
+            {
+                mover = 1 - mover;
+                current = path[mover][^1];
+            }
+            bool move = false;
+            foreach (int valve in importantValves)
+            {
+                if (path[0].Contains(valve) || path[1].Contains(valve)) continue;
+                int timeLeft = time[mover] - costs[current][valve] - 1,
+                    newRelease = rates[valve] * timeLeft;
+                if (timeLeft >= 0)
                 {
-                    foreach (List<int> mover in path)
-                        Print(mover);
-                    Console.WriteLine();
+                    int[] newTime = Array.ConvertAll(time, _ => _);
+                    newTime[mover] = timeLeft;
+                    MoveP2(valve, Array.ConvertAll(path, l => new List<int>(l)),
+                        newTime, release + newRelease, mover);
+                    move = true;
                 }
+            }
+            if (!move)
+            {
+                maxRelease = Math.Max(maxRelease, release);
+                PrintP2(path);
+            }
+        }
+        void PrintP2(List<int>[] path)
+        {
+            if (debug == 1)
+            {
+                foreach (List<int> mover in path)
+                    Print(mover);
+                Console.WriteLine();
             }
         }
     }

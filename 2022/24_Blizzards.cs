@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Advent_of_Code._2022
 {
@@ -15,7 +12,6 @@ namespace Advent_of_Code._2022
         static readonly char[] facing = new char[] { '>', 'v', '<', '^' };
         readonly List<List<int>[,]> maps = new();
         int[] length = new int[2];
-        List<(int row, int col, int minute)> states = new() { (-1, 0, 0) };
         (int row, int col) start = (-1, 0), dest;
         protected override void Run()
         {
@@ -27,39 +23,48 @@ namespace Advent_of_Code._2022
                 for (int col = 0; col < length[1]; col++)
                 {
                     maps[0][row, col] = new();
-                    int dir = Array.IndexOf(facing, inputLines[row + 1][col + 1]);
-                    if (dir != -1) maps[0][row, col].Add(dir);
+                    char dir = inputLines[row + 1][col + 1];
+                    if (dir != ' ' && dir != '.')
+                        maps[0][row, col].Add(Array.IndexOf(facing, dir));
                 }
             dest = (length[0], length[1] - 1);
 
-            List<(int prev, int distance)> tree = Dijkstras(Next, i =>
-                (states[i].row, states[i].col) == dest);
-            int index = states.FindIndex(s => (s.row, s.col) == dest);
-            part1 = tree[index].distance;
+            Dictionary<(int row, int col, int minute), ((int row, int col, int minute) prev, int cost)> tree =
+                Dijkstras(Next, (start.row, start.col, 0), s =>
+                {
+                    bool isDest = (s.row, s.col) == dest;
+                    if (isDest) part1 = s.Item3;
+                    return isDest;
+                });
             if (debug == 2)
             {
-                List<int> path = new() { index };
+                List<(int row, int col, int minute)> path = new() { (dest.row, dest.col, (int)part1) };
                 do path.Add(tree[path[^1]].prev);
-                while (path[^1] != 0);
+                while (path[^1] != (start.row, start.col, 0));
                 for (int i = path.Count - 1; i >= 0; i--)
                 {
-                    Console.WriteLine("Minute " + (path.Count - 1 - i));
-                    (int row, int col, int minute) = states[path[i]];
-                    PrintMap(minute, row, col);
+                    (int row, int col, int minute) = path[i];
+                    PrintMap(row, col, minute);
                 }
             }
 
-            states = new() { states[index] };
-            Dijkstras(Next, i => (states[i].row, states[i].col) == start);
-            index = states.FindIndex(s => (s.row, s.col) == start);
-            states = new() { states[index] };
-            tree = Dijkstras(Next, i => (states[i].row, states[i].col) == dest);
-            part2 = states[states.FindIndex(s => (s.row, s.col) == dest)].minute;
+            part2 = part1;
+            tree = Dijkstras(Next, (dest.row, dest.col, (int)part2), s =>
+            {
+                bool isDest = (s.row, s.col) == start;
+                if (isDest) part2 = s.Item3;
+                return isDest;
+            });
+            tree = Dijkstras(Next, (start.row, start.col, (int)part2), s =>
+            {
+                bool isDest = (s.row, s.col) == dest;
+                if (isDest) part2 = s.Item3;
+                return isDest;
+            });
         }
-        List<(int prev, int distance)> Next(int i)
+        List<((int row, int col, int minute) state, int cost)> Next((int row, int col, int minute) state)
         {
-            (int posRow, int posCol, int minute) = states[i];
-            List<(int nei, int distance)> result = new();
+            (int posRow, int posCol, int minute) = state;
             if (maps.Count == minute + 1)
             {
                 maps.Add(new List<int>[length[0], length[1]]);
@@ -81,7 +86,7 @@ namespace Advent_of_Code._2022
             if (debug == 1)
             {
                 Console.WriteLine((posRow, posCol, minute));
-                PrintMap(maps.Count - 1, posRow, posCol);
+                PrintMap(posRow, posCol, maps.Count - 1);
             }
 
             List<int>[,] map = maps[^1];
@@ -108,21 +113,12 @@ namespace Advent_of_Code._2022
                 }
             }
 
-            foreach ((int row, int col, int min) in next)
-            {
-                int index = states.IndexOf((row, col, min));
-                if (index == -1)
-                {
-                    states.Add((row, col, min));
-                    index = states.Count - 1;
-                }
-                result.Add((index, 1));
-            }
-            return result;
+            return next.ConvertAll(s => (s, 1));
         }
 
-        private void PrintMap(int minute, int row, int col)
+        private void PrintMap(int row, int col, int minute)
         {
+            Console.WriteLine("Minute " + minute);
             Console.WriteLine(GridPrint(maps[minute], (r, c) =>
             {
                 List<int> l = maps[minute][r, c];

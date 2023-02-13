@@ -36,14 +36,12 @@ namespace Advent_of_Code._2022
             for (int d = result.Count - 1; d >= 0; d--)
             {
                 if (result[d] <= 2) continue;
-                (int div, int rem) = Math.DivRem(result[d], 5);
-                if (rem > 2) { div++; rem -= 5; }
-                result[d] = rem;
+                result[d] -= 5;
                 if (d != 0)
-                    result[d - 1] += div;
+                    result[d - 1] += 1;
                 else
                 {
-                    result.Insert(0, div);
+                    result.Insert(0, 1);
                     d++;
                 }
             }

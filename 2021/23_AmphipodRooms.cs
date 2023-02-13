@@ -5,6 +5,8 @@ namespace Advent_of_Code._2021
 {
     class _23_AmphipodRooms : AoCDay
     {
+        private const int dest1 = 194194;
+        private const long dest2 = 194194194194;
         static readonly int[] HallwayCols = new int[] { 0, 1, 3, 5, 7, 9, 10 };
         static readonly bool[] IsHallway = new bool[]
         { true, true, false, true, false, true, false, true, false, true, true };
@@ -54,12 +56,11 @@ namespace Advent_of_Code._2021
             return map;
         }
 
-        List<ulong> mapHashes;
         int depth;
-        List<(int nei, int weight)> Next(int i)
+        List<(ulong nextHash, int weight)> Next(ulong hash)
         {
-            List<(int nei, int weight)> result = new();
-            int[,] map = Restore(mapHashes[i]);
+            List<(ulong nextHash, int weight)> result = new();
+            int[,] map = Restore(hash);
             //int depth = map.GetLength(0);
 
             (bool correct, int topRow)[] roomData = new (bool correct, int topRow)[4];
@@ -115,9 +116,7 @@ namespace Advent_of_Code._2021
                     int[,] newMap = map.Clone() as int[,];
                     newMap[row, col] = 0;
                     newMap[destRow, destCol] = ampType;
-                    ulong hash = Hash(newMap);
-                    int index = mapHashes.IndexOf(hash);
-                    if (index == -1) { index = mapHashes.Count; mapHashes.Add(hash); }
+                    ulong nextHash = Hash(newMap);
                     int energy = (int)Math.Pow(10, ampType - 1) *
                         (row + Math.Abs(col - destCol) + destRow);
 
@@ -125,8 +124,8 @@ namespace Advent_of_Code._2021
                          + PrintMap(newMap) + "    " + energy);
 
                     if (destCol == ampType * 2)
-                        return new() { (index, energy) };
-                    result.Add((index, energy));
+                        return new() { (nextHash, energy) };
+                    result.Add((nextHash, energy));
                 }
             }
 
@@ -175,58 +174,56 @@ namespace Advent_of_Code._2021
                         realMap[row, col] = -1;
             if (debug == 1) Console.WriteLine(PrintMap(realMap));
 
-            mapHashes = new() { Hash(inputMap) };
             depth = 3;
 
             if (debug == 2)
             {
-                int current = 0;
-                List<(int nei, int weight)> next;
+                ulong hash = Hash(inputMap);
+                List<(ulong nextHash, int cost)> next;
                 do
                 {
-                    next = Next(current);
+                    next = Next(hash);
                     if (next.Count == 1)
                     {
                         Console.WriteLine("Auto 0");
-                        current = next[0].nei;
+                        hash = next[0].nextHash;
                     }
                     else
                     {
                         Console.Write("Next: ");
-                        current = next[int.Parse(Console.ReadLine())].nei;
+                        hash = next[int.Parse(Console.ReadLine())].nextHash;
                     }
                 } while (next.Count != 0);
             }
 
-            var result = Dijkstras(Next, i => mapHashes[i] == 194194);
-            int index = mapHashes.IndexOf(194194);
-            part1 = result[index].distance;
+            Dictionary<ulong, (ulong prev, int cost)> tree = Dijkstras(Next, Hash(inputMap), h => h == dest1);
+            part1 = tree[dest1].cost;
 
             if (debug == 1)
             {
+                ulong hash = dest1;
                 string print = "";
                 do
                 {
-                    print = PrintMap(Restore(mapHashes[index])) + "\n" + print;
-                    index = result[index].prev;
-                } while (index != 0);
+                    print = PrintMap(Restore(hash)) + "\n" + print;
+                    hash = tree[hash].prev;
+                } while (hash != 0);
                 Console.WriteLine(print);
             }
 
-            mapHashes = new() { Hash(realMap) };
             depth = 5;
-            result = Dijkstras(Next, i => mapHashes[i] == 194194194194);
-            index = mapHashes.IndexOf(194194194194);
-            part2 = result[index].distance;
+            tree = Dijkstras(Next, Hash(realMap), h => h == dest2);
+            part2 = tree[dest2].cost;
 
             if (debug == 1)
             {
+                ulong hash = dest2;
                 string print = "";
                 do
                 {
-                    print = PrintMap(Restore(mapHashes[index])) + "\n" + print;
-                    index = result[index].prev;
-                } while (index != 0);
+                    print = PrintMap(Restore(hash)) + "\n" + print;
+                    hash = tree[hash].prev;
+                } while (hash != 0);
                 Console.WriteLine(print);
             }
         }
